@@ -1,0 +1,924 @@
+National,Software Engineer,"$86,563.00",1.80%
+National,Programmer Analyst,"$69,129.00",0.50%
+National,Consultant,"$73,408.00",1.80%
+National,Project Manager,"$72,583.00",-0.60%
+National,Store Manager,"$48,920.00",1.80%
+National,Business Analyst,"$65,004.00",0.70%
+National,Cashier,"$28,017.00",4.90%
+National,Financial Analyst,"$63,367.00",2.10%
+National,Administrative Assistant,"$39,430.00",1.90%
+National,Accountant,"$56,398.00",2.40%
+National,Sales Representative,"$47,542.00",1.00%
+National,Professor,"$87,664.00",-0.10%
+National,Registered Nurse,"$67,222.00",1.30%
+National,Marketing Manager,"$68,526.00",1.40%
+National,Operations Manager,"$67,502.00",0.40%
+National,Product Manager,"$92,843.00",2.20%
+National,Sales Manager,"$62,233.00",2.40%
+National,Teacher,"$46,746.00",2.80%
+National,Bank Teller,"$31,108.00",8.10%
+National,Customer Service Manager,"$55,717.00",3.10%
+National,Physical Therapist,"$72,080.00",-2.30%
+National,Mechanical Engineer,"$74,739.00",3.00%
+National,Recruiter,"$51,640.00",1.90%
+National,Design Engineer,"$72,261.00",5.50%
+National,Pharmacy Technician,"$30,780.00",2.30%
+National,Graphic Designer,"$45,346.00",2.80%
+National,Web Developer,"$66,558.00",4.20%
+National,Business Development Manager,"$69,493.00",4.30%
+National,Data Scientist,"$94,912.00",-0.20%
+National,Buyer,"$58,369.00",2.30%
+National,Data Analyst,"$60,374.00",1.90%
+National,Electrical Engineer,"$77,717.00",1.60%
+National,Attorney,"$98,208.00",1.70%
+National,Human Resources Manager,"$68,388.00",1.70%
+National,Technician,"$46,112.00",1.90%
+National,Restaurant Cook,"$28,681.00",1.20%
+National,Production Manager,"$66,225.00",2.10%
+National,Manufacturing Engineer,"$71,813.00",0.50%
+National,Retail Key Holder,"$29,746.00",4.90%
+National,Paralegal,"$48,667.00",1.50%
+National,Java Developer,"$77,096.00",5.00%
+National,Warehouse Associate,"$43,961.00",6.80%
+National,Property Manager,"$50,923.00",4.30%
+National,Producer,"$51,702.00",-2.20%
+National,Quality Engineer,"$72,798.00",1.30%
+National,Operations Analyst,"$54,226.00",3.20%
+National,Medical Assistant,"$35,017.00",4.50%
+National,Tax Manager,"$97,213.00",5.10%
+National,Technical Editor,"$54,556.00",1.60%
+National,Truck Driver,"$54,659.00",7.30%
+National,Insurance Agent,"$42,112.00",1.50%
+National,Medical Technologist,"$54,224.00",2.30%
+National,Field Engineer,"$70,723.00",2.10%
+National,Machine Operator,"$38,464.00",1.70%
+National,Communications Manager,"$66,321.00",-0.70%
+National,Construction Laborer,"$39,857.00",2.90%
+National,Emergency Medical Technician,"$34,665.00",2.50%
+National,Web Designer,"$50,738.00",-0.80%
+National,Maintenance Worker,"$42,846.00",1.40%
+National,Barista,"$24,358.00",3.50%
+National,Bartender,"$33,499.00",4.60%
+National,Civil Engineer,"$67,899.00",0.90%
+National,Claims Adjuster,"$53,669.00",3.60%
+National,Certified Nursing Assistant,"$29,030.00",3.60%
+National,Customer Service Representative,"$37,029.00",2.30%
+National,Delivery Driver,"$38,594.00",2.00%
+National,Financial Advisor,"$54,577.00",4.60%
+National,Licensed Practical Nurse,"$42,416.00",2.40%
+National,Loan Officer,"$43,988.00",-3.30%
+National,Maintenance Technician,"$45,133.00",3.50%
+National,Material Handler,"$36,179.00",5.10%
+National,Network Engineer,"$66,257.00",-3.70%
+National,Office Manager,"$46,300.00",1.60%
+National,Pharmacist,"$128,311.00",3.00%
+National,Process Engineer,"$77,839.00",0.30%
+National,Program Manager,"$75,711.00",0.80%
+National,Research Assistant,"$30,580.00",0.00%
+National,Restaurant Manager,"$49,964.00",1.60%
+National,Security Officer,"$35,554.00",4.70%
+National,Server,"$33,747.00",2.60%
+National,Solutions Architect,"$105,070.00",4.10%
+National,Systems Engineer,"$79,432.00",1.90%
+National,Technical Support,"$45,997.00",3.00%
+National,UX Designer,"$77,134.00",-0.10%
+Atlanta,Software Engineer,"$84,577.00",1.80%
+Atlanta,Programmer Analyst,"$73,849.00",0.50%
+Atlanta,Consultant,"$84,297.00",1.70%
+Atlanta,Project Manager,"$77,206.00",-0.60%
+Atlanta,Store Manager,"$51,320.00",1.70%
+Atlanta,Business Analyst,"$72,012.00",0.70%
+Atlanta,Cashier,"$26,676.00",4.80%
+Atlanta,Financial Analyst,"$65,260.00",2.10%
+Atlanta,Administrative Assistant,"$40,858.00",1.80%
+Atlanta,Accountant,"$57,276.00",2.40%
+Atlanta,Sales Representative,"$50,823.00",1.00%
+Atlanta,Professor,"$89,998.00",-0.20%
+Atlanta,Registered Nurse,"$65,816.00",1.20%
+Atlanta,Marketing Manager,"$76,130.00",1.40%
+Atlanta,Operations Manager,"$70,958.00",0.30%
+Atlanta,Product Manager,"$99,949.00",2.20%
+Atlanta,Sales Manager,"$66,961.00",2.30%
+Atlanta,Teacher,"$48,581.00",2.80%
+Atlanta,Bank Teller,"$32,316.00",8.00%
+Atlanta,Customer Service Manager,"$57,276.00",3.10%
+Atlanta,Physical Therapist,"$73,022.00",-2.40%
+Atlanta,Mechanical Engineer,"$73,872.00",3.00%
+Atlanta,Recruiter,"$53,263.00",1.90%
+Atlanta,Design Engineer,"$72,947.00",5.40%
+Atlanta,Pharmacy Technician,"$29,460.00",2.30%
+Atlanta,Graphic Designer,"$51,056.00",2.80%
+Atlanta,Web Developer,"$77,129.00",4.10%
+Atlanta,Business Development Manager,"$75,202.00",4.20%
+Atlanta,Data Scientist,"$98,512.00",-0.30%
+Atlanta,Buyer,"$58,833.00",2.20%
+Atlanta,Data Analyst,"$65,350.00",1.90%
+Atlanta,Electrical Engineer,"$76,933.00",1.50%
+Atlanta,Attorney,"$104,408.00",1.60%
+Atlanta,Human Resources Manager,"$74,705.00",1.70%
+Atlanta,Technician,"$46,011.00",1.90%
+Atlanta,Restaurant Cook,"$27,095.00",1.20%
+Atlanta,Production Manager,"$67,584.00",2.10%
+Atlanta,Manufacturing Engineer,"$72,278.00",0.40%
+Atlanta,Retail Key Holder,"$29,857.00",4.90%
+Atlanta,Paralegal,"$54,006.00",1.40%
+Atlanta,Java Developer,"$79,675.00",5.00%
+Atlanta,Warehouse Associate,"$43,256.00",6.80%
+Atlanta,Property Manager,"$54,270.00",4.30%
+Atlanta,Producer,"$60,239.00",-2.30%
+Atlanta,Quality Engineer,"$71,051.00",1.20%
+Atlanta,Operations Analyst,"$57,175.00",3.10%
+Atlanta,Medical Assistant,"$35,687.00",4.40%
+Atlanta,Tax Manager,"$102,814.00",5.10%
+Atlanta,Technical Editor,"$56,270.00",1.50%
+Atlanta,Truck Driver,"$53,263.00",7.20%
+Atlanta,Insurance Agent,"$38,975.00",1.40%
+Atlanta,Medical Technologist,"$57,851.00",2.20%
+Atlanta,Field Engineer,"$67,323.00",2.10%
+Atlanta,Machine Operator,"$36,684.00",1.60%
+Atlanta,Communications Manager,"$71,049.00",-0.70%
+Atlanta,Construction Laborer,"$36,782.00",2.80%
+Atlanta,Emergency Medical Technician,"$37,431.00",2.40%
+Atlanta,Web Designer,"$58,282.00",-0.80%
+Atlanta,Maintenance Worker,"$39,494.00",1.40%
+Atlanta,Barista,"$22,435.00",3.50%
+Atlanta,Bartender,"$34,508.00",4.50%
+Atlanta,Civil Engineer,"$68,150.00",0.80%
+Atlanta,Claims Adjuster,"$50,556.00",3.60%
+Atlanta,Certified Nursing Assistant,"$26,530.00",3.60%
+Atlanta,Customer Service Representative,"$37,744.00",2.20%
+Atlanta,Delivery Driver,"$37,154.00",2.00%
+Atlanta,Financial Advisor,"$52,107.00",4.50%
+Atlanta,Licensed Practical Nurse,"$43,570.00",2.40%
+Atlanta,Loan Officer,"$41,517.00",-3.40%
+Atlanta,Maintenance Technician,"$47,573.00",3.40%
+Atlanta,Material Handler,"$34,454.00",5.00%
+Atlanta,Network Engineer,"$70,245.00",-3.80%
+Atlanta,Office Manager,"$47,913.00",1.50%
+Atlanta,Pharmacist,"$119,585.00",2.90%
+Atlanta,Process Engineer,"$77,409.00",0.30%
+Atlanta,Program Manager,"$82,907.00",0.80%
+Atlanta,Research Assistant,"$31,017.00",-0.10%
+Atlanta,Restaurant Manager,"$52,554.00",1.50%
+Atlanta,Security Officer,"$33,257.00",4.70%
+Atlanta,Server,"$33,129.00",2.50%
+Atlanta,Solutions Architect,"$115,046.00",4.00%
+Atlanta,Systems Engineer,"$79,157.00",1.90%
+Atlanta,Technical Support,"$44,374.00",2.90%
+Atlanta,UX Designer,"$83,280.00",-0.20%
+New York City,Software Engineer,"$104,146.00",2.40%
+New York City,Programmer Analyst,"$82,066.00",1.10%
+New York City,Consultant,"$90,747.00",2.40%
+New York City,Project Manager,"$85,450.00",0.00%
+New York City,Store Manager,"$59,838.00",2.30%
+New York City,Business Analyst,"$80,461.00",1.30%
+New York City,Cashier,"$29,872.00",5.50%
+New York City,Financial Analyst,"$77,443.00",2.70%
+New York City,Administrative Assistant,"$49,127.00",2.50%
+New York City,Accountant,"$64,090.00",3.00%
+New York City,Sales Representative,"$56,179.00",1.60%
+New York City,Professor,"$113,731.00",0.40%
+New York City,Registered Nurse,"$86,874.00",1.90%
+New York City,Marketing Manager,"$84,815.00",2.00%
+New York City,Operations Manager,"$78,725.00",0.90%
+New York City,Product Manager,"$110,063.00",2.80%
+New York City,Sales Manager,"$78,120.00",3.00%
+New York City,Teacher,"$64,755.00",3.40%
+New York City,Bank Teller,"$34,997.00",8.70%
+New York City,Customer Service Manager,"$63,982.00",3.70%
+New York City,Physical Therapist,"$78,114.00",-1.80%
+New York City,Mechanical Engineer,"$75,816.00",3.60%
+New York City,Recruiter,"$63,205.00",2.50%
+New York City,Design Engineer,"$80,172.00",6.10%
+New York City,Pharmacy Technician,"$30,806.00",2.90%
+New York City,Graphic Designer,"$58,905.00",3.40%
+New York City,Web Developer,"$86,232.00",4.80%
+New York City,Business Development Manager,"$83,633.00",4.90%
+New York City,Data Scientist,"$112,252.00",0.40%
+New York City,Buyer,"$72,446.00",2.90%
+New York City,Data Analyst,"$72,331.00",2.50%
+New York City,Electrical Engineer,"$80,330.00",2.20%
+New York City,Attorney,"$128,902.00",2.20%
+New York City,Human Resources Manager,"$86,939.00",2.30%
+New York City,Technician,"$53,147.00",2.50%
+New York City,Restaurant Cook,"$31,907.00",1.80%
+New York City,Production Manager,"$77,629.00",2.70%
+New York City,Manufacturing Engineer,"$74,184.00",1.10%
+New York City,Retail Key Holder,"$34,934.00",5.50%
+New York City,Paralegal,"$57,438.00",2.10%
+New York City,Java Developer,"$88,291.00",5.60%
+New York City,Warehouse Associate,"$43,048.00",7.50%
+New York City,Property Manager,"$67,161.00",4.90%
+New York City,Producer,"$77,113.00",-1.70%
+New York City,Quality Engineer,"$78,225.00",1.90%
+New York City,Operations Analyst,"$72,097.00",3.80%
+New York City,Medical Assistant,"$39,816.00",5.10%
+New York City,Tax Manager,"$125,281.00",5.70%
+New York City,Technical Editor,"$64,710.00",2.20%
+New York City,Truck Driver,"$57,481.00",7.90%
+New York City,Insurance Agent,"$42,686.00",2.10%
+New York City,Medical Technologist,"$63,096.00",2.90%
+New York City,Field Engineer,"$77,097.00",2.70%
+New York City,Machine Operator,"$39,664.00",2.30%
+New York City,Communications Manager,"$83,032.00",-0.10%
+New York City,Construction Laborer,"$47,075.00",3.50%
+New York City,Emergency Medical Technician,"$38,668.00",3.10%
+New York City,Web Designer,"$64,508.00",-0.20%
+New York City,Maintenance Worker,"$42,928.00",2.00%
+New York City,Barista,"$27,352.00",4.10%
+New York City,Bartender,"$37,520.00",5.20%
+New York City,Civil Engineer,"$77,598.00",1.50%
+New York City,Claims Adjuster,"$58,983.00",4.20%
+New York City,Certified Nursing Assistant,"$37,200.00",4.20%
+New York City,Customer Service Representative,"$43,572.00",2.90%
+New York City,Delivery Driver,"$39,940.00",2.60%
+New York City,Financial Advisor,"$60,729.00",5.20%
+New York City,Licensed Practical Nurse,"$53,642.00",3.00%
+New York City,Loan Officer,"$44,267.00",-2.80%
+New York City,Maintenance Technician,"$47,412.00",4.10%
+New York City,Material Handler,"$39,642.00",5.70%
+New York City,Network Engineer,"$79,521.00",-3.20%
+New York City,Office Manager,"$57,394.00",2.20%
+New York City,Pharmacist,"$124,827.00",3.60%
+New York City,Process Engineer,"$83,034.00",0.90%
+New York City,Program Manager,"$91,649.00",1.40%
+New York City,Research Assistant,"$36,862.00",0.50%
+New York City,Restaurant Manager,"$61,171.00",2.20%
+New York City,Security Officer,"$39,904.00",5.30%
+New York City,Server,"$35,466.00",3.10%
+New York City,Solutions Architect,"$120,713.00",4.70%
+New York City,Systems Engineer,"$87,705.00",2.50%
+New York City,Technical Support,"$58,043.00",3.60%
+New York City,UX Designer,"$93,691.00",0.50%
+Los Angeles,Software Engineer,"$99,127.00",2.60%
+Los Angeles,Programmer Analyst,"$80,430.00",1.30%
+Los Angeles,Consultant,"$90,264.00",2.60%
+Los Angeles,Project Manager,"$83,615.00",0.20%
+Los Angeles,Store Manager,"$61,925.00",2.50%
+Los Angeles,Business Analyst,"$75,419.00",1.50%
+Los Angeles,Cashier,"$31,560.00",5.70%
+Los Angeles,Financial Analyst,"$71,752.00",2.90%
+Los Angeles,Administrative Assistant,"$47,522.00",2.60%
+Los Angeles,Accountant,"$62,100.00",3.20%
+Los Angeles,Sales Representative,"$54,900.00",1.80%
+Los Angeles,Professor,"$109,965.00",0.60%
+Los Angeles,Registered Nurse,"$90,754.00",2.10%
+Los Angeles,Marketing Manager,"$85,115.00",2.20%
+Los Angeles,Operations Manager,"$77,198.00",1.10%
+Los Angeles,Product Manager,"$106,594.00",3.00%
+Los Angeles,Sales Manager,"$75,192.00",3.20%
+Los Angeles,Teacher,"$61,865.00",3.60%
+Los Angeles,Bank Teller,"$33,747.00",8.90%
+Los Angeles,Customer Service Manager,"$64,976.00",3.90%
+Los Angeles,Physical Therapist,"$88,818.00",-1.60%
+Los Angeles,Mechanical Engineer,"$82,963.00",3.80%
+Los Angeles,Recruiter,"$61,967.00",2.70%
+Los Angeles,Design Engineer,"$85,504.00",6.30%
+Los Angeles,Pharmacy Technician,"$37,382.00",3.10%
+Los Angeles,Graphic Designer,"$57,852.00",3.60%
+Los Angeles,Web Developer,"$82,048.00",5.00%
+Los Angeles,Business Development Manager,"$80,287.00",5.10%
+Los Angeles,Data Scientist,"$115,100.00",0.60%
+Los Angeles,Buyer,"$64,173.00",3.10%
+Los Angeles,Data Analyst,"$72,031.00",2.70%
+Los Angeles,Electrical Engineer,"$87,481.00",2.40%
+Los Angeles,Attorney,"$130,997.00",2.40%
+Los Angeles,Human Resources Manager,"$85,331.00",2.50%
+Los Angeles,Technician,"$52,985.00",2.70%
+Los Angeles,Restaurant Cook,"$32,919.00",2.00%
+Los Angeles,Production Manager,"$79,272.00",2.90%
+Los Angeles,Manufacturing Engineer,"$80,405.00",1.30%
+Los Angeles,Retail Key Holder,"$34,141.00",5.70%
+Los Angeles,Paralegal,"$61,408.00",2.30%
+Los Angeles,Java Developer,"$89,387.00",5.80%
+Los Angeles,Warehouse Associate,"$49,609.00",7.70%
+Los Angeles,Property Manager,"$62,465.00",5.10%
+Los Angeles,Producer,"$77,336.00",-1.50%
+Los Angeles,Quality Engineer,"$83,120.00",2.10%
+Los Angeles,Operations Analyst,"$62,464.00",4.00%
+Los Angeles,Medical Assistant,"$38,975.00",5.30%
+Los Angeles,Tax Manager,"$115,145.00",5.90%
+Los Angeles,Technical Editor,"$63,553.00",2.40%
+Los Angeles,Truck Driver,"$56,877.00",8.10%
+Los Angeles,Insurance Agent,"$47,433.00",2.30%
+Los Angeles,Medical Technologist,"$63,167.00",3.10%
+Los Angeles,Field Engineer,"$76,670.00",2.90%
+Los Angeles,Machine Operator,"$37,272.00",2.40%
+Los Angeles,Communications Manager,"$80,170.00",0.10%
+Los Angeles,Construction Laborer,"$41,005.00",3.70%
+Los Angeles,Emergency Medical Technician,"$34,952.00",3.30%
+Los Angeles,Web Designer,"$62,269.00",0.00%
+Los Angeles,Maintenance Worker,"$45,638.00",2.20%
+Los Angeles,Barista,"$26,855.00",4.30%
+Los Angeles,Bartender,"$35,069.00",5.40%
+Los Angeles,Civil Engineer,"$80,853.00",1.70%
+Los Angeles,Claims Adjuster,"$59,575.00",4.40%
+Los Angeles,Certified Nursing Assistant,"$35,142.00",4.40%
+Los Angeles,Customer Service Representative,"$43,806.00",3.10%
+Los Angeles,Delivery Driver,"$41,818.00",2.80%
+Los Angeles,Financial Advisor,"$59,745.00",5.40%
+Los Angeles,Licensed Practical Nurse,"$50,718.00",3.20%
+Los Angeles,Loan Officer,"$46,674.00",-2.60%
+Los Angeles,Maintenance Technician,"$47,102.00",4.30%
+Los Angeles,Material Handler,"$38,043.00",5.90%
+Los Angeles,Network Engineer,"$80,028.00",-3.00%
+Los Angeles,Office Manager,"$57,240.00",2.40%
+Los Angeles,Pharmacist,"$137,739.00",3.80%
+Los Angeles,Process Engineer,"$84,384.00",1.10%
+Los Angeles,Program Manager,"$91,976.00",1.60%
+Los Angeles,Research Assistant,"$33,981.00",0.70%
+Los Angeles,Restaurant Manager,"$60,088.00",2.40%
+Los Angeles,Security Officer,"$38,979.00",5.50%
+Los Angeles,Server,"$33,800.00",3.30%
+Los Angeles,Solutions Architect,"$118,442.00",4.90%
+Los Angeles,Systems Engineer,"$91,674.00",2.70%
+Los Angeles,Technical Support,"$55,366.00",3.80%
+Los Angeles,UX Designer,"$89,377.00",0.70%
+Philadelphia,Software Engineer,"$86,061.00",2.90%
+Philadelphia,Programmer Analyst,"$73,695.00",1.60%
+Philadelphia,Consultant,"$81,227.00",2.90%
+Philadelphia,Project Manager,"$77,399.00",0.50%
+Philadelphia,Store Manager,"$54,641.00",2.80%
+Philadelphia,Business Analyst,"$69,854.00",1.80%
+Philadelphia,Cashier,"$27,685.00",6.00%
+Philadelphia,Financial Analyst,"$65,116.00",3.20%
+Philadelphia,Administrative Assistant,"$42,836.00",2.90%
+Philadelphia,Accountant,"$59,051.00",3.50%
+Philadelphia,Sales Representative,"$52,314.00",2.10%
+Philadelphia,Professor,"$100,084.00",0.90%
+Philadelphia,Registered Nurse,"$74,323.00",2.30%
+Philadelphia,Marketing Manager,"$78,782.00",2.50%
+Philadelphia,Operations Manager,"$72,766.00",1.40%
+Philadelphia,Product Manager,"$97,395.00",3.30%
+Philadelphia,Sales Manager,"$68,950.00",3.50%
+Philadelphia,Teacher,"$51,821.00",3.90%
+Philadelphia,Bank Teller,"$32,428.00",9.20%
+Philadelphia,Customer Service Manager,"$58,574.00",4.20%
+Philadelphia,Physical Therapist,"$77,134.00",-1.30%
+Philadelphia,Mechanical Engineer,"$77,952.00",4.10%
+Philadelphia,Recruiter,"$53,999.00",3.00%
+Philadelphia,Design Engineer,"$77,645.00",6.60%
+Philadelphia,Pharmacy Technician,"$29,496.00",3.40%
+Philadelphia,Graphic Designer,"$50,075.00",3.90%
+Philadelphia,Web Developer,"$73,362.00",5.30%
+Philadelphia,Business Development Manager,"$72,392.00",5.40%
+Philadelphia,Data Scientist,"$99,129.00",0.80%
+Philadelphia,Buyer,"$60,324.00",3.40%
+Philadelphia,Data Analyst,"$64,201.00",3.00%
+Philadelphia,Electrical Engineer,"$82,122.00",2.70%
+Philadelphia,Attorney,"$109,056.00",2.70%
+Philadelphia,Human Resources Manager,"$76,965.00",2.80%
+Philadelphia,Technician,"$49,929.00",3.00%
+Philadelphia,Restaurant Cook,"$30,575.00",2.30%
+Philadelphia,Production Manager,"$67,931.00",3.20%
+Philadelphia,Manufacturing Engineer,"$74,696.00",1.60%
+Philadelphia,Retail Key Holder,"$31,000.00",6.00%
+Philadelphia,Paralegal,"$51,402.00",2.60%
+Philadelphia,Java Developer,"$81,530.00",6.10%
+Philadelphia,Warehouse Associate,"$45,209.00",8.00%
+Philadelphia,Property Manager,"$59,889.00",5.40%
+Philadelphia,Producer,"$57,768.00",-1.20%
+Philadelphia,Quality Engineer,"$77,753.00",2.40%
+Philadelphia,Operations Analyst,"$60,643.00",4.20%
+Philadelphia,Medical Assistant,"$37,684.00",5.60%
+Philadelphia,Tax Manager,"$105,589.00",6.20%
+Philadelphia,Technical Editor,"$58,323.00",2.70%
+Philadelphia,Truck Driver,"$59,018.00",8.40%
+Philadelphia,Insurance Agent,"$44,312.00",2.60%
+Philadelphia,Medical Technologist,"$59,797.00",3.30%
+Philadelphia,Field Engineer,"$69,206.00",3.20%
+Philadelphia,Machine Operator,"$42,966.00",2.70%
+Philadelphia,Communications Manager,"$72,859.00",0.40%
+Philadelphia,Construction Laborer,"$42,920.00",3.90%
+Philadelphia,Emergency Medical Technician,"$37,761.00",3.60%
+Philadelphia,Web Designer,"$56,985.00",0.30%
+Philadelphia,Maintenance Worker,"$42,054.00",2.50%
+Philadelphia,Barista,"$23,235.00",4.60%
+Philadelphia,Bartender,"$35,684.00",5.70%
+Philadelphia,Civil Engineer,"$74,955.00",2.00%
+Philadelphia,Claims Adjuster,"$54,305.00",4.70%
+Philadelphia,Certified Nursing Assistant,"$32,228.00",4.70%
+Philadelphia,Customer Service Representative,"$41,180.00",3.40%
+Philadelphia,Delivery Driver,"$39,644.00",3.10%
+Philadelphia,Financial Advisor,"$62,248.00",5.70%
+Philadelphia,Licensed Practical Nurse,"$53,552.00",3.50%
+Philadelphia,Loan Officer,"$43,078.00",-2.30%
+Philadelphia,Maintenance Technician,"$46,023.00",4.50%
+Philadelphia,Material Handler,"$36,826.00",6.20%
+Philadelphia,Network Engineer,"$71,838.00",-2.70%
+Philadelphia,Office Manager,"$52,862.00",2.70%
+Philadelphia,Pharmacist,"$122,265.00",4.10%
+Philadelphia,Process Engineer,"$81,363.00",1.40%
+Philadelphia,Program Manager,"$80,939.00",1.90%
+Philadelphia,Research Assistant,"$31,872.00",1.00%
+Philadelphia,Restaurant Manager,"$53,544.00",2.70%
+Philadelphia,Security Officer,"$35,934.00",5.80%
+Philadelphia,Server,"$36,662.00",3.60%
+Philadelphia,Solutions Architect,"$113,315.00",5.20%
+Philadelphia,Systems Engineer,"$80,235.00",3.00%
+Philadelphia,Technical Support,"$50,832.00",4.10%
+Philadelphia,UX Designer,"$76,666.00",0.90%
+Houston,Software Engineer,"$85,420.00",2.30%
+Houston,Programmer Analyst,"$71,762.00",1.00%
+Houston,Consultant,"$81,732.00",2.20%
+Houston,Project Manager,"$82,976.00",-0.10%
+Houston,Store Manager,"$52,230.00",2.20%
+Houston,Business Analyst,"$72,276.00",1.20%
+Houston,Cashier,"$27,232.00",5.30%
+Houston,Financial Analyst,"$69,680.00",2.60%
+Houston,Administrative Assistant,"$42,652.00",2.30%
+Houston,Accountant,"$60,052.00",2.90%
+Houston,Sales Representative,"$50,748.00",1.50%
+Houston,Professor,"$100,301.00",0.30%
+Houston,Registered Nurse,"$72,697.00",1.70%
+Houston,Marketing Manager,"$75,293.00",1.90%
+Houston,Operations Manager,"$72,154.00",0.80%
+Houston,Product Manager,"$99,767.00",2.70%
+Houston,Sales Manager,"$68,829.00",2.80%
+Houston,Teacher,"$52,121.00",3.30%
+Houston,Bank Teller,"$30,959.00",8.60%
+Houston,Customer Service Manager,"$56,086.00",3.60%
+Houston,Physical Therapist,"$73,766.00",-1.90%
+Houston,Mechanical Engineer,"$82,118.00",3.50%
+Houston,Recruiter,"$54,597.00",2.40%
+Houston,Design Engineer,"$84,429.00",6.00%
+Houston,Pharmacy Technician,"$32,856.00",2.70%
+Houston,Graphic Designer,"$48,617.00",3.30%
+Houston,Web Developer,"$74,048.00",4.70%
+Houston,Business Development Manager,"$78,692.00",4.70%
+Houston,Data Scientist,"$104,052.00",0.20%
+Houston,Buyer,"$60,891.00",2.70%
+Houston,Data Analyst,"$64,763.00",2.40%
+Houston,Electrical Engineer,"$84,365.00",2.00%
+Houston,Attorney,"$123,411.00",2.10%
+Houston,Human Resources Manager,"$80,625.00",2.20%
+Houston,Technician,"$49,473.00",2.40%
+Houston,Restaurant Cook,"$27,073.00",1.70%
+Houston,Production Manager,"$69,895.00",2.60%
+Houston,Manufacturing Engineer,"$76,339.00",0.90%
+Houston,Retail Key Holder,"$29,717.00",5.40%
+Houston,Paralegal,"$55,473.00",1.90%
+Houston,Java Developer,"$86,587.00",5.50%
+Houston,Warehouse Associate,"$42,646.00",7.30%
+Houston,Property Manager,"$54,441.00",4.80%
+Houston,Producer,"$57,212.00",-1.80%
+Houston,Quality Engineer,"$76,512.00",1.70%
+Houston,Operations Analyst,"$63,863.00",3.60%
+Houston,Medical Assistant,"$36,565.00",5.00%
+Houston,Tax Manager,"$106,022.00",5.60%
+Houston,Technical Editor,"$58,074.00",2.00%
+Houston,Truck Driver,"$55,828.00",7.80%
+Houston,Insurance Agent,"$38,115.00",1.90%
+Houston,Medical Technologist,"$55,686.00",2.70%
+Houston,Field Engineer,"$72,383.00",2.60%
+Houston,Machine Operator,"$39,837.00",2.10%
+Houston,Communications Manager,"$70,059.00",-0.30%
+Houston,Construction Laborer,"$37,519.00",3.30%
+Houston,Emergency Medical Technician,"$38,122.00",2.90%
+Houston,Web Designer,"$54,607.00",-0.30%
+Houston,Maintenance Worker,"$41,107.00",1.90%
+Houston,Barista,"$22,222.00",4.00%
+Houston,Bartender,"$36,647.00",5.00%
+Houston,Civil Engineer,"$77,103.00",1.30%
+Houston,Claims Adjuster,"$52,154.00",4.10%
+Houston,Certified Nursing Assistant,"$28,536.00",4.10%
+Houston,Customer Service Representative,"$38,064.00",2.70%
+Houston,Delivery Driver,"$36,671.00",2.50%
+Houston,Financial Advisor,"$53,096.00",5.00%
+Houston,Licensed Practical Nurse,"$46,644.00",2.90%
+Houston,Loan Officer,"$43,001.00",-2.90%
+Houston,Maintenance Technician,"$43,824.00",3.90%
+Houston,Material Handler,"$36,443.00",5.50%
+Houston,Network Engineer,"$73,735.00",-3.30%
+Houston,Office Manager,"$50,509.00",2.00%
+Houston,Pharmacist,"$117,194.00",3.40%
+Houston,Process Engineer,"$90,780.00",0.80%
+Houston,Program Manager,"$79,925.00",1.20%
+Houston,Research Assistant,"$30,870.00",0.40%
+Houston,Restaurant Manager,"$53,552.00",2.00%
+Houston,Security Officer,"$35,873.00",5.20%
+Houston,Server,"$31,106.00",3.00%
+Houston,Solutions Architect,"$107,283.00",4.50%
+Houston,Systems Engineer,"$76,156.00",2.40%
+Houston,Technical Support,"$49,234.00",3.40%
+Houston,UX Designer,"$80,679.00",0.30%
+Seattle,Software Engineer,"$113,718.00",2.70%
+Seattle,Programmer Analyst,"$85,859.00",1.40%
+Seattle,Consultant,"$88,272.00",2.60%
+Seattle,Project Manager,"$84,002.00",0.30%
+Seattle,Store Manager,"$58,966.00",2.60%
+Seattle,Business Analyst,"$78,345.00",1.60%
+Seattle,Cashier,"$35,233.00",5.70%
+Seattle,Financial Analyst,"$74,254.00",3.00%
+Seattle,Administrative Assistant,"$48,625.00",2.70%
+Seattle,Accountant,"$63,030.00",3.30%
+Seattle,Sales Representative,"$54,958.00",1.90%
+Seattle,Professor,"$101,230.00",0.70%
+Seattle,Registered Nurse,"$78,596.00",2.10%
+Seattle,Marketing Manager,"$89,016.00",2.30%
+Seattle,Operations Manager,"$78,622.00",1.20%
+Seattle,Product Manager,"$113,955.00",3.10%
+Seattle,Sales Manager,"$74,549.00",3.20%
+Seattle,Teacher,"$55,508.00",3.70%
+Seattle,Bank Teller,"$34,937.00",9.00%
+Seattle,Customer Service Manager,"$63,966.00",4.00%
+Seattle,Physical Therapist,"$74,828.00",-1.50%
+Seattle,Mechanical Engineer,"$84,849.00",3.90%
+Seattle,Recruiter,"$63,168.00",2.80%
+Seattle,Design Engineer,"$86,000.00",6.40%
+Seattle,Pharmacy Technician,"$41,675.00",3.20%
+Seattle,Graphic Designer,"$60,169.00",3.70%
+Seattle,Web Developer,"$88,982.00",5.10%
+Seattle,Business Development Manager,"$85,685.00",5.20%
+Seattle,Data Scientist,"$124,038.00",0.60%
+Seattle,Buyer,"$70,753.00",3.10%
+Seattle,Data Analyst,"$71,924.00",2.80%
+Seattle,Electrical Engineer,"$90,784.00",2.40%
+Seattle,Attorney,"$115,713.00",2.50%
+Seattle,Human Resources Manager,"$85,346.00",2.60%
+Seattle,Technician,"$54,086.00",2.80%
+Seattle,Restaurant Cook,"$34,878.00",2.10%
+Seattle,Production Manager,"$71,508.00",3.00%
+Seattle,Manufacturing Engineer,"$79,104.00",1.30%
+Seattle,Retail Key Holder,"$35,579.00",5.80%
+Seattle,Paralegal,"$62,805.00",2.30%
+Seattle,Java Developer,"$89,884.00",5.90%
+Seattle,Warehouse Associate,"$54,524.00",7.70%
+Seattle,Property Manager,"$61,885.00",5.20%
+Seattle,Producer,"$77,261.00",-1.40%
+Seattle,Quality Engineer,"$83,880.00",2.10%
+Seattle,Operations Analyst,"$67,963.00",4.00%
+Seattle,Medical Assistant,"$46,548.00",5.40%
+Seattle,Tax Manager,"$107,457.00",6.00%
+Seattle,Technical Editor,"$82,956.00",2.40%
+Seattle,Truck Driver,"$58,442.00",8.20%
+Seattle,Insurance Agent,"$41,725.00",2.30%
+Seattle,Medical Technologist,"$65,245.00",3.10%
+Seattle,Field Engineer,"$75,112.00",3.00%
+Seattle,Machine Operator,"$43,496.00",2.50%
+Seattle,Communications Manager,"$83,196.00",0.10%
+Seattle,Construction Laborer,"$51,864.00",3.70%
+Seattle,Emergency Medical Technician,"$41,035.00",3.30%
+Seattle,Web Designer,"$63,251.00",0.00%
+Seattle,Maintenance Worker,"$54,011.00",2.30%
+Seattle,Barista,"$29,065.00",4.40%
+Seattle,Bartender,"$39,226.00",5.50%
+Seattle,Civil Engineer,"$76,441.00",1.70%
+Seattle,Claims Adjuster,"$55,561.00",4.50%
+Seattle,Certified Nursing Assistant,"$37,171.00",4.50%
+Seattle,Customer Service Representative,"$44,559.00",3.10%
+Seattle,Delivery Driver,"$46,387.00",2.90%
+Seattle,Financial Advisor,"$55,556.00",5.50%
+Seattle,Licensed Practical Nurse,"$52,522.00",3.30%
+Seattle,Loan Officer,"$46,988.00",-2.50%
+Seattle,Maintenance Technician,"$51,839.00",4.30%
+Seattle,Material Handler,"$41,017.00",5.90%
+Seattle,Network Engineer,"$86,640.00",-2.90%
+Seattle,Office Manager,"$57,320.00",2.40%
+Seattle,Pharmacist,"$128,659.00",3.80%
+Seattle,Process Engineer,"$89,955.00",1.20%
+Seattle,Program Manager,"$100,891.00",1.60%
+Seattle,Research Assistant,"$33,756.00",0.80%
+Seattle,Restaurant Manager,"$54,634.00",2.40%
+Seattle,Security Officer,"$45,984.00",5.60%
+Seattle,Server,"$37,780.00",3.40%
+Seattle,Solutions Architect,"$118,935.00",5.00%
+Seattle,Systems Engineer,"$93,587.00",2.80%
+Seattle,Technical Support,"$53,549.00",3.90%
+Seattle,UX Designer,"$96,973.00",0.70%
+San Francisco,Software Engineer,"$120,816.00",2.90%
+San Francisco,Programmer Analyst,"$90,819.00",1.60%
+San Francisco,Consultant,"$96,304.00",2.80%
+San Francisco,Project Manager,"$93,563.00",0.50%
+San Francisco,Store Manager,"$66,852.00",2.80%
+San Francisco,Business Analyst,"$87,115.00",1.80%
+San Francisco,Cashier,"$34,894.00",5.90%
+San Francisco,Financial Analyst,"$84,461.00",3.20%
+San Francisco,Administrative Assistant,"$55,249.00",2.90%
+San Francisco,Accountant,"$72,295.00",3.50%
+San Francisco,Sales Representative,"$62,591.00",2.10%
+San Francisco,Professor,"$123,400.00",0.90%
+San Francisco,Registered Nurse,"$115,506.00",2.30%
+San Francisco,Marketing Manager,"$101,961.00",2.50%
+San Francisco,Operations Manager,"$89,331.00",1.40%
+San Francisco,Product Manager,"$129,674.00",3.30%
+San Francisco,Sales Manager,"$83,313.00",3.40%
+San Francisco,Teacher,"$66,782.00",3.90%
+San Francisco,Bank Teller,"$36,479.00",9.20%
+San Francisco,Customer Service Manager,"$74,246.00",4.20%
+San Francisco,Physical Therapist,"$95,004.00",-1.30%
+San Francisco,Mechanical Engineer,"$95,789.00",4.10%
+San Francisco,Recruiter,"$75,491.00",3.00%
+San Francisco,Design Engineer,"$94,983.00",6.60%
+San Francisco,Pharmacy Technician,"$45,884.00",3.40%
+San Francisco,Graphic Designer,"$71,490.00",3.90%
+San Francisco,Web Developer,"$102,166.00",5.30%
+San Francisco,Business Development Manager,"$94,681.00",5.40%
+San Francisco,Data Scientist,"$136,270.00",0.80%
+San Francisco,Buyer,"$78,300.00",3.30%
+San Francisco,Data Analyst,"$90,103.00",3.00%
+San Francisco,Electrical Engineer,"$100,738.00",2.60%
+San Francisco,Attorney,"$150,036.00",2.70%
+San Francisco,Human Resources Manager,"$98,116.00",2.80%
+San Francisco,Technician,"$58,986.00",3.00%
+San Francisco,Restaurant Cook,"$37,433.00",2.30%
+San Francisco,Production Manager,"$87,796.00",3.20%
+San Francisco,Manufacturing Engineer,"$93,534.00",1.50%
+San Francisco,Retail Key Holder,"$38,087.00",6.00%
+San Francisco,Paralegal,"$71,366.00",2.50%
+San Francisco,Java Developer,"$101,826.00",6.10%
+San Francisco,Warehouse Associate,"$58,829.00",7.90%
+San Francisco,Property Manager,"$70,298.00",5.40%
+San Francisco,Producer,"$82,928.00",-1.20%
+San Francisco,Quality Engineer,"$92,468.00",2.30%
+San Francisco,Operations Analyst,"$72,698.00",4.20%
+San Francisco,Medical Assistant,"$51,826.00",5.60%
+San Francisco,Tax Manager,"$125,571.00",6.20%
+San Francisco,Technical Editor,"$73,006.00",2.60%
+San Francisco,Truck Driver,"$67,715.00",8.40%
+San Francisco,Insurance Agent,"$52,760.00",2.50%
+San Francisco,Medical Technologist,"$72,563.00",3.30%
+San Francisco,Field Engineer,"$80,930.00",3.20%
+San Francisco,Machine Operator,"$50,063.00",2.70%
+San Francisco,Communications Manager,"$98,953.00",0.30%
+San Francisco,Construction Laborer,"$52,504.00",3.90%
+San Francisco,Emergency Medical Technician,"$44,031.00",3.50%
+San Francisco,Web Designer,"$79,563.00",0.30%
+San Francisco,Maintenance Worker,"$55,108.00",2.50%
+San Francisco,Barista,"$30,147.00",4.60%
+San Francisco,Bartender,"$39,175.00",5.70%
+San Francisco,Civil Engineer,"$87,745.00",1.90%
+San Francisco,Claims Adjuster,"$66,888.00",4.70%
+San Francisco,Certified Nursing Assistant,"$40,426.00",4.70%
+San Francisco,Customer Service Representative,"$49,199.00",3.30%
+San Francisco,Delivery Driver,"$48,503.00",3.10%
+San Francisco,Financial Advisor,"$69,096.00",5.70%
+San Francisco,Licensed Practical Nurse,"$56,761.00",3.50%
+San Francisco,Loan Officer,"$54,520.00",-2.30%
+San Francisco,Maintenance Technician,"$58,069.00",4.50%
+San Francisco,Material Handler,"$44,183.00",6.10%
+San Francisco,Network Engineer,"$94,473.00",-2.70%
+San Francisco,Office Manager,"$66,768.00",2.60%
+San Francisco,Pharmacist,"$143,210.00",4.00%
+San Francisco,Process Engineer,"$98,055.00",1.40%
+San Francisco,Program Manager,"$103,869.00",1.80%
+San Francisco,Research Assistant,"$40,660.00",1.00%
+San Francisco,Restaurant Manager,"$65,454.00",2.60%
+San Francisco,Security Officer,"$49,947.00",5.80%
+San Francisco,Server,"$39,117.00",3.60%
+San Francisco,Solutions Architect,"$131,285.00",5.20%
+San Francisco,Systems Engineer,"$102,196.00",3.00%
+San Francisco,Technical Support,"$66,738.00",4.10%
+San Francisco,UX Designer,"$106,187.00",0.90%
+Chicago,Software Engineer,"$87,192.00",1.80%
+Chicago,Programmer Analyst,"$75,610.00",0.50%
+Chicago,Consultant,"$85,686.00",1.70%
+Chicago,Project Manager,"$79,249.00",-0.60%
+Chicago,Store Manager,"$54,158.00",1.70%
+Chicago,Business Analyst,"$73,937.00",0.70%
+Chicago,Cashier,"$29,363.00",4.80%
+Chicago,Financial Analyst,"$67,835.00",2.10%
+Chicago,Administrative Assistant,"$44,647.00",1.80%
+Chicago,Accountant,"$60,778.00",2.40%
+Chicago,Sales Representative,"$51,821.00",1.00%
+Chicago,Professor,"$99,928.00",-0.20%
+Chicago,Registered Nurse,"$70,077.00",1.20%
+Chicago,Marketing Manager,"$81,084.00",1.40%
+Chicago,Operations Manager,"$71,959.00",0.30%
+Chicago,Product Manager,"$100,411.00",2.20%
+Chicago,Sales Manager,"$71,178.00",2.30%
+Chicago,Teacher,"$54,111.00",2.80%
+Chicago,Bank Teller,"$31,725.00",8.00%
+Chicago,Customer Service Manager,"$62,040.00",3.10%
+Chicago,Physical Therapist,"$73,391.00",-2.40%
+Chicago,Mechanical Engineer,"$74,886.00",3.00%
+Chicago,Recruiter,"$55,083.00",1.90%
+Chicago,Design Engineer,"$76,746.00",5.40%
+Chicago,Pharmacy Technician,"$32,711.00",2.30%
+Chicago,Graphic Designer,"$52,000.00",2.80%
+Chicago,Web Developer,"$77,739.00",4.20%
+Chicago,Business Development Manager,"$74,002.00",4.20%
+Chicago,Data Scientist,"$100,362.00",-0.30%
+Chicago,Buyer,"$64,563.00",2.20%
+Chicago,Data Analyst,"$66,006.00",1.90%
+Chicago,Electrical Engineer,"$80,423.00",1.50%
+Chicago,Attorney,"$112,804.00",1.60%
+Chicago,Human Resources Manager,"$80,353.00",1.70%
+Chicago,Technician,"$49,075.00",1.90%
+Chicago,Restaurant Cook,"$29,454.00",1.20%
+Chicago,Production Manager,"$69,304.00",2.10%
+Chicago,Manufacturing Engineer,"$74,147.00",0.50%
+Chicago,Retail Key Holder,"$31,885.00",4.90%
+Chicago,Paralegal,"$56,939.00",1.40%
+Chicago,Java Developer,"$82,368.00",5.00%
+Chicago,Warehouse Associate,"$50,778.00",6.80%
+Chicago,Property Manager,"$57,554.00",4.30%
+Chicago,Producer,"$63,735.00",-2.30%
+Chicago,Quality Engineer,"$75,252.00",1.20%
+Chicago,Operations Analyst,"$61,984.00",3.10%
+Chicago,Medical Assistant,"$37,496.00",4.50%
+Chicago,Tax Manager,"$106,684.00",5.10%
+Chicago,Technical Editor,"$59,162.00",1.50%
+Chicago,Truck Driver,"$59,126.00",7.20%
+Chicago,Insurance Agent,"$42,000.00",1.40%
+Chicago,Medical Technologist,"$54,996.00",2.20%
+Chicago,Field Engineer,"$68,649.00",2.10%
+Chicago,Machine Operator,"$40,040.00",1.60%
+Chicago,Communications Manager,"$76,265.00",-0.70%
+Chicago,Construction Laborer,"$44,080.00",2.80%
+Chicago,Emergency Medical Technician,"$32,580.00",2.40%
+Chicago,Web Designer,"$60,180.00",-0.80%
+Chicago,Maintenance Worker,"$47,547.00",1.40%
+Chicago,Barista,"$25,372.00",3.50%
+Chicago,Bartender,"$36,929.00",4.50%
+Chicago,Civil Engineer,"$72,302.00",0.80%
+Chicago,Claims Adjuster,"$56,416.00",3.60%
+Chicago,Certified Nursing Assistant,"$30,430.00",3.60%
+Chicago,Customer Service Representative,"$41,515.00",2.20%
+Chicago,Delivery Driver,"$40,036.00",2.00%
+Chicago,Financial Advisor,"$56,149.00",4.50%
+Chicago,Licensed Practical Nurse,"$50,251.00",2.40%
+Chicago,Loan Officer,"$40,311.00",-3.40%
+Chicago,Maintenance Technician,"$48,994.00",3.40%
+Chicago,Material Handler,"$36,288.00",5.00%
+Chicago,Network Engineer,"$73,484.00",-3.80%
+Chicago,Office Manager,"$51,679.00",1.50%
+Chicago,Pharmacist,"$122,952.00",2.90%
+Chicago,Process Engineer,"$81,590.00",0.30%
+Chicago,Program Manager,"$85,016.00",0.80%
+Chicago,Research Assistant,"$33,039.00",-0.10%
+Chicago,Restaurant Manager,"$53,824.00",1.50%
+Chicago,Security Officer,"$37,386.00",4.70%
+Chicago,Server,"$35,606.00",2.50%
+Chicago,Solutions Architect,"$113,321.00",4.00%
+Chicago,Systems Engineer,"$82,576.00",1.90%
+Chicago,Technical Support,"$52,941.00",2.90%
+Chicago,UX Designer,"$83,055.00",-0.20%
+Boston,Software Engineer,"$97,507.00",1.90%
+Boston,Programmer Analyst,"$76,706.00",0.60%
+Boston,Consultant,"$92,660.00",1.80%
+Boston,Project Manager,"$81,591.00",-0.50%
+Boston,Store Manager,"$58,918.00",1.80%
+Boston,Business Analyst,"$75,456.00",0.80%
+Boston,Cashier,"$31,033.00",4.90%
+Boston,Financial Analyst,"$69,385.00",2.20%
+Boston,Administrative Assistant,"$49,758.00",1.90%
+Boston,Accountant,"$63,082.00",2.50%
+Boston,Sales Representative,"$57,099.00",1.10%
+Boston,Professor,"$122,200.00",-0.10%
+Boston,Registered Nurse,"$77,273.00",1.30%
+Boston,Marketing Manager,"$84,164.00",1.50%
+Boston,Operations Manager,"$77,447.00",0.40%
+Boston,Product Manager,"$108,961.00",2.30%
+Boston,Sales Manager,"$77,912.00",2.40%
+Boston,Teacher,"$58,656.00",2.80%
+Boston,Bank Teller,"$34,972.00",8.10%
+Boston,Customer Service Manager,"$63,885.00",3.20%
+Boston,Physical Therapist,"$74,192.00",-2.30%
+Boston,Mechanical Engineer,"$82,076.00",3.10%
+Boston,Recruiter,"$59,704.00",2.00%
+Boston,Design Engineer,"$90,311.00",5.50%
+Boston,Pharmacy Technician,"$32,938.00",2.30%
+Boston,Graphic Designer,"$56,081.00",2.90%
+Boston,Web Developer,"$86,003.00",4.20%
+Boston,Business Development Manager,"$78,859.00",4.30%
+Boston,Data Scientist,"$108,169.00",-0.20%
+Boston,Buyer,"$61,406.00",2.30%
+Boston,Data Analyst,"$70,226.00",1.90%
+Boston,Electrical Engineer,"$86,413.00",1.60%
+Boston,Attorney,"$109,605.00",1.70%
+Boston,Human Resources Manager,"$85,330.00",1.80%
+Boston,Technician,"$49,547.00",2.00%
+Boston,Restaurant Cook,"$33,829.00",1.30%
+Boston,Production Manager,"$70,548.00",2.20%
+Boston,Manufacturing Engineer,"$79,003.00",0.50%
+Boston,Retail Key Holder,"$34,515.00",5.00%
+Boston,Paralegal,"$57,863.00",1.50%
+Boston,Java Developer,"$92,879.00",5.10%
+Boston,Warehouse Associate,"$50,405.00",6.90%
+Boston,Property Manager,"$64,626.00",4.30%
+Boston,Producer,"$66,605.00",-2.20%
+Boston,Quality Engineer,"$86,326.00",1.30%
+Boston,Operations Analyst,"$60,069.00",3.20%
+Boston,Medical Assistant,"$42,420.00",4.50%
+Boston,Tax Manager,"$110,559.00",5.20%
+Boston,Technical Editor,"$62,553.00",1.60%
+Boston,Truck Driver,"$60,913.00",7.30%
+Boston,Insurance Agent,"$43,246.00",1.50%
+Boston,Medical Technologist,"$64,368.00",2.30%
+Boston,Field Engineer,"$75,824.00",2.20%
+Boston,Machine Operator,"$42,934.00",1.70%
+Boston,Communications Manager,"$79,990.00",-0.70%
+Boston,Construction Laborer,"$47,916.00",2.90%
+Boston,Emergency Medical Technician,"$41,335.00",2.50%
+Boston,Web Designer,"$63,980.00",-0.70%
+Boston,Maintenance Worker,"$48,598.00",1.50%
+Boston,Barista,"$26,856.00",3.60%
+Boston,Bartender,"$43,680.00",4.60%
+Boston,Civil Engineer,"$73,030.00",0.90%
+Boston,Claims Adjuster,"$55,272.00",3.70%
+Boston,Certified Nursing Assistant,"$34,983.00",3.70%
+Boston,Customer Service Representative,"$45,481.00",2.30%
+Boston,Delivery Driver,"$43,176.00",2.10%
+Boston,Financial Advisor,"$64,062.00",4.60%
+Boston,Licensed Practical Nurse,"$55,514.00",2.50%
+Boston,Loan Officer,"$46,653.00",-3.30%
+Boston,Maintenance Technician,"$52,089.00",3.50%
+Boston,Material Handler,"$44,590.00",5.10%
+Boston,Network Engineer,"$79,723.00",-3.70%
+Boston,Office Manager,"$58,717.00",1.60%
+Boston,Pharmacist,"$121,281.00",3.00%
+Boston,Process Engineer,"$84,164.00",0.40%
+Boston,Program Manager,"$87,988.00",0.80%
+Boston,Research Assistant,"$37,096.00",0.00%
+Boston,Restaurant Manager,"$60,832.00",1.60%
+Boston,Security Officer,"$42,707.00",4.80%
+Boston,Server,"$41,938.00",2.60%
+Boston,Solutions Architect,"$112,737.00",4.10%
+Boston,Systems Engineer,"$88,530.00",1.90%
+Boston,Technical Support,"$57,810.00",3.00%
+Boston,UX Designer,"$88,182.00",-0.10%
+Washington DC,Software Engineer,"$95,805.00",2.50%
+Washington DC,Programmer Analyst,"$79,464.00",1.20%
+Washington DC,Consultant,"$81,398.00",2.50%
+Washington DC,Project Manager,"$88,002.00",0.10%
+Washington DC,Store Manager,"$57,402.00",2.50%
+Washington DC,Business Analyst,"$77,247.00",1.40%
+Washington DC,Cashier,"$29,430.00",5.60%
+Washington DC,Financial Analyst,"$73,242.00",2.80%
+Washington DC,Administrative Assistant,"$47,926.00",2.60%
+Washington DC,Accountant,"$65,585.00",3.20%
+Washington DC,Sales Representative,"$54,051.00",1.70%
+Washington DC,Professor,"$100,486.00",0.60%
+Washington DC,Registered Nurse,"$72,395.00",2.00%
+Washington DC,Marketing Manager,"$79,590.00",2.10%
+Washington DC,Operations Manager,"$76,069.00",1.10%
+Washington DC,Product Manager,"$108,083.00",3.00%
+Washington DC,Sales Manager,"$71,761.00",3.10%
+Washington DC,Teacher,"$58,797.00",3.50%
+Washington DC,Bank Teller,"$34,690.00",8.90%
+Washington DC,Customer Service Manager,"$58,865.00",3.80%
+Washington DC,Physical Therapist,"$78,885.00",-1.70%
+Washington DC,Mechanical Engineer,"$79,189.00",3.80%
+Washington DC,Recruiter,"$62,832.00",2.60%
+Washington DC,Design Engineer,"$84,140.00",6.20%
+Washington DC,Pharmacy Technician,"$32,584.00",3.00%
+Washington DC,Graphic Designer,"$56,667.00",3.50%
+Washington DC,Web Developer,"$87,474.00",4.90%
+Washington DC,Business Development Manager,"$85,700.00",5.00%
+Washington DC,Data Scientist,"$102,569.00",0.50%
+Washington DC,Buyer,"$61,042.00",3.00%
+Washington DC,Data Analyst,"$72,167.00",2.60%
+Washington DC,Electrical Engineer,"$86,047.00",2.30%
+Washington DC,Attorney,"$136,148.00",2.40%
+Washington DC,Human Resources Manager,"$82,568.00",2.50%
+Washington DC,Technician,"$51,684.00",2.60%
+Washington DC,Restaurant Cook,"$31,249.00",2.00%
+Washington DC,Production Manager,"$72,549.00",2.80%
+Washington DC,Manufacturing Engineer,"$78,651.00",1.20%
+Washington DC,Retail Key Holder,"$33,161.00",5.70%
+Washington DC,Paralegal,"$58,274.00",2.20%
+Washington DC,Java Developer,"$84,407.00",5.80%
+Washington DC,Warehouse Associate,"$44,114.00",7.60%
+Washington DC,Property Manager,"$63,333.00",5.00%
+Washington DC,Producer,"$69,268.00",-1.50%
+Washington DC,Quality Engineer,"$81,378.00",2.00%
+Washington DC,Operations Analyst,"$72,478.00",3.90%
+Washington DC,Medical Assistant,"$40,300.00",5.20%
+Washington DC,Tax Manager,"$115,794.00",5.90%
+Washington DC,Technical Editor,"$66,945.00",2.30%
+Washington DC,Truck Driver,"$55,386.00",8.10%
+Washington DC,Insurance Agent,"$43,897.00",2.20%
+Washington DC,Medical Technologist,"$58,178.00",3.00%
+Washington DC,Field Engineer,"$73,037.00",2.90%
+Washington DC,Machine Operator,"$44,230.00",2.40%
+Washington DC,Communications Manager,"$82,424.00",0.00%
+Washington DC,Construction Laborer,"$40,234.00",3.60%
+Washington DC,Emergency Medical Technician,"$43,572.00",3.20%
+Washington DC,Web Designer,"$66,111.00",-0.10%
+Washington DC,Maintenance Worker,"$44,067.00",2.10%
+Washington DC,Barista,"$26,214.00",4.30%
+Washington DC,Bartender,"$38,279.00",5.30%
+Washington DC,Civil Engineer,"$76,750.00",1.60%
+Washington DC,Claims Adjuster,"$55,554.00",4.30%
+Washington DC,Certified Nursing Assistant,"$32,607.00",4.40%
+Washington DC,Customer Service Representative,"$41,933.00",3.00%
+Washington DC,Delivery Driver,"$40,270.00",2.80%
+Washington DC,Financial Advisor,"$59,544.00",5.30%
+Washington DC,Licensed Practical Nurse,"$48,439.00",3.10%
+Washington DC,Loan Officer,"$49,461.00",-2.60%
+Washington DC,Maintenance Technician,"$50,015.00",4.20%
+Washington DC,Material Handler,"$39,292.00",5.80%
+Washington DC,Network Engineer,"$81,974.00",-3.10%
+Washington DC,Office Manager,"$56,819.00",2.30%
+Washington DC,Pharmacist,"$126,374.00",3.70%
+Washington DC,Process Engineer,"$84,057.00",1.00%
+Washington DC,Program Manager,"$99,090.00",1.50%
+Washington DC,Research Assistant,"$35,621.00",0.70%
+Washington DC,Restaurant Manager,"$58,443.00",2.30%
+Washington DC,Security Officer,"$47,849.00",5.50%
+Washington DC,Server,"$36,320.00",3.30%
+Washington DC,Solutions Architect,"$119,918.00",4.80%
+Washington DC,Systems Engineer,"$91,751.00",2.60%
+Washington DC,Technical Support,"$57,837.00",3.70%
+Washington DC,UX Designer,"$88,912.00",0.60%
