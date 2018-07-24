@@ -55,7 +55,7 @@ class ContactEvent(db.Model):
 
     contact_event_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    contact_id - db.Column(db.Integer, db.ForeignKey('contacts.contact_id'), nullable=False)
+    contact_id = db.Column(db.Integer, db.ForeignKey('contacts.contact_id'), nullable=False)
     contact_code = db.Column(db.Integer, db.ForeignKey('contact_codes.contact_code'))
     date_created = db.Column(db.Date, nullable=False)
 
@@ -112,7 +112,7 @@ class Job(db.Model):
     title = db.Column(db.String(100), nullable=False)
     link = db.Column(db.String(100), nullable=True)
     company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'), nullable=False)
-    avg_salary = db.Column(db.String(15), db.nullable=True)
+    avg_salary = db.Column(db.String(15), nullable=True)
     active_status = db.Column(db.Boolean, nullable=False)
     notes = db.Column(db.Text, nullable=True)
 
@@ -173,7 +173,7 @@ class ToDo(db.Model):
 
     job_events = db.relationship('JobEvent', backref=db.backref('todos', order_by=todo_id))
     contact_events = db.relationship('ContactEvent', backref=db.backref('todos', order_by=todo_id))
-    todo_codes = db.relationship('ToDoCode', backref=('todos', order_by=todo_id))
+    todo_codes = db.relationship('ToDoCode', backref=db.backref('todos', order_by=todo_id))
 
     def __repr__(self):
         """Proved helpful representation when printed."""
@@ -199,13 +199,37 @@ class ToDoCode(db.Model):
 class Salary(db.Model):
     """Average salary for common job titles in metro areas of the United States."""
 
+    __tablename__ = 'salaries'
+
     salary_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     metro = db.Column(db.String(20), nullable=False)
     job_title = db.Column(db.String(40), nullable=False)
-    avg_salary = db.Column(db.String(11), nullable=False)
+    avg_salary = db.Column(db.String(15), nullable=False)
     yoy_salary = db.Column(db.String(7), nullable=True)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
         return f"<Salary job={self.job_title} metro={self.metro} salary={self.avg_salary}>"
+
+
+##############################################################################
+# Helper functions
+
+def connect_to_db(app):
+    """Connect the database to our Flask app."""
+
+    # Configure to use our PstgreSQL database
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///jobs'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.app = app
+    db.init_app(app)
+
+
+if __name__ == "__main__":
+    # As a convenience, if we run this module interactively, it will leave
+    # you in a state of being able to work with the database directly.
+
+    from server import app
+    connect_to_db(app)
+    print("Connected to DB.")
