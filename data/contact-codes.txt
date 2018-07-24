@@ -1,0 +1,5 @@
+1|Met at networking event
+2|Requested informational interview
+3|Met for informational interview
+4|Introduced to other contacts
+5|Referred for job application

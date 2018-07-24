@@ -17,14 +17,14 @@ class User(db.Model):
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     fname = db.Column(db.String(25), nullable=False)
     lname = db.Column(db.String(25), nullable=False)
-    email = db.Column(db.String(64), nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
     phone = db.Column(db.String(10), nullable=True)
-    password = db.Column(db.String(64), nullable=False)
+    password = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"<user user_id={self.user_id} name={self.fname} {self.lname}>"
+        return f"<User id={self.user_id} name={self.fname} {self.lname}>"
 
 
 class Contact(db.Model):
@@ -35,77 +35,52 @@ class Contact(db.Model):
     contact_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     fname = db.Column(db.String(25), nullable=False)
     lname = db.Column(db.String(25), nullable=False)
-    email = db.Column(db.String(100), nullable=True)
+    email = db.Column(db.String(50), nullable=True)
     phone = db.Column(db.String(10), nullable=True)
-    company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'), nullable=False)
+    company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'), nullable=True)
     notes = db.Column(db.Text, nullable=True)
 
+    companies = db.relationship('Company', backref=db.backref('contacts', order_by=contact_id))
+
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"<contact contact_id={self.contact_id} name={self.fname} {self.lname}>"
+        return f"<Contact id={self.contact_id} name={self.fname} {self.lname}>"
 
 
-class ContactTracking(db.Model):
-    """Track user and contact interactions."""
+class ContactEvent(db.Model):
+    """Track user and contact events outside of a job, such as networking or informational interviews."""
 
-    __tablename__ = 'contact_tracking'
+    __tablename__ = 'contact_events'
 
-    contact_track_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    contact_event_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     contact_id - db.Column(db.Integer, db.ForeignKey('contacts.contact_id'), nullable=False)
-    code = db.Column(db.Integer, db.ForeignKey('contact_codes.code'))
-    date = db.Column(db.Date, nullable=False)
+    contact_code = db.Column(db.Integer, db.ForeignKey('contact_codes.contact_code'))
+    date_created = db.Column(db.Date, nullable=False)
+
+    users = db.relationship('User', backref=db.backref('contact_events', order_by=contact_event_id))
+    contacts = db.relationship('Contact', backref=db.backref('contact_events', order_by=contact_event_id))
+    contact_codes = db.relationship('ContactCode', backref=db.backref('contact_events', order_by=contact_event_id))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"<tracking user_id={self.user_id} contact_id={self.contact_id} date={self.date}>"
+        return f"<ContactEvent user_id={self.user_id} contact_id={self.contact_id} date={self.date_created}>"
 
 
 class ContactCode(db.Model):
-    """Codes corresponding to various user interactions with contacts."""
+    """Codes corresponding to various user events with contacts."""
 
     __tablename__ = 'contact_codes'
 
-    code = db.Column(db.Integer, primary_key=True, nullable=False)
+    contact_code = db.Column(db.Integer, primary_key=True,autoincrement=True, nullable=False)
     description = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"<contact code={self.code} desc={self.description}>"
-
-
-class ContactToDo(db.Model):
-    """To dos for a specific contact connected to the user."""
-
-    __tablename__ = 'contact_todos'
-
-    contact_todo_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
-    contact_track_id = db.Column(db.Integer, db.ForeignKey('contact_tracking.contact_track_id'), nullable=False)
-    code = db.Column(db.Integer, db.ForeignKey('to_do_codes.code'), nullable=False)
-    date_created = db.Column(db.Date, nullable=False)
-    date_due = db.Column(db.Date, nullable=False)
-
-    def __repr__(self):
-        """Provide helpful representation when printed."""
-
-        return f"<contact to-do id={self.contact_todo_id} to-do code={self.code}>"
-
-
-class ToDoCode(db.Model):
-    """Codes corresponding to various user to-do items."""
-
-    __tablename__ = 'to_do_codes'
-
-    code = db.Column(db.Integer, primary_key=True, nullable=False)
-    description = db.Column(db.Text, nullable=False)
-
-    def __repr__(self):
-        """Provide helpful representation when printed."""
-
-        return f"<to-do code={self.code} desc={self.description}>"
+        return f"<ContactCode code={self.contact_code} desc={self.description}>"
 
 
 class Company(db.Model):
@@ -116,7 +91,7 @@ class Company(db.Model):
     company_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
     name = db.Column(db.String(100), nullable=False)
     street = db.Column(db.String(100), nullable=True)
-    city = db.Column(db.String(100), nullable=True)
+    city = db.Column(db.String(50), nullable=True)
     state = db.Column(db.String(2), nullable=True)
     zipcode = db.Column(db.String(5), nullable=True)
     website = db.Column(db.String(100), nullable=True)
@@ -125,7 +100,7 @@ class Company(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"<company company_id={self.company_id} name={self.name}>"
+        return f"<Company id={self.company_id} name={self.name}>"
 
 
 class Job(db.Model):
@@ -137,46 +112,100 @@ class Job(db.Model):
     title = db.Column(db.String(100), nullable=False)
     link = db.Column(db.String(100), nullable=True)
     company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'), nullable=False)
-    avg_salary = db.Column(db.String(11), db.nullable=True)
+    avg_salary = db.Column(db.String(15), db.nullable=True)
     active_status = db.Column(db.Boolean, nullable=False)
+    notes = db.Column(db.Text, nullable=True)
+
+    companies = db.relationship('Company', backref=db.backref('jobs', order_by=job_id))
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<Job job_id={self.job_id} title={self.title} company={self.companies.name}>"
 
 
+class JobEvent(db.Model):
+    """Track events in status of job application."""
+
+    __tablename__ = 'job_events'
+
+    job_event_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    job_id = db.Column(db.Integer, db.ForeignKey('jobs.job_id'), nullable=False)
+    job_code = db.Column(db.Integer, db.ForeignKey('job_codes.job_code'), nullable=False)
+    date_created = db.Column(db.Date, nullable=False)
+
+    users = db.relationship('User', backref=db.backref('job_events', order_by=job_event_id))
+    jobs = db.relationship('Job', backref=db.backref('job_events', order_by=job_event_id))
+    job_codes = db.relationship('JobCode', backref=db.backref('job_events', order_by=job_event_id))
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<JobEvent id={self.job_event_id} event={self.job_codes.description}>"
 
 
+class JobCode(db.Model):
+    """Codes corresponding to various user events with jobs."""
+
+    __tablename__ = 'job_codes'
+
+    job_code = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    description = db.Column(db.Text, nullable=False)
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<JobCode code={self.job_code} desc={self.description}>"
 
 
+class ToDo(db.Model):
+    """Creates todos based on job events or contact events."""
+
+    __tablename__ = 'todos'
+
+    todo_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    job_event_id = db.Column(db.Integer, db.ForeignKey('job_events.job_event_id'), nullable=True)
+    contact_event_id = db.Column(db.Integer, db.ForeignKey('contact_events.contact_event_id'), nullable=True)
+    todo_code = db.Column(db.Integer, db.ForeignKey('todo_codes.todo_code'), nullable=False)
+    date_created = db.Column(db.Date, nullable=False)
+    date_due = db.Column(db.Date, nullable=False)
+
+    job_events = db.relationship('JobEvent', backref=db.backref('todos', order_by=todo_id))
+    contact_events = db.relationship('ContactEvent', backref=db.backref('todos', order_by=todo_id))
+    todo_codes = db.relationship('ToDoCode', backref=('todos', order_by=todo_id))
+
+    def __repr__(self):
+        """Proved helpful representation when printed."""
+
+        return f"<ToDo id={self.todo_id} todo-desc={self.todo_codes.description}>"
 
 
+class ToDoCode(db.Model):
+    """Codes corresponding to various user todo items."""
+
+    __tablename__ = 'todo_codes'
+
+    todo_code = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    sugg_due_date = db.Column(db.String(20), nullable=True)
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<ToDoCode code={self.todo_code} desc={self.description}>"
 
 
+class Salary(db.Model):
+    """Average salary for common job titles in metro areas of the United States."""
 
+    salary_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    metro = db.Column(db.String(20), nullable=False)
+    job_title = db.Column(db.String(40), nullable=False)
+    avg_salary = db.Column(db.String(11), nullable=False)
+    yoy_salary = db.Column(db.String(7), nullable=True)
 
+    def __repr__(self):
+        """Provide helpful representation when printed."""
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return f"<Salary job={self.job_title} metro={self.metro} salary={self.avg_salary}>"
