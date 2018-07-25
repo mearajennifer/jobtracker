@@ -14,7 +14,7 @@ class User(db.Model):
 
     __tablename__ = 'users'
 
-    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     fname = db.Column(db.String(25), nullable=False)
     lname = db.Column(db.String(25), nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
@@ -32,7 +32,7 @@ class Contact(db.Model):
 
     __tablename__ = 'contacts'
 
-    contact_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    contact_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     fname = db.Column(db.String(25), nullable=False)
     lname = db.Column(db.String(25), nullable=False)
     email = db.Column(db.String(50), nullable=True)
@@ -53,7 +53,7 @@ class ContactEvent(db.Model):
 
     __tablename__ = 'contact_events'
 
-    contact_event_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    contact_event_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     contact_id = db.Column(db.Integer, db.ForeignKey('contacts.contact_id'), nullable=False)
     contact_code = db.Column(db.Integer, db.ForeignKey('contact_codes.contact_code'))
@@ -74,7 +74,7 @@ class ContactCode(db.Model):
 
     __tablename__ = 'contact_codes'
 
-    contact_code = db.Column(db.Integer, primary_key=True,autoincrement=True, nullable=False)
+    contact_code = db.Column(db.Integer, primary_key=True,autoincrement=True)
     description = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
@@ -88,7 +88,7 @@ class Company(db.Model):
 
     __tablename__ = 'companies'
 
-    company_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    company_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     street = db.Column(db.String(100), nullable=True)
     city = db.Column(db.String(50), nullable=True)
@@ -108,7 +108,7 @@ class Job(db.Model):
 
     __tablename__ = 'jobs'
 
-    job_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    job_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     link = db.Column(db.String(100), nullable=True)
     company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'), nullable=False)
@@ -121,7 +121,7 @@ class Job(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"<Job job_id={self.job_id} title={self.title} company={self.companies.name}>"
+        return f"<Job job_id={self.job_id} title={self.title} company={self.company_id}>"
 
 
 class JobEvent(db.Model):
@@ -129,7 +129,7 @@ class JobEvent(db.Model):
 
     __tablename__ = 'job_events'
 
-    job_event_id = db.Column(db.Integer, autoincrement=True, primary_key=True, nullable=False)
+    job_event_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('jobs.job_id'), nullable=False)
     job_code = db.Column(db.Integer, db.ForeignKey('job_codes.job_code'), nullable=False)
@@ -142,7 +142,7 @@ class JobEvent(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"<JobEvent id={self.job_event_id} event={self.job_codes.description}>"
+        return f"<JobEvent id={self.job_event_id} event={self.job_code}>"
 
 
 class JobCode(db.Model):
@@ -150,7 +150,7 @@ class JobCode(db.Model):
 
     __tablename__ = 'job_codes'
 
-    job_code = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    job_code = db.Column(db.Integer, primary_key=True, autoincrement=True)
     description = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
@@ -164,7 +164,7 @@ class ToDo(db.Model):
 
     __tablename__ = 'todos'
 
-    todo_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    todo_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     job_event_id = db.Column(db.Integer, db.ForeignKey('job_events.job_event_id'), nullable=True)
     contact_event_id = db.Column(db.Integer, db.ForeignKey('contact_events.contact_event_id'), nullable=True)
     todo_code = db.Column(db.Integer, db.ForeignKey('todo_codes.todo_code'), nullable=False)
@@ -178,7 +178,7 @@ class ToDo(db.Model):
     def __repr__(self):
         """Proved helpful representation when printed."""
 
-        return f"<ToDo id={self.todo_id} todo-desc={self.todo_codes.description}>"
+        return f"<ToDo id={self.todo_id} job-event={self.job_event_id}>"
 
 
 class ToDoCode(db.Model):
@@ -186,9 +186,9 @@ class ToDoCode(db.Model):
 
     __tablename__ = 'todo_codes'
 
-    todo_code = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    todo_code = db.Column(db.Integer, primary_key=True, autoincrement=True)
     description = db.Column(db.Text, nullable=False)
-    sugg_due_date = db.Column(db.String(20), nullable=True)
+    sugg_due_date = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -201,7 +201,7 @@ class Salary(db.Model):
 
     __tablename__ = 'salaries'
 
-    salary_id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    salary_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     metro = db.Column(db.String(20), nullable=False)
     job_title = db.Column(db.String(40), nullable=False)
     avg_salary = db.Column(db.String(15), nullable=False)

@@ -1,16 +1,11 @@
-1|Apply to job|in 2 weeks
-2|Follow up on job application|in 1 month
-3|Respond to company request for interview/information|in 1 day
-4|Follow up with interviewer(s) with thank you notes or questions|in 1 day
-5|Respond to company request for interview/information|in 2 days
-6|Follow up with interviewer(s) with thank you notes or questions|in 1 day
-7|Review job offer and respond with questions, acceptance, negotiation, or decline|in 2 days
-8|Send thank you notes, notify company and current employer, update LinkedIn|in 1 week
-9|Send thanks you notes and notify company|in 1 week
-10|Archive job|in 1 week
-11|Archive job|in 1 week
-12|Follow up with preferred means of communication|in 1 week
-13|Follow up with preferred means of communication|in 1 week
-14|Send thank you note|in 2 days
-15|Send thank you note|in 2 days
-16|Send thank you note|in 2 days
+1|Apply to job|2
+2|Follow up on job application|30
+3|Respond to company request for interview/information|1
+4|Send thank you notes or questions to interviewer(s)|1
+5|Respond to company request for interview/information|2
+6|Review job offer and respond with questions, acceptance, negotiation, or decline|2
+7|Send thank you notes, notify company and current employer, update LinkedIn|7
+8|Send thanks you notes and notify company|7
+9|Archive job|7
+10|Follow up with preferred means of communication|7
+11|Send thank you note|2
