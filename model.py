@@ -18,7 +18,7 @@ class User(db.Model):
     fname = db.Column(db.String(25), nullable=False)
     lname = db.Column(db.String(25), nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    phone = db.Column(db.String(10), nullable=True)
+    phone = db.Column(db.String(12), nullable=True)
     password = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
@@ -125,7 +125,7 @@ class Job(db.Model):
 
 
 class JobEvent(db.Model):
-    """Track events in status of job application."""
+    """Track events in status of job app."""
 
     __tablename__ = 'job_events'
 

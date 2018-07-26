@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+
+  <head>
+    <title>Job Hunt App</title>
+  </head>
+
+  <body>
+
+    {% for message in get_flashed_messages() %}
+      {{ message }}
+    {% endfor %}
+
+    {% block content %} put your content here {% endblock %}
+
+  </body>
+</html>

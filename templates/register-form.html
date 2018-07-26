@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>SIGN UP</h1>
+<form action="/register" method="POST">
+
+  <p>
+    <label>First name: </label>
+      <input type="text" name="fname" placeholder="Jane" required />
+    <label> Last name: </label>
+      <input type="text" name="lname" placeholder="Jobseeker" required />
+  </p>
+
+  <p>
+    <label>email: </label>
+      <input type="email" name="email"
+        placeholder="jane@jobseeker.com" required />
+  </p>
+
+  <p>
+    <label>phone: </label>
+      <input type="tel" name="phone" placeholder="123-456-7890"
+        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+  </p>
+
+  <p>
+    <label>password: </label>
+      <input type="text" name="password" required />
+  </p>
+
+  <button type="submit">Register</button>
+</form>
+
+{% endblock %}

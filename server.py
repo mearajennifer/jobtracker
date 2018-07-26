@@ -3,36 +3,173 @@
 from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash, session)
 from flask_debugtoolbar import DebugToolbarExtension
-from sqlalchemy.orm.exc import NoResultFound
 from model import (User, Contact, ContactEvent, ContactCode, Company, Job,
                    JobEvent, JobCode, ToDo, ToDoCode, Salary, connect_to_db, db)
 from pprint import pprint
+import os
 
 app = Flask(__name__)
-app.secret_key = "ABC"
+app.secret_key = os.environ['FLASK_SECRET_KEY']
 
 # If an undefined variable is used, Jinja2 will raise an error
 app.jinja_env.undefined = StrictUndefined
 
 
-# this is the route to the homepage
 @app.route('/')
-def index():
+def show_landing_page():
     """Homepage."""
-    return "<h1>Hey hey it's a homepage.</h1>"
+
+    return render_template('landing.html')
 
 
-if __name__ == "__main__":
+@app.route('/register', methods=['GET'])
+def show_registration_form():
+    """Shows registration form to user"""
+
+    return render_template('register-form.html')
+
+
+@app.route('/register', methods=['POST'])
+def register_user():
+    """Gets user input from registration form and checks against databse.
+    Then prompts user to login."""
+
+    # get required user data from form
+    fname = request.form['fname']
+    lname = request.form['lname']
+    email = request.form['email']
+    password = request.form['password']
+
+    # try to get form data that isn't required
+    try:
+        phone = request.form['phone']
+    except KeyError:
+        phone = None
+
+    # check to make sure this is working
+    print(fname, lname, email, password, phone)
+
+    # create new user object
+    new_user = User(fname=fname, lname=lname, email=email, password=password, phone=phone)
+
+    # before commiting to db, make sure user doesn't already exist
+    verify_email = User.query.filter(User.email == new_user.email).all()
+
+    if verify_email:
+        flash('Sorry, a user is already registered under that email address.')
+        return render_template('register-form.html')
+    else:
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Thanks for registering! Please log in.')
+        return redirect('/login')
+
+
+@app.route('/login', methods=['GET'])
+def show_login_form():
+    """Shows login form to user"""
+
+    return render_template('login-form.html')
+
+
+@app.route('/login', methods=['POST'])
+def login_user():
+    """Gets user input from form and checks against database. If email and password
+    match, start user session and take to main app page. Otherwise, prompt with flash
+    message to try again."""
+
+    # get required user data from form
+    email = request.form['email']
+    password = request.form['password']
+
+    # search for user in db
+    user = User.query.filter(User.email == email).first()
+
+    # if user doesn't exist, redirect
+    if not user:
+        flash('No user exists with that email address.')
+        return redirect('/login')
+
+    # if user exists but passwords don't match
+    if user.password != password:
+        flash('Incorrect password for the email address entered.')
+        return redirect('/login')
+
+    # add user_id to session
+    session['user_id'] = user.user_id
+
+    # redirect to main dashboard page
+    flash('May the job force be with you...')
+    return redirect('/dashboard')
+
+
+@app.route("/logout")
+def logout():
+    """logs the current user out"""
+
+    # remove session from browser to log out
+    del session['user_id']
+    flash('Logged out.')
+    return redirect("/")
+
+
+@app.route('/dashboard')
+def show_main_jobs_dashboard( ):
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+if __name__ == '__main__':
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
     app.debug = True
+
     # make sure templates, etc. are not cached in debug mode
     app.jinja_env.auto_reload = app.debug
 
     connect_to_db(app)
 
     # Use the DebugToolbar
-
     DebugToolbarExtension(app)
 
     app.run(port=5000, host='0.0.0.0')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
