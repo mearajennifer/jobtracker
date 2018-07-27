@@ -25,14 +25,27 @@
       <div class="col-2" align="center">{{ status.job_codes.description }}</div>
       <div class="col-2" align="center">{{ status.date_created }}</div>
       <div class="col-2" align="center">{{ status.jobs.notes }}</div>
+      <!-- DROP DOWN ARCHIVE MENU -->
       <div class="col-2" align="center">
-        <form action="/dashboard/archive-job" method="POST">
-          <button class="btn" type="submit">
-          <input type="hidden" name="job_id" value="{{ status.job_id }}">
-          <i class="fas fa-archive"></i>
-          </button>
-        </form>
+        <div class="dropdown">
+          <form action="/dashboard/archive-job" method="POST">
+
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fas fa-archive"></i>
+            </button>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <input type="hidden" name="job_id" value="{{ status.job_id }}">
+              <button class="dropdown-item submit" type="submit" name="job_code" value="8">Accepted offer</button>
+              <button class="dropdown-item submit"  name="job_code" value="9">Declined offer</button>
+              <button class="dropdown-item submit"  name="job_code" value="10">No job offer</button>
+            </div>
+
+          </form>
+        </div>
       </div>
+      <!-- END DROP DOWN -->
+
     </div>
   {% endfor %}
 

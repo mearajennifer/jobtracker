@@ -6,6 +6,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import desc
 from model import (User, Contact, ContactEvent, ContactCode, Company, Job,
                    JobEvent, JobCode, ToDo, ToDoCode, Salary, connect_to_db, db)
+from datetime import datetime
 from pprint import pprint
 import os
 
@@ -155,9 +156,15 @@ def show_active_jobs():
 def archive_a_job():
     """Move job status from active to archive"""
 
-    # get job_id from POST
+    # get job_id, job_code from POST and user_id from cookie
     job_id = request.form['job_id']
-    print(job_id)
+    job_code = request.form['job_code']
+    user_id = session['user_id']
+    print(job_id, job_code, user_id)
+
+    # create job event
+    job_event = JobEvent(job_id=job_id, user_id=user_id, job_code=job_code, date_created=datetime.now())
+    db.session.add(job_event)
 
     # find job in database
     job = Job.query.filter(Job.job_id == job_id).one()
@@ -165,6 +172,40 @@ def archive_a_job():
     db.session.commit()
 
     return redirect('/dashboard/jobs')
+
+
+@app.route('/dashboard/jobs/archived')
+def show_archived_jobs():
+    """ Shows a list of archived jobs the user is no longer tracking."""
+
+    # get user_id from session
+    user_id = session['user_id']
+
+    # query for user job events, return list -- Look at created a db.relationship from users to jobs
+    user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
+
+    # make a set of all job_ids and remove any that are inactive
+    user_job_ids = set(job.job_id for job in user_job_events if job.jobs.active_status == False)
+
+    # grab only the most recent events for each job_id
+    all_archived = []
+    for user_job_id in user_job_ids:
+        # get all events for one job id
+        events = [event for event in user_job_events if event.job_id == user_job_id]
+        # find that latest event and add to list
+        status = events[0]
+        all_archived.append(status)
+
+    # get active company objects
+    companies = Company.query.filter(Company.company_id.in_(user_job_ids))
+
+    return render_template('jobs-archive.html',
+                           all_archived=all_archived,
+                           companies=companies)
+
+
+
+
 
 
 if __name__ == '__main__':
