@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Add a job</h1>
+
+<form action="/dashboard/jobs/add" method="POST">
+  Company Name drop down or text box required
+  Job Title required
+  Status
+  Notes
+</form>
+
+
+{% endblock %}

@@ -11,6 +11,12 @@
 
 <body>
 
+  <ul>
+    {% for message in get_flashed_messages() %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+
   <h1>Hey hey it's a homepage.</h1>
 
   <a href="/login"><button>LOG IN</button></a>

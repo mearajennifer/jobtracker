@@ -3,7 +3,7 @@
 
 from sqlalchemy import func
 from model import (User, Company, Contact, ContactCode, JobCode, ToDoCode,
-                   Salary, connect_to_db, db)
+                   Salary, Job, JobEvent, connect_to_db, db)
 from server import app
 
 
@@ -19,13 +19,11 @@ def load_users():
     # Read user file and insert data
     for row in open("data/user-example.txt"):
         row = row.rstrip()
-        user_id, fname, lname, email, phone, password = row.split("|")
+        fname, lname, email, password = row.split("|")
 
-        user = User(user_id=user_id,
-                    fname=fname,
+        user = User(fname=fname,
                     lname=lname,
                     email=email,
-                    phone=phone,
                     password=password)
 
         # Add to the session or it won't ever be stored
@@ -190,6 +188,52 @@ def load_salaries():
     db.session.commit()
 
 
+# load jobs
+def load_jobs():
+    """Load fake sample job data from job-example.txt into database"""
+
+    print("Loading jobs...")
+
+    # Delete all rows in table to make sure there are no dupes
+    Job.query.delete()
+
+    # Read file and insert data
+    for row in open("data/job-example.txt"):
+        row = row.rstrip()
+        title, link, company_id, active_status, notes = row.split("|")
+
+        job = Job(title=title, link=link, company_id=company_id, active_status=bool(active_status), notes=notes)
+
+        # Add to the session
+        db.session.add(job)
+
+    # commit the session to database
+    db.session.commit()
+
+
+# load job events
+def load_jobevents():
+    """Load fake sample job event data from job-event-example.txt into database"""
+
+    print("Loading job events...")
+
+    # Delete all rows in table to make sure there are no dupes
+    JobEvent.query.delete()
+
+    # Read file and insert data
+    for row in open("data/job-event-example.txt"):
+        row = row.rstrip()
+        job_id, user_id, job_code, date_created = row.split("|")
+
+        job_event = JobEvent(job_id=job_id, user_id=user_id, job_code=job_code, date_created=date_created)
+
+        # Add to the session
+        db.session.add(job_event)
+
+    # commit the session to database
+    db.session.commit()
+
+
 ##############################################################################
 # Helper functions
 def set_val_user_id():
@@ -212,11 +256,17 @@ if __name__ == "__main__":
     db.create_all()
 
     # Import different types of data
-    load_users()
-    load_companies()
+
+    load_salaries()
     load_contactcodes()
-    load_contacts()
     load_jobcodes()
     load_todocodes()
-    load_salaries()
+
+    load_users()
+    load_companies()
+    load_contacts()
+
+    load_jobs()
+    load_jobevents()
+
     set_val_user_id()

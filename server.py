@@ -204,7 +204,10 @@ def show_archived_jobs():
                            companies=companies)
 
 
+@app.route('/dashboard/jobs/add')
+def add_a_job():
 
+    pass
 
 
 
