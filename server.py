@@ -162,6 +162,7 @@ def archive_a_job():
     # find job in database
     job = Job.query.filter(Job.job_id == job_id).one()
     job.active_status = False
+    db.session.commit()
 
     return redirect('/dashboard/jobs')
 
@@ -180,31 +181,6 @@ if __name__ == '__main__':
     DebugToolbarExtension(app)
 
     app.run(port=5000, host='0.0.0.0')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
