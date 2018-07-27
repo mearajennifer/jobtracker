@@ -2,5 +2,37 @@
 
 {% block content %}
 
+<!-- COLUMN HEADERS -->
+<div class="container" align="center">
+  <div class="row">
+    <div class="col-4" align="center"><h5>Company</h5></div>
+    <div class="col-4" align="center"><h5>Jobs Tracked</h5></div>
+    <div class="col-4" align="center"><h5>Notes</h5></div>
+  </div>
+
+  <!-- COMPANY ROWS -->
+  {% for key, value in companies.items() %}
+    <div class="row">
+
+      <!-- COMPANY NAME -->
+      <div class="col-4" align="center">
+          {{ key.name }}
+      </div>
+
+      <!-- JOBS TRACKED -->
+      <div class="col-4" align="center">
+        {{ value }}
+      </div>
+
+      <!-- NOTES -->
+      <div class="col-4" align="center">
+        {{ key.notes }}
+      </div>
+
+    </div>
+    <div><hr></div>
+  {% endfor %}
+
+</div>
 
 {% endblock %}
