@@ -56,8 +56,8 @@ def create_job_events():
         count = 0
         while count < 100:
             job_id = fake.random_int(min=1, max=100)
-            user_id = fake.random_int(min=1, max=20)
-            job_code = fake.random_int(min=1, max=10)
+            user_id = fake.random_int(min=1, max=42)
+            job_code = fake.random_int(min=1, max=8)
             date = fake.date_this_year()
             myfile.write("{}|{}|{}|{}\n".format(job_id, user_id, job_code, date))
             count += 1

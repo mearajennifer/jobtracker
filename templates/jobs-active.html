@@ -2,18 +2,20 @@
 
 {% block content %}
 
-<div class="container">
+<!-- COLUMN HEADERS -->
+<div class="container" align="center">
   <div class="row">
     <div class="col-2" align="center"><h5>Company</h5></div>
     <div class="col-2" align="center"><h5>Job</h5></div>
     <div class="col-2" align="center"><h5>Status</h5></div>
     <div class="col-2" align="center"><h5>Date</h5></div>
     <div class="col-2" align="center"><h5>Notes</h5></div>
-    <div class="col-2" align="center"><h5>Archive</h5></div>
+    <!-- <div class="col-2" align="center"><h5>Archive</h5></div> -->
   </div>
 
   {% for status in all_active_status %}
     <div class="row">
+      <!-- COMPANY NAME -->
       <div class="col-2" align="center">
         {% for company in companies %}
           {% if company.company_id == status.jobs.job_id %}
@@ -21,33 +23,74 @@
           {% endif %}
         {% endfor %}
       </div>
-      <div class="col-2" align="center">{{ status.jobs.title }}</div>
-      <div class="col-2" align="center">{{ status.job_codes.description }}</div>
-      <div class="col-2" align="center">{{ status.date_created }}</div>
-      <div class="col-2" align="center">{{ status.jobs.notes }}</div>
-      
-      <!-- DROP DOWN ARCHIVE MENU -->
+
+      <!-- JOB TITLE -->
+      <div class="col-2" align="center">
+        {{ status.jobs.title }}
+      </div>
+
+      <!-- DROP DOWN STATUS MENU -->
       <div class="col-2" align="center">
         <div class="dropdown">
-          <form action="/dashboard/archive-job" method="POST">
+          <form action="/dashboard/job-status" method="POST">
 
             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fas fa-archive"></i>
+              {{ status.job_codes.description }}
             </button>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <input type="hidden" name="job_id" value="{{ status.job_id }}">
-              <button class="dropdown-item submit" type="submit" name="job_code" value="8">Accepted offer</button>
-              <button class="dropdown-item submit"  name="job_code" value="9">Declined offer</button>
-              <button class="dropdown-item submit"  name="job_code" value="10">No job offer</button>
+
+              <button class="dropdown-item submit" type="submit" name="job_code" value="1">
+                Interested
+              </button>
+
+              <button class="dropdown-item submit"  name="job_code" value="2">
+                Applied
+              </button>
+
+              <button class="dropdown-item submit"  name="job_code" value="3">
+                Phone interview
+              </button>
+
+              <button class="dropdown-item submit"  name="job_code" value="4">
+                On-site interview
+              </button>
+
+              <button class="dropdown-item submit"  name="job_code" value="5">
+                Received offer
+              </button>
+
+              <button class="dropdown-item submit" type="submit" name="job_code" value="6">
+                Accepted offer
+              </button>
+
+              <button class="dropdown-item submit"  name="job_code" value="7">
+                Declined offer
+              </button>
+
+              <button class="dropdown-item submit"  name="job_code" value="8">
+                No job offer
+              </button>
+            
             </div>
 
           </form>
         </div>
       </div>
-      <!-- END DROP DOWN -->
+
+      <!-- DATE LAST MODIFIED -->
+      <div class="col-2" align="center">
+        {{ status.date_created }}
+      </div>
+
+      <!-- NOTES -->
+      <div class="col-2" align="center">
+        {{ status.jobs.notes }}
+      </div>
 
     </div>
+    <div><hr></div>
   {% endfor %}
 
 </div>

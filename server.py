@@ -7,7 +7,6 @@ from sqlalchemy import desc
 from model import (User, Contact, ContactEvent, ContactCode, Company, Job,
                    JobEvent, JobCode, ToDo, ToDoCode, Salary, connect_to_db, db)
 from datetime import datetime
-from pprint import pprint
 import os
 
 app = Flask(__name__)
@@ -152,23 +151,24 @@ def show_active_jobs():
                            companies=companies)
 
 
-@app.route('/dashboard/archive-job', methods=['POST'])
-def archive_a_job():
+@app.route('/dashboard/job-status', methods=['POST'])
+def update_job_status():
     """Move job status from active to archive"""
 
     # get job_id, job_code from POST and user_id from cookie
     job_id = request.form['job_id']
     job_code = request.form['job_code']
     user_id = session['user_id']
-    print(job_id, job_code, user_id)
 
     # create job event
     job_event = JobEvent(job_id=job_id, user_id=user_id, job_code=job_code, date_created=datetime.now())
     db.session.add(job_event)
 
-    # find job in database
+    # find job in database and archive if necessary
     job = Job.query.filter(Job.job_id == job_id).one()
-    job.active_status = False
+    if int(job_code) > 5:
+        job.active_status = False
+
     db.session.commit()
 
     return redirect('/dashboard/jobs')
@@ -225,6 +225,29 @@ if __name__ == '__main__':
     DebugToolbarExtension(app)
 
     app.run(port=5000, host='0.0.0.0')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,10 +1,8 @@
-1|Interested in job
-2|Applied to job
-3|Request for phone
-4|Phone interview
-5|Request for on-site
-6|On-site interview
-7|Received offer
-8|Accepted offer
-9|Declined offer
-10|No job offer
+1|Interested
+2|Applied
+3|Phone interview
+4|On-site interview
+5|Received offer
+6|Accepted offer
+7|Declined offer
+8|No job offer
