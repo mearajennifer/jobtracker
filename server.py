@@ -142,20 +142,17 @@ def show_active_jobs():
         user_job_ids = set(job.job_id for job in user_job_events if job.jobs.active_status == True)
 
         # grab only the most recent events for each job_id
-        all_active_status = []
+        all_active_status = {}
         for user_job_id in user_job_ids:
             # get all events for one job id
             events = [event for event in user_job_events if event.job_id == user_job_id]
             # find that latest event and add to list
             status = events[0]
-            all_active_status.append(status)
-
-        # get active company objects
-        companies = Company.query.filter(Company.company_id.in_(user_job_ids))
+            company = Company.query.filter(Company.company_id == status.jobs.company_id).first()
+            all_active_status[status] = company
 
         return render_template('jobs-active.html',
-                               all_active_status=all_active_status,
-                               companies=companies)
+                               all_active_status=all_active_status)
 
 
 @app.route('/dashboard/job-status', methods=['POST'])
@@ -203,20 +200,17 @@ def show_archived_jobs():
         user_job_ids = set(job.job_id for job in user_job_events if job.jobs.active_status == False)
 
         # grab only the most recent events for each job_id
-        all_archived = []
+        all_archived = {}
         for user_job_id in user_job_ids:
             # get all events for one job id
             events = [event for event in user_job_events if event.job_id == user_job_id]
             # find that latest event and add to list
             status = events[0]
-            all_archived.append(status)
-
-        # get active company objects
-        companies = Company.query.filter(Company.company_id.in_(user_job_ids))
+            company = Company.query.filter(Company.company_id == status.jobs.company_id).first()
+            all_archived[status] = company
 
         return render_template('jobs-archive.html',
-                               all_archived=all_archived,
-                               companies=companies)
+                               all_archived=all_archived)
 
 
 @app.route('/dashboard/jobs/<job_id>')

@@ -13,20 +13,16 @@
   </div>
 <!-- END HEADERS -->
 
-  {% for status in all_active_status %}
+  {% for key, value in all_active_status.items() %}
     <div class="row">
       <!-- COMPANY NAME -->
       <div class="col-2" align="center">
-        {% for company in companies %}
-          {% if company.company_id == status.jobs.job_id %}
-          {{ company.name }}
-          {% endif %}
-        {% endfor %}
+          {{ value.name }}
       </div>
 
       <!-- JOB TITLE -->
       <div class="col-2" align="center">
-        {{ status.jobs.title }}
+        {{ key.jobs.title }}
       </div>
 
       <!-- DROP DOWN STATUS MENU -->
@@ -35,11 +31,11 @@
           <form action="/dashboard/job-status" method="POST">
 
             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{ status.job_codes.description }}
+              {{ key.job_codes.description }}
             </button>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <input type="hidden" name="job_id" value="{{ status.job_id }}">
+              <input type="hidden" name="job_id" value="{{ key.job_id }}">
 
               <button class="dropdown-item submit" type="submit" name="job_code" value="1">
                 Interested
@@ -81,12 +77,12 @@
 
       <!-- DATE LAST MODIFIED -->
       <div class="col-2" align="center">
-        {{ status.date_created }}
+        {{ key.date_created }}
       </div>
 
       <!-- NOTES -->
       <div class="col-2" align="center">
-        {{ status.jobs.notes }}
+        {{ key.jobs.notes }}
       </div>
 
     </div>
