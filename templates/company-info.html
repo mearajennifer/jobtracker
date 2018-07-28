@@ -2,5 +2,40 @@
 
 {% block content %}
 
+<div class="container">
+  <div class="row"><h5>{{ company.name }}</h5></div>
+  <div class="row">{{ company.street }}</div>
+  <div class="row">{{ company.city }}, {{ company.state }} {{ company.zipcode }}</div>
+  <div class="row">{{ company.website }}</div>
+  <div class="row">{{ company.notes }}</div>
+</div>
+<br>
+
+<div class="container">
+  <div class="row"><h5>Active Jobs</h5></div>
+  <div class="row">
+    <ul>
+      {% for job in company.jobs|sort(attribute = 'title') %}
+        {% if job.active_status %}
+        <li>{{ job.title }}</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+<br>
+
+<div class="container">
+  <div class="row"><h5>Archived Jobs</h5></div>
+  <div class="row">
+    <ul>
+      {% for job in company.jobs|sort(attribute = 'title') %}
+        {% if not job.active_status %}
+          <li>{{ job.title }}</li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</div>
 
 {% endblock %}

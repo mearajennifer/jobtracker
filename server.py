@@ -269,7 +269,10 @@ def show_a_company(company_id):
     if not session:
         return redirect('/')
     else:
-        pass
+        #get company info and pre-load jobs
+        company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
+
+        return render_template('company-info.html', company=company)
 
 
 @app.route('/dashboard/companies/add')
@@ -281,6 +284,7 @@ def add_a_company():
         return redirect('/')
     else:
         pass
+
 
 @app.route('/dashboard/contact')
 def show_all_contacts():
@@ -324,7 +328,6 @@ def show_user_profile():
         return redirect('/')
     else:
         pass
-
 
 
 if __name__ == '__main__':

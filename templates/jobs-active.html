@@ -11,18 +11,19 @@
     <div class="col-2" align="center"><h5>Date</h5></div>
     <div class="col-2" align="center"><h5>Notes</h5></div>
   </div>
+  <div><hr></div>
 <!-- END HEADERS -->
 
-  {% for key, value in all_active_status.items() %}
+  {% for job, company in all_active_status.items() %}
     <div class="row">
       <!-- COMPANY NAME -->
       <div class="col-2" align="center">
-          {{ value.name }}
+          <a href="/dashboard/companies/{{ company.company_id }}">{{ company.name }}</a>
       </div>
 
       <!-- JOB TITLE -->
       <div class="col-2" align="center">
-        {{ key.jobs.title }}
+        <a href="/">{{ job.jobs.title }}</a>
       </div>
 
       <!-- DROP DOWN STATUS MENU -->
@@ -31,41 +32,41 @@
           <form action="/dashboard/job-status" method="POST">
 
             <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{ key.job_codes.description }}
+              {{ job.job_codes.description }}
             </button>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <input type="hidden" name="job_id" value="{{ key.job_id }}">
+              <input type="hidden" name="job_id" company="{{ job.job_id }}">
 
-              <button class="dropdown-item submit" type="submit" name="job_code" value="1">
+              <button class="dropdown-item submit" type="submit" name="job_code" company="1">
                 Interested
               </button>
 
-              <button class="dropdown-item submit"  name="job_code" value="2">
+              <button class="dropdown-item submit"  name="job_code" company="2">
                 Applied
               </button>
 
-              <button class="dropdown-item submit"  name="job_code" value="3">
+              <button class="dropdown-item submit"  name="job_code" company="3">
                 Phone interview
               </button>
 
-              <button class="dropdown-item submit"  name="job_code" value="4">
+              <button class="dropdown-item submit"  name="job_code" company="4">
                 On-site interview
               </button>
 
-              <button class="dropdown-item submit"  name="job_code" value="5">
+              <button class="dropdown-item submit"  name="job_code" company="5">
                 Received offer
               </button>
 
-              <button class="dropdown-item submit" type="submit" name="job_code" value="6">
+              <button class="dropdown-item submit" type="submit" name="job_code" company="6">
                 Accepted offer
               </button>
 
-              <button class="dropdown-item submit"  name="job_code" value="7">
+              <button class="dropdown-item submit"  name="job_code" company="7">
                 Declined offer
               </button>
 
-              <button class="dropdown-item submit"  name="job_code" value="8">
+              <button class="dropdown-item submit"  name="job_code" company="8">
                 No job offer
               </button>
             
@@ -77,12 +78,12 @@
 
       <!-- DATE LAST MODIFIED -->
       <div class="col-2" align="center">
-        {{ key.date_created }}
+        {{ job.date_created }}
       </div>
 
       <!-- NOTES -->
       <div class="col-2" align="center">
-        {{ key.jobs.notes }}
+        {{ job.jobs.notes }}
       </div>
 
     </div>
