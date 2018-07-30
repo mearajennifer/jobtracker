@@ -278,7 +278,7 @@ def edit_a_company(company_id):
         return redirect('/')
     else:
         edit = request.args.get('edit')
-        
+
         # get company object to update
         company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
 
@@ -294,7 +294,7 @@ def edit_a_company(company_id):
         # get updated company info and pre-load jobs
         company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
 
-        flash('Change made for', company.name)
+        flash(u"Change made for {}".format(company.name), 'success')
         return render_template('company-info.html', company=company, edit=edit)
 
 
