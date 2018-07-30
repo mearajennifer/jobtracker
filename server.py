@@ -7,6 +7,7 @@ from sqlalchemy import desc
 from model import (User, Contact, ContactEvent, ContactCode, Company, Job,
                    JobEvent, JobCode, ToDo, ToDoCode, Salary, connect_to_db, db)
 from datetime import datetime
+from datetime import date
 import os
 
 app = Flask(__name__)
@@ -101,7 +102,7 @@ def login_user():
 
     # redirect to main dashboard page
     flash('May the job force be with you...')
-    return redirect('/dashboard')
+    return redirect('/dashboard/jobs')
 
 
 @app.route("/logout")
@@ -112,16 +113,6 @@ def logout():
     del session['user_id']
     flash('Logged out.')
     return redirect("/")
-
-
-@app.route('/dashboard')
-def show_dashboard():
-    """Shows default dashboard with jobs tracking"""
-
-    if not session:
-        return redirect('/')
-    else:
-        return render_template('dashboard.html')
 
 
 @app.route('/dashboard/jobs')
@@ -169,11 +160,12 @@ def update_job_status():
         user_id = session['user_id']
 
         # create job event
-        job_event = JobEvent(job_id=job_id, user_id=user_id, job_code=job_code, date_created=datetime.now())
+        today = datetime.date(datetime.now())
+        job_event = JobEvent(user_id=user_id, job_id=job_id, job_code=job_code, date_created=today)
         db.session.add(job_event)
 
         # find job in database and archive if necessary
-        job = Job.query.filter(Job.job_id == job_id).one()
+        job = Job.query.filter(Job.job_id == job_id).first()
         if int(job_code) > 5:
             job.active_status = False
 
@@ -258,21 +250,50 @@ def show_all_companies():
             count = Job.query.filter(Job.company_id == job.companies.company_id).count()
             companies[job.companies] = count
 
-        return render_template('companies.html', companies=companies)
+        return render_template('companies.html', companies=companies, edit=False)
 
 
-@app.route('/dashboard/companies/<company_id>')
-def show_a_company(company_id):
+@app.route('/dashboard/companies/<company_id>', methods=['GET'])
+def show_a_company(company_id, edit=False):
     """Show a company a user has interest in."""
 
     # redirect if user is not logged in
     if not session:
         return redirect('/')
     else:
+        if edit:
+            edit = True
         #get company info and pre-load jobs
         company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
 
-        return render_template('company-info.html', company=company)
+        return render_template('company-info.html', company=company, edit=edit)
+
+
+@app.route('/dashboard/companies/<company_id>', methods=['POST'])
+def edit_a_company(company_id, edit):
+    """Show a company a user has interest in."""
+
+    # redirect if user is not logged in
+    if not session:
+        return redirect('/')
+    else:
+        # get company object to update
+        company = Company.query.filter(Company.company_id == company_id).first()
+
+        company.street = request.form['street']
+        company.city = request.form['city']
+        company.state = request.form['state']
+        company.zipcode = request.form['zipcode']
+        company.website = request.form['website']
+        company.notes = request.form['notes']
+
+        db.session.commit()
+
+        # get updated company info and pre-load jobs
+        company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
+
+        flash('Change made for', company.name)
+        return render_template('company-info.html', company=company, edit=edit)
 
 
 @app.route('/dashboard/companies/add')

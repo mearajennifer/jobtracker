@@ -4,10 +4,57 @@
 
 <div class="container">
   <div class="row"><h5>{{ company.name }}</h5></div>
-  <div class="row">{{ company.street }}</div>
-  <div class="row">{{ company.city }}, {{ company.state }} {{ company.zipcode }}</div>
-  <div class="row">{{ company.website }}</div>
-  <div class="row">{{ company.notes }}</div>
+
+  {% if edit == True %}
+    <!-- EDIT MODE -->
+    <form action="/dashboard/companies/<company_id>" method="POST">
+      <div class="row">
+        Street: <input type="text" name="street" value="{{ company.street }}">
+      </div>
+      <div class="row">
+        City: <input type="text" name="city" value="{{ company.city }}">
+      </div>
+      <div>
+        State: <input type="text" name="state" value="{{ company.state }}">
+      </div>
+      <div>
+        Zipcode: <input type="text" name="zipcode" value="{{ company.zipcode }}">
+      </div>
+      <div class="row">
+        <input type="text" name="website" value="{{ company.website }}">
+      </div>
+      <div class="row">
+        <label>Notes: </label>
+          <input type="text" name="notes" value="{{ company.notes }}">
+      </div>
+      <div class="row">
+        <!-- <input class="btn btn-primary" type="submit" name="edit" value="false"> -->
+        <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="">edit</button>
+      </div>
+    </form>
+
+  {% else %}
+    <!-- STATIC MODE -->
+    <div class="row">{{ company.street }}</div>
+    <div class="row">{{ company.city }}, {{ company.state }} {{ company.zipcode }}</div>
+    <div class="row">{{ company.website }}</div>
+    <div class="row">
+      <label>Notes: </label>
+      {% if company.notes == None %}
+        --
+      {% else %}
+        {{ company.notes }}
+      {% endif %}
+    </div>
+    <div class="row">
+      <form action="/dashboard/companies/<company_id>" method="GET">
+        <!-- <input class="btn btn-primary" type="submit" name="edit" value="true"> -->
+        <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="True">edit</button>
+      </form>
+    </div>
+
+  {% endif %}
+
 </div>
 <br>
 
