@@ -17,7 +17,10 @@
 
       <!-- COMPANY NAME -->
       <div class="col-4" align="center">
-          <a href="/dashboard/companies/{{ key.company_id }}">{{ key.name }}</a>
+        <form action="/dashboard/companies/{{ key.company_id }}" method="GET">
+          <input type="hidden" name="edit" value="edits-off">
+          <button type="button submit" class="btn btn-link">{{ key.name }}</button>
+        </form>
       </div>
 
       <!-- JOBS TRACKED -->

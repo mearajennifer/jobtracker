@@ -250,19 +250,19 @@ def show_all_companies():
             count = Job.query.filter(Job.company_id == job.companies.company_id).count()
             companies[job.companies] = count
 
-        return render_template('companies.html', companies=companies, edit=False)
+        return render_template('companies.html', companies=companies)
 
 
 @app.route('/dashboard/companies/<company_id>', methods=['GET'])
-def show_a_company(company_id, edit=False):
+def show_a_company(company_id):
     """Show a company a user has interest in."""
 
     # redirect if user is not logged in
     if not session:
         return redirect('/')
     else:
-        if edit:
-            edit = True
+        edit = request.args.get('edit')
+
         #get company info and pre-load jobs
         company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
 
@@ -270,15 +270,17 @@ def show_a_company(company_id, edit=False):
 
 
 @app.route('/dashboard/companies/<company_id>', methods=['POST'])
-def edit_a_company(company_id, edit):
+def edit_a_company(company_id):
     """Show a company a user has interest in."""
 
     # redirect if user is not logged in
     if not session:
         return redirect('/')
     else:
+        edit = request.args.get('edit')
+        
         # get company object to update
-        company = Company.query.filter(Company.company_id == company_id).first()
+        company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
 
         company.street = request.form['street']
         company.city = request.form['city']
