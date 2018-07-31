@@ -2,12 +2,24 @@
 
 {% block content %}
 
-<h1>LOG IN </h1>
-
 <form action="/login" method="POST">
-  <p><label>email: </label><input type="email" name="email"></p>
-  <p><label>password: </label><input type="text" name="password"></p>
-  <input type="submit">
+
+  <!-- EMAIL -->
+  <div class="form-group">
+    <label>Email: </label>
+    <input type="email" class="form-control" name="email">
+  </div>
+
+  <!-- PASSWORD -->
+  <div class="form-group">
+    <label>Password:</label>
+    <input type="password" class="form-control" name="password">
+  </div>
+
+  <!-- BUTTON -->
+  <div class="form-group">
+    <button type="button submit" class="btn btn-secondary btn-sm">submit</button>
+  </div>
 </form>
 
 {% endblock %}

@@ -2,34 +2,43 @@
 
 {% block content %}
 
-<h1>SIGN UP</h1>
 <form action="/register" method="POST">
 
-  <p>
-    <label>First name: </label>
-      <input type="text" name="fname" placeholder="Jane" required />
-    <label> Last name: </label>
-      <input type="text" name="lname" placeholder="Jobseeker" required />
-  </p>
+  <!-- FIRST NAME -->
+  <div class="form-group"
+    <label>First name:</label>
+    <input type="text" class="form-control" name="fname" placeholder="Jane" required />
+  </div>
 
-  <p>
-    <label>email: </label>
-      <input type="email" name="email"
-        placeholder="jane@jobseeker.com" required />
-  </p>
+  <!-- LAST NAME -->
+  <div class="form-group">
+    <label> Last name:</label>
+    <input type="text" class="form-control" name="lname" placeholder="Jobseeker" required />
+  </div>
 
-  <p>
-    <label>phone: </label>
-      <input type="tel" name="phone" placeholder="123-456-7890"
-        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
-  </p>
+  <!-- EMAIL -->
+  <div class="form-group">
+    <label>Email:</label>
+    <input type="email" class="form-control" name="email" placeholder="jane@jobseeker.com" required />
+  </div>
 
-  <p>
+  <!-- TELEPHONE (OPTIONAL) -->
+  <div class="form-group">
+    <label>Phone:</label>
+    <input type="tel" class="form-control" name="phone" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+  </div>
+
+  <!-- PASSWORD -->
+  <div class="form-group">
     <label>password: </label>
-      <input type="text" name="password" required />
-  </p>
+      <input type="password" class="form-control" name="password" required />
+  </div>
 
-  <button type="submit">Register</button>
+  <!-- BUTTON -->
+  <div class="form-group">
+    <button type="button submit" class="btn btn-secondary btn-sm">submit</button>
+  </div>
+
 </form>
 
 {% endblock %}

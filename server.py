@@ -237,12 +237,19 @@ def show_a_job(job_id):
         return redirect('/')
     else:
         edit = request.args.get('edit')
+        user_id = session['user_id']
 
         # get job from database and pre-load company data
         job = Job.query.filter(
             Job.job_id == job_id
             ).options(
             db.joinedload('companies')).first()
+
+        # query for user job events, return list
+        # Look at created a db.relationship from users to jobs
+        job_status = JobEvent.query.filter(JobEvent.user_id == user_id,
+                                           JobEvent.job_id == job_id
+                                           ).order_by(desc('date_created')).order_by(desc('job_code')).all()
 
         if not job.avg_salary:
             metros = db.session.query(Salary.metro).group_by(Salary.metro).order_by(Salary.metro).all()
@@ -256,6 +263,7 @@ def show_a_job(job_id):
                                job=job,
                                metros=metros,
                                job_titles=job_titles,
+                               job_status=job_status,
                                edit=edit)
 
 
@@ -493,6 +501,8 @@ if __name__ == '__main__':
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)
+
+    app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
     app.run(port=5000, host='0.0.0.0')
 

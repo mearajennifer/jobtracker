@@ -14,15 +14,15 @@
 
   <body>
 
-    <!-- FLASH MESSAGES -->
-    {% for message in get_flashed_messages() %}
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ message }}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    {% endfor %}
+    <div class="container">
+      <!-- FLASH MESSAGES -->
+      {% for message in get_flashed_messages() %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="text-align: center">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+      {% endfor %}
+    </div>
 
 
     <!-- TOP NAV -->

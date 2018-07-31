@@ -3,7 +3,65 @@
 {% block content %}
 
 <div class="container">
-  <div class="row"><h5>{{ job.title }}</h5></div>
+
+  <div class="row">
+    <!-- JOB TITLE HEADER -->
+    <div class="col-8">
+      <h5>{{ job.title }}</h5>
+    </div>
+    <!-- DROP DOWN STATUS MENU -->
+    <div class="col-2">
+      <div class="dropdown">
+        <form action="/dashboard/job-status" method="POST">
+
+          <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ job_status[0].job_codes.description }}
+          </button>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <input type="hidden" name="job_id" value="{{ job.job_id }}">
+
+            <button class="dropdown-item submit" type="submit" name="job_code" value="1">
+              Interested
+            </button>
+
+            <button class="dropdown-item submit" type="submit" name="job_code" value="2">
+              Applied
+            </button>
+
+            <button class="dropdown-item submit" type="submit" name="job_code" value="3">
+              Phone interview
+            </button>
+
+            <button class="dropdown-item submit" type="submit" name="job_code" value="4">
+              On-site interview
+            </button>
+
+            <button class="dropdown-item submit" type="submit" name="job_code" value="5">
+              Received offer
+            </button>
+
+            <button class="dropdown-item submit" type="submit" name="job_code" value="6">
+              Accepted offer
+            </button>
+
+            <button class="dropdown-item submit" type="submit" name="job_code" value="7">
+              Declined offer
+            </button>
+
+            <button class="dropdown-item submit" type="submit" name="job_code" value="8">
+              No job offer
+            </button>
+          
+          </div>
+
+        </form>
+      </div>
+    </div>
+    <!-- END DROP DOWN -->
+  </div>
+
+  <!-- COMPANY NAME -->
   <div class="row">
     <a href="/dashboard/companies/{{ job.company_id }}">{{ job.companies.name }}</a>
   </div>
@@ -35,7 +93,9 @@
   </div>
 
   {% else %}
-    <!-- STATIC MODE -->    
+    <!-- STATIC MODE -->
+
+    <!-- JOB TITLE -->
     <div class="row">
       Job posting: <a href="{{ job.link }}">{{ job.link }}</a>
     </div>
@@ -86,7 +146,7 @@
       {% endif %}
     </div>
 
-    <!-- BUTTON -->
+    <!-- EDIT BUTTON -->
     <div class="row">
       <form action="/dashboard/jobs/{{ job.job_id }}" method="GET">
         <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="edits-on">edit</button>
@@ -96,16 +156,75 @@
   </div>
   <br>
 
-    <div class="container">
-      <div class="row"><h5>Contacts</h5></div>
-      <div class="row">
-        <ul>
-          <!-- had to remove to make jinja work. look at company info page -->
-        </ul>
-      </div>
+  <!-- EVENTS -->
+  <div class="container" align="center">
+
+    <!-- HEADER -->
+    <div class="row">
+      <div class="col-2" align="center"><h5>Date</h5></div>
+      <div class="col-2" align="center"><h5>Status</h5></div>
     </div>
-    <br>
+    <div><hr></div>
+
+    <!-- LOOP THROUGH STATUS LIST -->
+    {% for status in job_status %}
+      <div class="row">
+
+        <!-- DATE -->
+        <div class="col-2" align="center">
+          {{ status.date_created }}
+        </div>
+
+        <!-- STATUS -->
+        <div class="col-2" align="center">
+          {{ status.job_codes.description }}
+        </div>
+
+      </div>
+    {% endfor %}
+
+  </div>
 
   {% endif %}
 
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
