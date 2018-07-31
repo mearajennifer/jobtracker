@@ -275,13 +275,12 @@ def get_salary():
         job_title = request.form['job_title']
         job_id = request.form['job_id']
 
-        avg_salary = Salary.query.filter(
+        salary = Salary.query.filter(
             Salary.metro == metro,
             Salary.job_title == job_title).one()
 
-        job = Job.query.filter(Job.job_id == job_id).one()
-
-        job.avg_salary = avg_salary
+        job = Job.query.filter(Job.job_id == job_id).first()
+        job.avg_salary = salary.avg_salary
 
         db.session.commit()
 
