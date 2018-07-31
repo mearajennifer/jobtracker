@@ -259,6 +259,45 @@ def show_a_job(job_id):
                                edit=edit)
 
 
+@app.route('/dashboard/jobs/<job_id>', methods=['POST'])
+def edit_a_job(job_id):
+    """Allows user to edit info about a job"""
+
+    # redirect if user is not logged in
+    if not session:
+        return redirect('/')
+    else:
+        edit = request.form.get('edit')
+        link = request.form.get('link')
+        avg_salary = request.form.get('avg_salary')
+        notes = request.form.get('notes')
+
+        # get job from database and pre-load company data
+        job = Job.query.filter(
+            Job.job_id == job_id
+            ).options(
+            db.joinedload('companies')).first()
+
+        job.link = link
+        job.avg_salary = avg_salary
+        job.notes = notes
+
+        db.session.commit()
+
+        if not job.avg_salary:
+            metros = db.session.query(Salary.metro).group_by(Salary.metro).order_by(Salary.metro).all()
+            job_titles = db.session.query(Salary.job_title).group_by(Salary.job_title).order_by(Salary.job_title).all()
+        else:
+            metros = None
+            job_titles = None
+
+        return render_template('job-info.html',
+                               job=job,
+                               metros=metros,
+                               job_titles=job_titles,
+                               edit=edit)
+
+
 @app.route('/dashboard/jobs/salary', methods=['POST'])
 def get_salary():
     """Finds salary for job title in metro area"""
