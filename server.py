@@ -289,6 +289,12 @@ def edit_a_job(job_id):
 
         db.session.commit()
 
+        # query for user job events, return list
+        # Look at created a db.relationship from users to jobs
+        job_status = JobEvent.query.filter(JobEvent.user_id == user_id,
+                                           JobEvent.job_id == job_id
+                                           ).order_by(desc('date_created')).order_by(desc('job_code')).all()
+
         if not job.avg_salary:
             metros = db.session.query(Salary.metro).group_by(Salary.metro).order_by(Salary.metro).all()
             job_titles = db.session.query(Salary.job_title).group_by(Salary.job_title).order_by(Salary.job_title).all()
@@ -300,6 +306,7 @@ def edit_a_job(job_id):
                                job=job,
                                metros=metros,
                                job_titles=job_titles,
+                               job_status=job_status,
                                edit=edit)
 
 
@@ -328,15 +335,78 @@ def get_salary():
         return redirect('/dashboard/jobs/' + job_id)
 
 
-@app.route('/dashboard/jobs/add')
-def add_a_job():
+@app.route('/dashboard/jobs/add', methods=['GET'])
+def show_job_add_form():
     """Allow user to add a job"""
 
     # redirect if user is not logged in
     if not session:
         return redirect('/')
     else:
-        pass
+        # get user_id from session
+        user_id = session['user_id']
+
+        # query for user job events, return list
+        # Look at created a db.relationship from users to jobs
+        user_job_events = JobEvent.query.options(
+            db.joinedload('jobs')
+            ).filter(JobEvent.user_id == user_id).all()
+
+        # make a set of all job ids
+        user_job_ids = set(job.job_id for job in user_job_events)
+
+        # make a list of all companies via job_ids
+        companies = []
+        for job_id in user_job_ids:
+            job = Job.query.filter(
+                Job.job_id == job_id
+                ).options(
+                db.joinedload('companies')
+                ).first()
+            companies.append(job.companies)
+
+        return render_template('jobs-add.html', companies=companies)
+
+@app.route('/dashboard/jobs/add', methods=['POST'])
+def process_job_form():
+    """Allow user to add a job"""
+
+    # redirect if user is not logged in
+    if not session:
+        return redirect('/')
+    else:
+        # get user_id from session
+        user_id = session['user_id']
+
+        # get data from form
+        company_name = request.form['company_name']
+        job_title = request.form['job_title']
+        job_status = request.form['job_status']
+
+        try:
+            job_link = request.form['job_link']
+            job_notes = request.form['job_notes']
+        except KeyError:
+            job_link = ""
+            job_notes = ""
+
+        # create company
+        company = Company(name=company_name)
+        db.session.add(company)
+        db.session.commit()
+
+        job = Job(title=job_title, link=job_link, company_id=company.company_id,
+                  active_status=True, notes=job_notes)
+        db.session.add(job)
+        db.session.commit()
+
+        today = datetime.date(datetime.now())
+        job_event = JobEvent(user_id=user_id, job_id=job.job_id,
+                             job_code=job_status, date_created=today)
+        db.session.add(job_event)
+        db.session.commit()
+
+        return redirect('/dashboard/jobs')
 
 
 # COMPANIES

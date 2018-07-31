@@ -2,13 +2,54 @@
 
 {% block content %}
 
-<h1>Add a job</h1>
+<h5>Add a job</h5>
 
 <form action="/dashboard/jobs/add" method="POST">
-  Company Name drop down or text box required
-  Job Title required
-  Status
-  Notes
+
+  <!-- COMPANY -->
+  <div class="form-group">
+    <label class="control-label">Company:</label>
+    <input type="text" class="form-control" name="company_name" placeholder="Really cool company" required />
+  </div>
+
+  <!-- JOB TITLE -->
+  <div class="form-group">
+    <label class="control-label">Job title:</label>
+    <input type="text" class="form-control" name="job_title" placeholder="Your dream job" required />
+  </div>
+
+  <!-- JOB STATUS -->
+  <div class="form-group">
+    <label class="control-label">Job status:</label>
+    <select class="form-control" name="job_status" required />
+      <option value="1">Interested</option>
+      <option value="2">Applied</option>
+      <option value="3">Phone interview</option>
+      <option value="4">On-site interview</option>
+      <option value="5">Received offer</option>
+      <option value="6">Accepted offer</option>
+      <option value="7">Declined offer</option>
+      <option value="8">No job offer</option>            
+    </select>
+  </div>
+
+  <!-- JOB LINK -->
+  <div class="form-group">
+    <label class="control-label">Link:</label>
+    <input type="url" class="form-control" name="job_link" placeholder="your-job-url.com">
+  </div>
+
+  <!-- NOTES -->
+  <div class="form-group">
+    <label class="control-label">Notes:</label>
+    <input type="textarea" class="form-control" name="job_notes" placeholder="This job has all the free donuts I could ever eat!">
+  </div>
+
+  <!-- BUTTON -->
+  <div class="form-group">
+    <button type="button submit" class="btn btn-secondary btn-sm">submit</button>
+  </div>
+
 </form>
 
 
