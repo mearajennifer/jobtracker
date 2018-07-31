@@ -5,11 +5,11 @@
 <!-- COLUMN HEADERS -->
 <div class="container" align="center">
   <div class="row">
-    <div class="col-2" align="center"><h5>Company</h5></div>
+    <div class="col-3" align="center"><h5>Company</h5></div>
     <div class="col-2" align="center"><h5>Job</h5></div>
     <div class="col-2" align="center"><h5>Status</h5></div>
     <div class="col-2" align="center"><h5>Date</h5></div>
-    <div class="col-2" align="center"><h5>Notes</h5></div>
+    <div class="col-3" align="center"><h5>Notes</h5></div>
   </div>
   <div><hr></div>
 <!-- END HEADERS -->
@@ -17,7 +17,7 @@
   {% for job_status, company in all_active_status.items() %}
     <div class="row">
       <!-- COMPANY NAME -->
-      <div class="col-2" align="center">
+      <div class="col-3" align="center">
           <a href="/dashboard/companies/{{ company.company_id }}">{{ company.name }}</a>
       </div>
 
@@ -81,11 +81,11 @@
 
       <!-- DATE LAST MODIFIED -->
       <div class="col-2" align="center">
-        {{ job_status.date_created }}
+        {{ job_status.date_created.strftime('%B %d, %Y') }}
       </div>
 
       <!-- NOTES -->
-      <div class="col-2" align="center">
+      <div class="col-3" align="center">
         {{ job_status.jobs.notes }}
       </div>
 

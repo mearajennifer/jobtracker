@@ -9,56 +9,62 @@
     <div class="col-8">
       <h5>{{ job.title }}</h5>
     </div>
-    <!-- DROP DOWN STATUS MENU -->
+
+    <!-- ACTIVE STATUS MENU -->
     <div class="col-2">
-      <div class="dropdown">
-        <form action="/dashboard/job-status" method="POST">
+      {% if job.active_status == True %}
+        <div class="dropdown">
+          <form action="/dashboard/job-status" method="POST">
 
-          <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{ job_status[0].job_codes.description }}
-          </button>
-
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <input type="hidden" name="job_id" value="{{ job.job_id }}">
-
-            <button class="dropdown-item submit" type="submit" name="job_code" value="1">
-              Interested
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ job_status[0].job_codes.description }}
             </button>
 
-            <button class="dropdown-item submit" type="submit" name="job_code" value="2">
-              Applied
-            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <input type="hidden" name="job_id" value="{{ job.job_id }}">
 
-            <button class="dropdown-item submit" type="submit" name="job_code" value="3">
-              Phone interview
-            </button>
+              <button class="dropdown-item submit" type="submit" name="job_code" value="1">
+                Interested
+              </button>
 
-            <button class="dropdown-item submit" type="submit" name="job_code" value="4">
-              On-site interview
-            </button>
+              <button class="dropdown-item submit" type="submit" name="job_code" value="2">
+                Applied
+              </button>
 
-            <button class="dropdown-item submit" type="submit" name="job_code" value="5">
-              Received offer
-            </button>
+              <button class="dropdown-item submit" type="submit" name="job_code" value="3">
+                Phone interview
+              </button>
 
-            <button class="dropdown-item submit" type="submit" name="job_code" value="6">
-              Accepted offer
-            </button>
+              <button class="dropdown-item submit" type="submit" name="job_code" value="4">
+                On-site interview
+              </button>
 
-            <button class="dropdown-item submit" type="submit" name="job_code" value="7">
-              Declined offer
-            </button>
+              <button class="dropdown-item submit" type="submit" name="job_code" value="5">
+                Received offer
+              </button>
 
-            <button class="dropdown-item submit" type="submit" name="job_code" value="8">
-              No job offer
-            </button>
-          
-          </div>
+              <button class="dropdown-item submit" type="submit" name="job_code" value="6">
+                Accepted offer
+              </button>
 
-        </form>
-      </div>
+              <button class="dropdown-item submit" type="submit" name="job_code" value="7">
+                Declined offer
+              </button>
+
+              <button class="dropdown-item submit" type="submit" name="job_code" value="8">
+                No job offer
+              </button>
+            
+            </div>
+          </form>
+        </div>
+
+      <!-- ARCHIVED STATUS MENU -->
+      {% else %}
+        {{ job_status[0].job_codes.description }}
+      {% endif %}
     </div>
-    <!-- END DROP DOWN -->
+    
   </div>
 
   <!-- COMPANY NAME -->
@@ -162,7 +168,7 @@
     <!-- HEADER -->
     <div class="row">
       <div class="col-2" align="center"><h5>Date</h5></div>
-      <div class="col-2" align="center"><h5>Status</h5></div>
+      <div class="col-2" align="left"><h5>Status</h5></div>
     </div>
     <div><hr></div>
 
@@ -172,15 +178,16 @@
 
         <!-- DATE -->
         <div class="col-2" align="center">
-          {{ status.date_created }}
+          {{ status.date_created.strftime('%B %d, %Y') }}
         </div>
 
         <!-- STATUS -->
-        <div class="col-2" align="center">
+        <div class="col-8" align="left">
           {{ status.job_codes.description }}
         </div>
 
       </div>
+      <div><hr></div>
     {% endfor %}
 
   </div>

@@ -133,10 +133,7 @@ def show_active_jobs():
 
         # query for user job events, return list
         # Look at created a db.relationship from users to jobs
-        user_job_events = JobEvent.query.options(
-            db.joinedload('jobs')
-            ).filter(JobEvent.user_id == user_id
-                     ).order_by(desc('date_created')).all()
+        user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
 
         # make a set of all job_ids and remove any that are inactive
         user_job_ids = set(job.job_id for job in user_job_events

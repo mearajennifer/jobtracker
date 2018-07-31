@@ -3,24 +3,38 @@
 {% block content %}
 
 <div class="container">
+
   <div class="row">
-    <div class="col-2" align="center"><h5>Company</h5></div>
+    <div class="col-3" align="center"><h5>Company</h5></div>
     <div class="col-2" align="center"><h5>Job</h5></div>
     <div class="col-2" align="center"><h5>Status</h5></div>
     <div class="col-2" align="center"><h5>Date</h5></div>
-    <div class="col-2" align="center"><h5>Notes</h5></div>
+    <div class="col-3" align="center"><h5>Notes</h5></div>
   </div>
   <div><hr></div>
 
   {% for job, company in all_archived.items() %}
     <div class="row">
-      <div class="col-2" align="center">
-        <a href="/dashboard/companies/{{ company.company_id }}">{{ company.name }}</a>
+
+      <!-- COMPANY NAME -->
+      <div class="col-3" align="center">
+          <a href="/dashboard/companies/{{ company.company_id }}">{{ company.name }}</a>
       </div>
-      <div class="col-2" align="center"><a href="/dashboard/job/{{ job.jobs.job_id }}">{{ job.jobs.title }}</a></div>
+
+      <!-- JOB TITLE -->
+      <div class="col-2" align="center">
+        <form action="/dashboard/jobs/{{ job.jobs.job_id }}" method="GET">
+          <input type="hidden" name="edit" value="edits-off">
+          <button type="button submit" class="btn btn-link">{{ job.jobs.title }}</button>
+        </form>
+      </div>
+      
       <div class="col-2" align="center">{{ job.job_codes.description }}</div>
-      <div class="col-2" align="center">{{ job.date_created }}</div>
-      <div class="col-2" align="center">{{ job.jobs.notes }}</div>
+      
+      <div class="col-2" align="center">{{ job.date_created.strftime('%B %d, %Y') }}</div>
+      
+      <div class="col-3" align="center">{{ job.jobs.notes }}</div>
+    
     </div>
   <div><hr></div>
   {% endfor %}

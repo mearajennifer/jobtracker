@@ -73,7 +73,12 @@
         <ul>
           {% for job in company.jobs|sort(attribute = 'title') %}
             {% if job.active_status %}
-            <li>{{ job.title }}</li>
+              <li>
+                <form action="/dashboard/jobs/{{ job.job_id }}" method="GET">
+                  <input type="hidden" name="edit" value="edits-off">
+                  <button type="button submit" class="btn btn-link">{{ job.title }}</button>
+                </form>
+              </li>
             {% endif %}
           {% endfor %}
         </ul>
@@ -87,7 +92,12 @@
         <ul>
           {% for job in company.jobs|sort(attribute = 'title') %}
             {% if not job.active_status %}
-              <li>{{ job.title }}</li>
+              <li>
+                <form action="/dashboard/jobs/{{ job.job_id }}" method="GET">
+                  <input type="hidden" name="edit" value="edits-off">
+                  <button type="button submit" class="btn btn-link">{{ job.title }}</button>
+                </form>
+              </li>
             {% endif %}
           {% endfor %}
         </ul>
