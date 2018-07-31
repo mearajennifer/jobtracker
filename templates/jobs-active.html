@@ -23,7 +23,10 @@
 
       <!-- JOB TITLE -->
       <div class="col-2" align="center">
-        <a href="/">{{ job_status.jobs.title }}</a>
+        <form action="/dashboard/jobs/{{ job_status.jobs.job_id }}" method="GET">
+          <input type="hidden" name="edit" value="edits-off">
+          <button type="button submit" class="btn btn-link">{{ job_status.jobs.title }}</button>
+        </form>
       </div>
 
       <!-- DROP DOWN STATUS MENU -->

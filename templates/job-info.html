@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row"><h5>{{ job.title }}</h5></div>
+
+  {% if edit == "edits-on" %}
+    <!-- EDIT MODE -->
+    Hey ho you will edit this later.
+    <!-- <form action="/dashboard/jobs/{{ job.job_id }}" method="POST">
+
+      <div class="form-group">
+        <label>Street:</label>
+        <input type="text" class="form-control" name="street" value="{{ company.street }}">
+      </div>
+
+      <div class="form-group">
+        <label>City:</label>
+        <input type="text" class="form-control" name="city" value="{{ company.city }}">
+      </div>
+
+      <div class="form-group">
+        <label>State:</label>
+        <input type="text" class="form-control" name="state" value="{{ company.state }}">
+      </div>
+
+      <div class="form-group">
+        <label>Zipcode:</label>
+        <input type="text" class="form-control" name="zipcode" value="{{ company.zipcode }}">
+      </div>
+
+      <div class="form-group">
+        <label>Website:</label>
+        <input type="text" class="form-control" name="website" value="{{ company.website }}">
+      </div>
+
+      <div class="form-group">
+        <label>Notes: </label></p>
+        <textarea class="form-control" rows="3" name="notes">{{ company.notes }}</textarea>
+      </div>
+
+      <div class="row">
+        <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="edits-off">submit</button>
+      </div>
+
+    </form>
+  </div> -->
+
+  {% else %}
+    <!-- STATIC MODE -->
+    <div class="row">
+      <a href="/dashboard/companies/{{ job.company_id }}">{{ job.companies.name }}</a>
+    </div>
+    
+    <div class="row">
+      Job posting: <a href="{{ job.link }}">{{ job.link }}</a>
+    </div>
+
+    <div class="row">
+      {% if job.avg_salary %}
+
+        <!-- SALARY ALREADY SELECTED -->
+        Average salary: {{ job.avg_salary }}
+
+      {% else %}
+
+        <!-- FORM TO SELECT SALARY -->
+        <form action="/dashboard/jobs/salary" method="POST">
+          <div class="form-group">
+            <label>Find average salary</label>
+
+              <!-- SALARY METRO AREA SELECTION -->
+              <select class="form-control" name="metro">
+                <option selected>Metro area</option>
+                {% for metro in metros %}
+                  <option value="{{ metro[0] }}">{{ metro[0] }}</option>
+                {% endfor %}
+              </select>
+
+              <!-- SALARY JOB TITLE SELECTION -->
+              <select class="form-control" name="job_title">
+                <option selected>Job title</option>
+                {% for job_title in job_titles %}
+                  <option value="{{ job_title[0] }}">{{ job_title[0] }}</option>
+                {% endfor %}
+              </select>
+
+              <input type="hidden" name="job_id" value="{{ job.job_id }}">
+            <button type="button submit" class="btn btn-secondary btn-sm">submit</button>
+          </div>
+        </form>
+      {% endif %}
+
+    </div>
+
+    <div class="row">
+      <p><label>Notes: </label></p>
+      {% if job.notes == None %}
+        <p>--</p>
+      {% else %}
+        <p>{{ job.notes }}</p>
+      {% endif %}
+    </div>
+
+    <div class="row">
+      <form action="/dashboard/companies/{{ job.job_id }}" method="GET">
+        <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="edits-on">edit</button>
+      </form>
+    </div>
+
+  </div>
+  <br>
+
+    <div class="container">
+      <div class="row"><h5>Contacts</h5></div>
+      <div class="row">
+        <ul>
+          <!-- had to remove to make jinja work. look at company info page -->
+        </ul>
+      </div>
+    </div>
+    <br>
+
+  {% endif %}
+
+{% endblock %}

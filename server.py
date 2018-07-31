@@ -17,11 +17,16 @@ app.secret_key = os.environ['FLASK_SECRET_KEY']
 app.jinja_env.undefined = StrictUndefined
 
 
+# LANDING PAGE, REGISTER, LOGIN, LOGOUT
+#################################################################################
 @app.route('/')
 def show_landing_page():
     """Homepage."""
 
-    return render_template('landing.html')
+    if session:
+        return redirect("/dashboard/jobs")
+    else:
+        return render_template('landing.html')
 
 
 @app.route('/register', methods=['GET'])
@@ -52,7 +57,8 @@ def register_user():
     print(fname, lname, email, password, phone)
 
     # create new user object
-    new_user = User(fname=fname, lname=lname, email=email, password=password, phone=phone)
+    new_user = User(fname=fname, lname=lname, email=email,
+                    password=password, phone=phone)
 
     # before commiting to db, make sure user doesn't already exist
     verify_email = User.query.filter(User.email == new_user.email).all()
@@ -76,9 +82,9 @@ def show_login_form():
 
 @app.route('/login', methods=['POST'])
 def login_user():
-    """Gets user input from form and checks against database. If email and password
-    match, start user session and take to main app page. Otherwise, prompt with flash
-    message to try again."""
+    """Gets user input from form and checks against database. If email and
+    password match, start user session and take to main app page. Otherwise,
+    prompt with flash message to try again."""
 
     # get required user data from form
     email = request.form['email']
@@ -115,9 +121,11 @@ def logout():
     return redirect("/")
 
 
+# JOBS
+#################################################################################
 @app.route('/dashboard/jobs')
 def show_active_jobs():
-    """Shows list jobs the user is interested in, applied to, or interviewing for."""
+    """Shows list jobs the user is connected to."""
 
     # redirect if user is not logged in
     if not session:
@@ -126,11 +134,16 @@ def show_active_jobs():
         # get user_id from session
         user_id = session['user_id']
 
-        # query for user job events, return list -- Look at created a db.relationship from users to jobs
-        user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
+        # query for user job events, return list
+        # Look at created a db.relationship from users to jobs
+        user_job_events = JobEvent.query.options(
+            db.joinedload('jobs')
+            ).filter(JobEvent.user_id == user_id
+                     ).order_by(desc('date_created')).all()
 
         # make a set of all job_ids and remove any that are inactive
-        user_job_ids = set(job.job_id for job in user_job_events if job.jobs.active_status == True)
+        user_job_ids = set(job.job_id for job in user_job_events
+                           if job.jobs.active_status == True)
 
         # grab only the most recent events for each job_id
         all_active_status = {}
@@ -139,7 +152,8 @@ def show_active_jobs():
             events = [event for event in user_job_events if event.job_id == user_job_id]
             # find that latest event and add to list
             status = events[0]
-            company = Company.query.filter(Company.company_id == status.jobs.company_id).first()
+            company = Company.query.filter(
+                Company.company_id == status.jobs.company_id).first()
             all_active_status[status] = company
 
         return render_template('jobs-active.html',
@@ -161,7 +175,10 @@ def update_job_status():
 
         # create job event
         today = datetime.date(datetime.now())
-        job_event = JobEvent(user_id=user_id, job_id=job_id, job_code=job_code, date_created=today)
+        job_event = JobEvent(user_id=user_id,
+                             job_id=job_id,
+                             job_code=job_code,
+                             date_created=today)
         db.session.add(job_event)
 
         # find job in database and archive if necessary
@@ -185,35 +202,91 @@ def show_archived_jobs():
         # get user_id from session
         user_id = session['user_id']
 
-        # query for user job events, return list -- Look at created a db.relationship from users to jobs
-        user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
+        # query for user job events, return list
+        # Look at created a db.relationship from users to jobs
+        user_job_events = JobEvent.query.options(
+            db.joinedload('jobs')
+            ).filter(JobEvent.user_id == user_id
+                     ).order_by(desc('date_created')).all()
 
         # make a set of all job_ids and remove any that are inactive
-        user_job_ids = set(job.job_id for job in user_job_events if job.jobs.active_status == False)
+        user_job_ids = set(job.job_id for job in user_job_events
+                           if job.jobs.active_status == False)
 
         # grab only the most recent events for each job_id
         all_archived = {}
         for user_job_id in user_job_ids:
+
             # get all events for one job id
-            events = [event for event in user_job_events if event.job_id == user_job_id]
+            events = [event for event in user_job_events
+                      if event.job_id == user_job_id]
+
             # find that latest event and add to list
             status = events[0]
-            company = Company.query.filter(Company.company_id == status.jobs.company_id).first()
+            company = Company.query.filter(
+                Company.company_id == status.jobs.company_id).first()
             all_archived[status] = company
 
         return render_template('jobs-archive.html',
                                all_archived=all_archived)
 
 
-@app.route('/dashboard/jobs/<job_id>')
+@app.route('/dashboard/jobs/<job_id>', methods=['GET'])
 def show_a_job(job_id):
-    """Show all companies a user has interest in."""
+    """Shows detailed info about a job"""
 
     # redirect if user is not logged in
     if not session:
         return redirect('/')
     else:
-        pass
+        edit = request.args.get('edit')
+
+        # get job from database and pre-load company data
+        job = Job.query.filter(
+            Job.job_id == job_id
+            ).options(
+            db.joinedload('companies')).first()
+
+        if not job.avg_salary:
+            metros = db.session.query(Salary.metro).group_by(Salary.metro).order_by(Salary.metro).all()
+            job_titles = db.session.query(Salary.job_title).group_by(Salary.job_title).order_by(Salary.job_title).all()
+
+        else:
+            metros = None
+            job_titles = None
+
+        return render_template('job-info.html',
+                               job=job,
+                               metros=metros,
+                               job_titles=job_titles,
+                               edit=edit)
+
+
+@app.route('/dashboard/jobs/salary', methods=['POST'])
+def get_salary():
+    """Finds salary for job title in metro area"""
+
+    # redirect if user is not logged in
+    if not session:
+        return redirect('/')
+    else:
+        # get metro and job_title selections
+        metro = request.form['metro']
+        job_title = request.form['job_title']
+        job_id = request.form['job_id']
+
+        avg_salary = Salary.query.filter(
+            Salary.metro == metro,
+            Salary.job_title == job_title).one()
+
+        job = Job.query.filter(Job.job_id == job_id).one()
+
+        job.avg_salary = avg_salary
+
+        db.session.commit()
+
+        return redirect('/dashboard/jobs/' + job_id)
+
 
 @app.route('/dashboard/jobs/add')
 def add_a_job():
@@ -226,6 +299,8 @@ def add_a_job():
         pass
 
 
+# COMPANIES
+#################################################################################
 @app.route('/dashboard/companies')
 def show_all_companies():
     """Show all companies a user has interest in."""
@@ -237,8 +312,11 @@ def show_all_companies():
         # get user_id from session
         user_id = session['user_id']
 
-        # query for user job events, return list -- Look at created a db.relationship from users to jobs
-        user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).all()
+        # query for user job events, return list
+        # Look at created a db.relationship from users to jobs
+        user_job_events = JobEvent.query.options(
+            db.joinedload('jobs')
+            ).filter(JobEvent.user_id == user_id).all()
 
         # make a set of all job ids
         user_job_ids = set(job.job_id for job in user_job_events)
@@ -246,8 +324,13 @@ def show_all_companies():
         # make a list of all companies via job ids
         companies = {}
         for job_id in user_job_ids:
-            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
-            count = Job.query.filter(Job.company_id == job.companies.company_id).count()
+            job = Job.query.filter(
+                Job.job_id == job_id
+                ).options(
+                db.joinedload('companies')
+                ).first()
+            count = Job.query.filter(
+                Job.company_id == job.companies.company_id).count()
             companies[job.companies] = count
 
         return render_template('companies.html', companies=companies)
@@ -264,7 +347,9 @@ def show_a_company(company_id):
         edit = request.args.get('edit')
 
         #get company info and pre-load jobs
-        company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
+        company = Company.query.filter(
+            Company.company_id == company_id
+            ).options(db.joinedload('jobs')).first()
 
         return render_template('company-info.html', company=company, edit=edit)
 
@@ -280,7 +365,9 @@ def edit_a_company(company_id):
         edit = request.args.get('edit')
 
         # get company object to update
-        company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
+        company = Company.query.filter(
+            Company.company_id == company_id
+            ).options(db.joinedload('jobs')).first()
 
         company.street = request.form['street']
         company.city = request.form['city']
@@ -292,7 +379,9 @@ def edit_a_company(company_id):
         db.session.commit()
 
         # get updated company info and pre-load jobs
-        company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
+        company = Company.query.filter(
+            Company.company_id == company_id
+            ).options(db.joinedload('jobs')).first()
 
         flash(u"Change made for {}".format(company.name), 'success')
         return render_template('company-info.html', company=company, edit=edit)
@@ -309,6 +398,8 @@ def add_a_company():
         pass
 
 
+# CONTACTS
+#################################################################################
 @app.route('/dashboard/contact')
 def show_all_contacts():
     """Show all contacts a user is connected to."""
@@ -342,6 +433,8 @@ def add_a_contact():
         pass
 
 
+# USER PROFILE
+#################################################################################
 @app.route('/dashboard/user')
 def show_user_profile():
     """Show user's profile and allow update to information."""

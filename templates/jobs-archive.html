@@ -17,7 +17,7 @@
       <div class="col-2" align="center">
         <a href="/dashboard/companies/{{ company.company_id }}">{{ company.name }}</a>
       </div>
-      <div class="col-2" align="center"><a href="/">{{ job.jobs.title }}</a></div>
+      <div class="col-2" align="center"><a href="/dashboard/job/{{ job.jobs.job_id }}">{{ job.jobs.title }}</a></div>
       <div class="col-2" align="center">{{ job.job_codes.description }}</div>
       <div class="col-2" align="center">{{ job.date_created }}</div>
       <div class="col-2" align="center">{{ job.jobs.notes }}</div>
