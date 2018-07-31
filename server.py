@@ -23,10 +23,7 @@ app.jinja_env.undefined = StrictUndefined
 def show_landing_page():
     """Homepage."""
 
-    if session:
-        return redirect("/dashboard/jobs")
-    else:
-        return render_template('landing.html')
+    return render_template('landing.html')
 
 
 @app.route('/register', methods=['GET'])
