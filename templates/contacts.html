@@ -6,8 +6,8 @@
   <!-- HEADERS -->
   <thead>
     <tr>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
+      <th scope="col-2">First</th>
+      <th scope="col-2">Last</th>
       <th scope="col">Company</th>
     </tr>
   </thead>
@@ -16,11 +16,33 @@
   <tbody>
     {% for contact in contacts %}
       <tr>
-        <td><a href="/dashboard/contacts/{{ contact.contact_id }}">{{ contact.fname }}</a></td>
-        <td>{{ contact.lname }}</td>
-        <td>{{ contact.companies.name }}</td>
+
+        <!-- FIRST NAME -->
+        <td>
+          <form action="/dashboard/contacts/{{ contact.contact_id }}" method="GET">
+            <input type="hidden" name="edit" value="edits-off">
+            <button type="button submit" class="btn btn-link">{{ contact.fname }}</button>
+          </form>
+        </td>
+
+        <!-- LAST NAME -->
+        <td>
+          <form action="/dashboard/contacts/{{ contact.contact_id }}" method="GET">
+            <input type="hidden" name="edit" value="edits-off">
+            <button type="button submit" class="btn btn-link">{{ contact.lname }}</button>
+          </form>
+        </td>
+
+        <!-- COMPANY NAME -->
+        <td>
+          <a href="/dashboard/companies/{{ contact.companies.company_id }}">
+            {{ contact.companies.name }}
+          </a>
+        </td>
+
       </tr>
     {% endfor %}
+
   </tbody>
 </table>
 

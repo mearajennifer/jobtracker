@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ 
+
+<div class="container">
+
+  {% if edit == "edits-on" %}
+
+    <!-- EDIT MODE -->
+    <form action="/dashboard/contacts/{{ contact.contact_id }}" method="POST">
+
+      <div class="form-group">
+        <label>First name:</label>
+        <input type="text" class="form-control" name="fname" value="{{ contact.fname }}" required />
+      </div>
+
+      <div class="form-group">
+        <label>Last name:</label>
+        <input type="text" class="form-control" name="lname" value="{{ contact.lname }}" required />
+      </div>
+
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" class="form-control" name="email" value="{{ contact.email }}">
+      </div>
+
+      <div class="form-group">
+        <label>Phone:</label>
+        <input type="phone" class="form-control" name="phone" value="{{ contact.phone }}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+      </div>
+
+      <div class="form-group">
+        <label>Company:</label>
+        <input type="text" class="form-control" name="company_name" value="{{ contact.companies.name }}">
+      </div>
+
+      <div class="form-group">
+        <label>Notes:</label></p>
+        <textarea class="form-control" rows="3" name="notes">{{ contact.notes }}</textarea>
+      </div>
+
+      <div class="row">
+        <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="edits-off">submit</button>
+      </div>
+
+    </form>
+  </div>
+
+  {% else %}
+
+    <!-- STATIC MODE -->
+    <div class="row"><h5>{{ contact.fname }} {{ contact.lname }}</h5></div>
+
+    <div class="row">Email:
+      <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+    </div>
+
+    <div class="row">Phone: {{ contact.phone }}</div>
+
+    <div class="row">Company:
+      <a href="/dashboard/companies/{{ contact.company_id }}">
+        {{ contact.companies.name }}</a>
+    </div>
+
+    <div class="row">
+      <p><label>Notes: </label></p>
+      {% if contact.notes == None %}
+        <p>--</p>
+      {% else %}
+        <p>{{ contact.notes }}</p>
+      {% endif %}
+    </div>
+
+    <div class="row">
+      <form action="/dashboard/contacts/{{ contact.contact_id }}" method="GET">
+        <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="edits-on">edit</button>
+      </form>
+    </div>
+
+  </div>
+  <br>
+
+  <!-- EVENTS -->
+  <table>
+
+    <!-- HEADER -->
+    <th>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Action</th>
+      </tr>
+    </th>
+
+    <tbody>
+      <!-- LOOP THROUGH STATUS LIST -->
+      {% for event in contact_events %}
+        <tr>
+
+          <!-- DATE -->
+          <td>
+            {{ event.date_created.strftime('%B %-d, %Y') }}
+          </td>
+
+          <!-- STATUS -->
+          <td>
+            {{ event.contact_codes.description }}
+          </td>
+
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% endif %}
+
+
+{% endblock %}

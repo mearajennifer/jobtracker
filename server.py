@@ -284,6 +284,7 @@ def edit_a_job(job_id):
     if not session:
         return redirect('/')
     else:
+        user_id = session['user_id']
         edit = request.form.get('edit')
         link = request.form.get('link')
         avg_salary = request.form.get('avg_salary')
@@ -471,14 +472,14 @@ def show_a_company(company_id):
         #get company info and pre-load jobs
         company = Company.query.filter(
             Company.company_id == company_id
-            ).options(db.joinedload('jobs')).first()
+            ).options(db.joinedload('jobs')).options(db.joinedload('contacts')).first()
 
         return render_template('company-info.html', company=company, edit=edit)
 
 
 @app.route('/dashboard/companies/<company_id>', methods=['POST'])
 def edit_a_company(company_id):
-    """Show a company a user has interest in."""
+    """Edit a company a user has interest in."""
 
     # redirect if user is not logged in
     if not session:
@@ -548,15 +549,70 @@ def show_all_contacts():
         return render_template('contacts.html', contacts=contacts)
 
 
-@app.route('/dashboard/contacts/<contact_id>')
+@app.route('/dashboard/contacts/<contact_id>', methods=['GET'])
 def show_a_contact(contact_id):
-    """Show one contacts a user is connected to and all interactions."""
+    """Show one contact and all interactions."""
 
     # redirect if user is not logged in
     if not session:
         return redirect('/')
     else:
-        pass
+        # get edit status
+        edit = request.args.get('edit')
+
+        # get contact (join companies) and all events
+        contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
+        contact_events = ContactEvent.query.filter(ContactEvent.contact_id == contact_id).order_by(desc('date_created')).all()
+
+        return render_template('contact-info.html',
+                               edit=edit,
+                               contact=contact,
+                               contact_events=contact_events)
+
+
+@app.route('/dashboard/contacts/<contact_id>', methods=['POST'])
+def edit_a_contact(contact_id):
+    """Allows user to edit info about a contact"""
+
+    # redirect if user is not logged in
+    if not session:
+        return redirect('/')
+    else:
+        # get edit status
+        edit = request.args.get('edit')
+
+        # get contact object to update
+        contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
+
+        # get data from post request
+        contact.fname = request.form['fname']
+        contact.lname = request.form['lname']
+
+        if request.form['email']:
+            contact.email = request.form['email']
+        if request.form['phone']:
+            phone = "".join((request.form['phone']).split('-').rstrip())
+            contact.phone = phone
+        if request.form['company_name']:
+            company_name = request.form['company_name']
+            try:
+                company = Company.query.filter(Company.name.like('company_name')).first()
+                contact.company_id = company.company_id
+            except:
+                new_company = Company(name=company_name)
+                db.session.add(new_company)
+
+        db.session.commit()
+
+        # get updated contact info and events
+        contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
+        contact_events = ContactEvent.query.filter(ContactEvent.contact_id == contact_id).order_by(desc('date_created')).all()
+
+        flash('Change made for {} {}'.format(contact.fname, contact.lname), 'success')
+        return render_template('contact-info.html',
+                               edit=edit,
+                               contact=contact,
+                               contact_events=contact_events)
 
 
 @app.route('/dashboard/contact/add')

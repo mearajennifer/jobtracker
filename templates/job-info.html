@@ -103,7 +103,7 @@
 
     <!-- JOB TITLE -->
     <div class="row">
-      Job posting: <a href="{{ job.link }}">{{ job.link }}</a>
+      Job posting: <a href="{{ job.link }}" target="_blank">{{ job.link }}</a>
     </div>
 
     <div class="row">
@@ -180,7 +180,7 @@
 
           <!-- DATE -->
           <td>
-            {{ status.date_created.strftime('%B %d, %Y') }}
+            {{ status.date_created.strftime('%B %-d, %Y') }}
           </td>
 
           <!-- STATUS -->

@@ -50,7 +50,7 @@
     <!-- STATIC MODE -->
     <div class="row">{{ company.street }}</div>
     <div class="row">{{ company.city }}, {{ company.state }} {{ company.zipcode }}</div>
-    <div class="row"><a href="{{ company.website }}">{{ company.website }}</a></div>
+    <div class="row"><a href="{{ company.website }}" target="_blank">{{ company.website }}</a></div>
     <div class="row">
       <p><label>Notes: </label></p>
       {% if company.notes == None %}
@@ -99,6 +99,22 @@
                 </form>
               </li>
             {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row"><h5>Contacts</h5></div>
+      <div class="row">
+        <ul>
+          {% for contact in company.contacts|sort(attribute = 'lname') %}
+            <li>
+              <form action="/dashboard/contacts/{{ contact.contact_id }}" method="GET">
+                <input type="hidden" name="edit" value="edits-off">
+                <button type="button submit" class="btn btn-link">{{ contact.fname }} {{ contact.lname }}</button>
+              </form>
+            </li>
           {% endfor %}
         </ul>
       </div>
