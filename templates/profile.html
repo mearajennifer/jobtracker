@@ -2,5 +2,67 @@
 
 {% block content %}
 
+<div class="row">
+  <h5>Hello, {{ user.fname }}</h5>
+</div>
+
+{% if edit == "edits-on" %}
+
+  <!-- EDIT MODE -->
+  <form action="/register" method="POST">
+
+    <!-- FIRST NAME -->
+    <div class="form-group"
+      <label>First name:</label>
+      <input type="text" class="form-control" name="fname" value="{{ user.fname }}" required />
+    </div>
+
+    <!-- LAST NAME -->
+    <div class="form-group">
+      <label> Last name:</label>
+      <input type="text" class="form-control" name="lname" value="{{ user.lname }}" required />
+    </div>
+
+    <!-- EMAIL -->
+    <div class="form-group">
+      <label>Email:</label>
+      <input type="email" class="form-control" name="email" value="{{ user.email }}" required />
+    </div>
+
+    <!-- TELEPHONE (OPTIONAL) -->
+    <div class="form-group">
+      <label>Phone:</label>
+      <input type="tel" class="form-control" name="phone" value="{{ user.phone }}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+    </div>
+
+    <!-- PASSWORD -->
+    <div class="form-group">
+      <label>password: </label>
+        <input type="password" class="form-control" name="password" value="{{ user.password }}" required />
+    </div>
+
+    <!-- BUTTON -->
+    <div class="form-group">
+      <button type="button submit" class="btn btn-secondary btn-sm">submit</button>
+    </div>
+
+  </form>
+
+{% else %}
+  <!-- STATIC MODE -->
+
+  <div class="row">
+    {{ user.fname }} {{ user.lname }}
+  </div>
+
+  <div class="row">
+    Email:{{ user.email }}
+  </div>
+
+  <div class="row">
+    Phone number:{{ user.phone }}
+  </div>
+
+{% endif %}
 
 {% endblock %}

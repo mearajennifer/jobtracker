@@ -61,12 +61,12 @@ def register_user():
     verify_email = User.query.filter(User.email == new_user.email).all()
 
     if verify_email:
-        flash('Sorry, a user is already registered under that email address.')
+        flash('A user is already registered under that email address.', 'error')
         return render_template('register-form.html')
     else:
         db.session.add(new_user)
         db.session.commit()
-        flash('Thanks for registering! Please log in.')
+        flash('Thanks for registering! Please log in.', 'success')
         return redirect('/login')
 
 
@@ -92,20 +92,32 @@ def login_user():
 
     # if user doesn't exist, redirect
     if not user:
-        flash('No user exists with that email address.')
+        flash('No user exists with that email address.', 'error')
         return redirect('/login')
 
     # if user exists but passwords don't match
     if user.password != password:
-        flash('Incorrect password for the email address entered.')
+        flash('Incorrect password for the email address entered.', 'error')
         return redirect('/login')
 
     # add user_id to session
     session['user_id'] = user.user_id
 
     # redirect to main dashboard page
-    flash('May the job force be with you...')
+    flash('May the job force be with you...', 'success')
     return redirect('/dashboard/jobs')
+
+
+@app.route("/dashboard")
+def dashboard():
+    """logs the current user out"""
+
+    # redirect if user is not logged in
+    if not session:
+        return redirect('/')
+    else:
+        return redirect("/dashboard/jobs")
+
 
 
 @app.route("/logout")
@@ -114,7 +126,7 @@ def logout():
 
     # remove session from browser to log out
     del session['user_id']
-    flash('Logged out.')
+    flash('Logged out.', 'success')
     return redirect("/")
 
 
@@ -356,14 +368,11 @@ def show_job_add_form():
         user_job_ids = set(job.job_id for job in user_job_events)
 
         # make a list of all companies via job_ids
-        companies = []
+        companies = set()
         for job_id in user_job_ids:
-            job = Job.query.filter(
-                Job.job_id == job_id
-                ).options(
-                db.joinedload('companies')
-                ).first()
-            companies.append(job.companies)
+            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
+            company = Company.query.filter(Company.company_id == job.company_id).first()
+            companies.add(company)
 
         return render_template('jobs-add.html', companies=companies)
 
@@ -379,7 +388,7 @@ def process_job_form():
         user_id = session['user_id']
 
         # get data from form
-        company_name = request.form['company_name']
+        company_info = request.form['company_info']
         job_title = request.form['job_title']
         job_status = request.form['job_status']
 
@@ -390,10 +399,13 @@ def process_job_form():
             job_link = ""
             job_notes = ""
 
-        # create company
-        company = Company(name=company_name)
-        db.session.add(company)
-        db.session.commit()
+        try:
+            company = Company.query.filter(Company.company_id == int(company_info)).first()
+        except:
+            # create company
+            company = Company(name=company_info)
+            db.session.add(company)
+            db.session.commit()
 
         job = Job(title=job_title, link=job_link, company_id=company.company_id,
                   active_status=True, notes=job_notes)
@@ -406,11 +418,10 @@ def process_job_form():
         db.session.add(job_event)
         db.session.commit()
 
+        flash('{} added to your jobs.'.format(job_title), 'success')
         return redirect('/dashboard/jobs')
 
 
-# COMPANIES
-#################################################################################
 @app.route('/dashboard/companies')
 def show_all_companies():
     """Show all companies a user has interest in."""
@@ -493,7 +504,7 @@ def edit_a_company(company_id):
             Company.company_id == company_id
             ).options(db.joinedload('jobs')).first()
 
-        flash(u"Change made for {}".format(company.name), 'success')
+        flash('Change made for {}'.format(company.name), 'success')
         return render_template('company-info.html', company=company, edit=edit)
 
 
@@ -545,7 +556,7 @@ def add_a_contact():
 
 # USER PROFILE
 #################################################################################
-@app.route('/dashboard/user')
+@app.route('/dashboard/profile', methods=['GET'])
 def show_user_profile():
     """Show user's profile and allow update to information."""
 
@@ -553,7 +564,16 @@ def show_user_profile():
     if not session:
         return redirect('/')
     else:
-        pass
+        try:
+            edit = request.args.get('edit')
+        except KeyError:
+            edit = 'edits-off'
+
+        # find user in db
+        user_id = session['user_id']
+        user = User.query.filter(User.user_id == user_id).one()
+
+        return render_template('profile.html', user=user, edit=edit)
 
 
 if __name__ == '__main__':
