@@ -2,98 +2,99 @@
 
 {% block content %}
 
-<!-- COLUMN HEADERS -->
-<div class="container" align="center">
-  <div class="row">
-    <div class="col-3" align="center"><h5>Company</h5></div>
-    <div class="col-2" align="center"><h5>Job</h5></div>
-    <div class="col-2" align="center"><h5>Status</h5></div>
-    <div class="col-2" align="center"><h5>Date</h5></div>
-    <div class="col-3" align="center"><h5>Notes</h5></div>
-  </div>
-  <div><hr></div>
-<!-- END HEADERS -->
+<table class="table">
+  <!-- TABLE HEADERS -->
+  <thead>
+    <tr>
+      <th scope="col">Company</th>
+      <th scope="col">Job</th>
+      <th scope="col">Status</th>
+      <th scope="col">Date</th>
+      <th scope="col">Notes</th>
+    </tr>
+  </thead>
 
-  {% for job_status, company in all_active_status.items() %}
-    <div class="row">
-      <!-- COMPANY NAME -->
-      <div class="col-3" align="center">
-          <a href="/dashboard/companies/{{ company.company_id }}">{{ company.name }}</a>
-      </div>
+  <!-- TABLE ROWS -->
+  <tbody>
+    {% for job_status, company in all_active_status.items() %}
+      <tr>
+        <!-- COMPANY NAME -->
+        <td>
+            <a href="/dashboard/companies/{{ company.company_id }}">{{ company.name }}</a>
+        </td>
 
-      <!-- JOB TITLE -->
-      <div class="col-2" align="center">
-        <form action="/dashboard/jobs/{{ job_status.jobs.job_id }}" method="GET">
-          <input type="hidden" name="edit" value="edits-off">
-          <button type="button submit" class="btn btn-link">{{ job_status.jobs.title }}</button>
-        </form>
-      </div>
-
-      <!-- DROP DOWN STATUS MENU -->
-      <div class="col-2" align="center">
-        <div class="dropdown">
-          <form action="/dashboard/job-status" method="POST">
-
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{ job_status.job_codes.description }}
-            </button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <input type="hidden" name="job_id" value="{{ job_status.job_id }}">
-
-              <button class="dropdown-item submit" type="submit" name="job_code" value="1">
-                Interested
-              </button>
-
-              <button class="dropdown-item submit" type="submit" name="job_code" value="2">
-                Applied
-              </button>
-
-              <button class="dropdown-item submit" type="submit" name="job_code" value="3">
-                Phone interview
-              </button>
-
-              <button class="dropdown-item submit" type="submit" name="job_code" value="4">
-                On-site interview
-              </button>
-
-              <button class="dropdown-item submit" type="submit" name="job_code" value="5">
-                Received offer
-              </button>
-
-              <button class="dropdown-item submit" type="submit" name="job_code" value="6">
-                Accepted offer
-              </button>
-
-              <button class="dropdown-item submit" type="submit" name="job_code" value="7">
-                Declined offer
-              </button>
-
-              <button class="dropdown-item submit" type="submit" name="job_code" value="8">
-                No job offer
-              </button>
-            
-            </div>
-
+        <!-- JOB TITLE -->
+        <td>
+          <form action="/dashboard/jobs/{{ job_status.jobs.job_id }}" method="GET">
+            <input type="hidden" name="edit" value="edits-off">
+            <button type="button submit" class="btn btn-link">{{ job_status.jobs.title }}</button>
           </form>
-        </div>
-      </div>
+        </td>
 
-      <!-- DATE LAST MODIFIED -->
-      <div class="col-2" align="center">
-        {{ job_status.date_created.strftime('%B %d, %Y') }}
-      </div>
+        <!-- DROP DOWN STATUS MENU -->
+        <td>
+          <div class="dropdown">
+            <form action="/dashboard/job-status" method="POST">
 
-      <!-- NOTES -->
-      <div class="col-3" align="center">
-        {{ job_status.jobs.notes }}
-      </div>
+              <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ job_status.job_codes.description }}
+              </button>
 
-    </div>
-    <div><hr></div>
-  {% endfor %}
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <input type="hidden" name="job_id" value="{{ job_status.job_id }}">
 
-</div>
+                <button class="dropdown-item submit" type="submit" name="job_code" value="1">
+                  Interested
+                </button>
 
+                <button class="dropdown-item submit" type="submit" name="job_code" value="2">
+                  Applied
+                </button>
+
+                <button class="dropdown-item submit" type="submit" name="job_code" value="3">
+                  Phone interview
+                </button>
+
+                <button class="dropdown-item submit" type="submit" name="job_code" value="4">
+                  On-site interview
+                </button>
+
+                <button class="dropdown-item submit" type="submit" name="job_code" value="5">
+                  Received offer
+                </button>
+
+                <button class="dropdown-item submit" type="submit" name="job_code" value="6">
+                  Accepted offer
+                </button>
+
+                <button class="dropdown-item submit" type="submit" name="job_code" value="7">
+                  Declined offer
+                </button>
+
+                <button class="dropdown-item submit" type="submit" name="job_code" value="8">
+                  No job offer
+                </button>
+              
+              </div>
+
+            </form>
+          </div>
+        </td>
+
+        <!-- DATE LAST MODIFIED -->
+        <td>
+          {{ job_status.date_created.strftime('%B %d, %Y') }}
+        </td>
+
+        <!-- NOTES -->
+        <td>
+          {{ job_status.jobs.notes }}
+        </td>
+
+      </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
 
 {% endblock %}

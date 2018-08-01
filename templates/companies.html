@@ -2,41 +2,49 @@
 
 {% block content %}
 
-<!-- COLUMN HEADERS -->
-<div class="container" align="center">
-  <div class="row">
-    <div class="col-4" align="center"><h5>Company</h5></div>
-    <div class="col-4" align="center"><h5>Jobs Tracked</h5></div>
-    <div class="col-4" align="center"><h5>Notes</h5></div>
-  </div>
-  <div><hr></div>
-
-  <!-- COMPANY ROWS -->
-  {% for key, value in companies.items() %}
+<table class="table">
+<!--   <div class="container" align="center">
     <div class="row">
+      <div class="col-4" align="center"><h5>Company</h5></div>
+      <div class="col-4" align="center"><h5>Jobs Tracked</h5></div>
+      <div class="col-4" align="center"><h5>Notes</h5></div>
+    </div>
+    <div><hr></div> -->
 
+  <!-- HEADERS -->
+    <thead>
+      <tr>
+        <th scope="col">Company</th>
+        <th scope="col">Jobs Tracked</th>
+        <th scope="col">Notes</th>
+      </tr>
+    </thead>
+
+  <!-- COMPANIES -->
+    <tbody>
+    {% for key, value in companies.items() %}
+
+      <tr>
       <!-- COMPANY NAME -->
-      <div class="col-4" align="center">
+      <td>
         <form action="/dashboard/companies/{{ key.company_id }}" method="GET">
           <input type="hidden" name="edit" value="edits-off">
           <button type="button submit" class="btn btn-link">{{ key.name }}</button>
         </form>
-      </div>
+      </td>
 
       <!-- JOBS TRACKED -->
-      <div class="col-4" align="center">
+      <td>
         {{ value }}
-      </div>
+      </td>
 
       <!-- NOTES -->
-      <div class="col-4" align="center">
+      <td>
         {{ key.notes }}
-      </div>
+      </td>
 
-    </div>
-    <div><hr></div>
   {% endfor %}
+  </tbody>
 
-</div>
-
+</table>
 {% endblock %}

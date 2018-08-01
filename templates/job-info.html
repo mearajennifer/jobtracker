@@ -163,34 +163,35 @@
   <br>
 
   <!-- EVENTS -->
-  <div class="container" align="center">
+  <table>
 
     <!-- HEADER -->
-    <div class="row">
-      <div class="col-2" align="center"><h5>Date</h5></div>
-      <div class="col-2" align="left"><h5>Status</h5></div>
-    </div>
-    <div><hr></div>
+    <th>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Status</th>
+      </tr>
+    </th>
 
-    <!-- LOOP THROUGH STATUS LIST -->
-    {% for status in job_status %}
-      <div class="row">
+    <tbody>
+      <!-- LOOP THROUGH STATUS LIST -->
+      {% for status in job_status %}
+        <tr>
 
-        <!-- DATE -->
-        <div class="col-2" align="center">
-          {{ status.date_created.strftime('%B %d, %Y') }}
-        </div>
+          <!-- DATE -->
+          <td>
+            {{ status.date_created.strftime('%B %d, %Y') }}
+          </td>
 
-        <!-- STATUS -->
-        <div class="col-8" align="left">
-          {{ status.job_codes.description }}
-        </div>
+          <!-- STATUS -->
+          <td>
+            {{ status.job_codes.description }}
+          </td>
 
-      </div>
-      <div><hr></div>
-    {% endfor %}
-
-  </div>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
   {% endif %}
 

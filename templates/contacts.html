@@ -2,5 +2,27 @@
 
 {% block content %}
 
+<table class="table">
+  <!-- HEADERS -->
+  <thead>
+    <tr>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Company</th>
+    </tr>
+  </thead>
+
+  <!-- CONTACTS -->
+  <tbody>
+    {% for contact in contacts %}
+      <tr>
+        <td><a href="/dashboard/contacts/{{ contact.contact_id }}">{{ contact.fname }}</a></td>
+        <td>{{ contact.lname }}</td>
+        <td>{{ contact.companies.name }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
 
 {% endblock %}

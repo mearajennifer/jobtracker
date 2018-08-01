@@ -376,6 +376,7 @@ def show_job_add_form():
 
         return render_template('jobs-add.html', companies=companies)
 
+
 @app.route('/dashboard/jobs/add', methods=['POST'])
 def process_job_form():
     """Allow user to add a job"""
@@ -521,7 +522,7 @@ def add_a_company():
 
 # CONTACTS
 #################################################################################
-@app.route('/dashboard/contact')
+@app.route('/dashboard/contacts')
 def show_all_contacts():
     """Show all contacts a user is connected to."""
 
@@ -529,10 +530,25 @@ def show_all_contacts():
     if not session:
         return redirect('/')
     else:
-        pass
+        # get user
+        user_id = session['user_id']
+
+        # get all user events with all contacts
+        contact_events = ContactEvent.query.filter(ContactEvent.user_id == user_id).all()
+
+        # make a set of all contact_ids
+        contact_ids = set(contact_event.contact_id for contact_event in contact_events)
+
+        # grab all contact objects by contact_id
+        contacts = []
+        for contact_id in contact_ids:
+            contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
+            contacts.append(contact)
+
+        return render_template('contacts.html', contacts=contacts)
 
 
-@app.route('/dashboard/contact/<contact_id>')
+@app.route('/dashboard/contacts/<contact_id>')
 def show_a_contact(contact_id):
     """Show one contacts a user is connected to and all interactions."""
 
@@ -576,6 +592,7 @@ def show_user_profile():
         return render_template('profile.html', user=user, edit=edit)
 
 
+#################################################################################
 if __name__ == '__main__':
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
