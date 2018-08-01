@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+  <h5>Add a contact</h5>
+</div>
+
+<form action="/dashboard/contacts/add" method="POST">
+
+  <!-- FIRST NAME -->
+  <div class="form-group">
+    <label class="control-label">First name:</label>
+    <input type="text" class="form-control" name="fname" required />
+  </div>
+
+  <!-- LAST NAME -->
+  <div class="form-group">
+    <label class="control-label">Last name:</label>
+    <input type="text" class="form-control" name="lname" required />
+  </div>
+
+  <!-- EMAIL -->
+  <div class="form-group">
+    <label class="control-label">Email:</label>
+    <input type="email" class="form-control" name="email">
+  </div>
+
+  <!-- PHONE -->
+  <div class="form-group">
+    <label class="control-label">Phone:</label>
+    <input type="phone" class="form-control" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+  </div>
+
+  <!-- COMPANY -->
+  <div class="form-group">
+    <label class="control-label">Company:</label>
+
+      <!-- SELECT MENU -->
+      <select class="form-control" name="company_info">
+        <option selected value>Select existing company</option>
+        {% for company in companies %}
+          <option value="{{ company.company_id }}" >{{ company.name }}</option>
+        {% endfor %}  
+      </select><br>
+
+      <!-- TEXT INPUT -->
+      <input type="text" class="form-control" name="company_info" placeholder="New company">
+  </div>
+
+  <!-- NOTES -->
+  <div class="form-group">
+    <label class="control-label">Notes:</label></p>
+    <textarea class="form-control" rows="3" name="notes"></textarea>
+  </div>
+
+  <!-- BUTTON -->
+  <div class="form-group">
+    <button type="button submit" class="btn btn-secondary btn-sm">submit</button>
+  </div>
+
+</form>
+
+
+{% endblock %}

@@ -510,15 +510,54 @@ def edit_a_company(company_id):
         return render_template('company-info.html', company=company, edit=edit)
 
 
-@app.route('/dashboard/companies/add')
-def add_a_company():
-    """Allow user to add a company"""
+# @app.route('/dashboard/companies/add', methods=['GET'])
+# def show_company_add_form():
+#     """Allow user to add a company"""
 
-    # redirect if user is not logged in
-    if not session:
-        return redirect('/')
-    else:
-        pass
+#     # redirect if user is not logged in
+#     if not session:
+#         return redirect('/')
+#     else:
+
+#         return render_template('companies-add.html')
+
+
+# @app.route('/dashboard/companies/add', methods=['POST'])
+# def process_company_form():
+#     """Allow user to add a company"""
+
+#     # redirect if user is not logged in
+#     if not session:
+#         return redirect('/')
+#     else:
+#         # get user_id from session
+#         user_id = session['user_id']
+
+#         # get data from form
+#         name = request.form['name']
+
+#         try:
+#             street = request.form['street']
+#             city = request.form['city']
+#             state = request.form['state']
+#             zipcode = request.form['zipcode']
+#             website = request.form['website']
+#             notes = request.form['notes']
+#         except KeyError:
+#             street = ''
+#             city = ''
+#             state = ''
+#             zipcode = ''
+#             website = ''
+#             notes = ''
+
+#         company = Company(name=name, street=street, city=city, state=state,
+#                           zipcode=zipcode, website=website, notes=notes)
+#         db.session.add(company)
+#         db.session.commit()
+
+#         flash('{} added to your companies.'.format(name), 'success')
+#         return redirect('/dashboard/companies')
 
 
 # CONTACTS
@@ -591,7 +630,7 @@ def edit_a_contact(contact_id):
         if request.form['email']:
             contact.email = request.form['email']
         if request.form['phone']:
-            phone = "".join((request.form['phone']).split('-').rstrip())
+            phone = "".join((request.form['phone']).split('-'))
             contact.phone = phone
         if request.form['company_name']:
             company_name = request.form['company_name']
@@ -601,6 +640,8 @@ def edit_a_contact(contact_id):
             except:
                 new_company = Company(name=company_name)
                 db.session.add(new_company)
+                db.session.commit()
+                contact.company_id = new_company.company_id
 
         db.session.commit()
 
@@ -615,15 +656,78 @@ def edit_a_contact(contact_id):
                                contact_events=contact_events)
 
 
-@app.route('/dashboard/contact/add')
-def add_a_contact():
+@app.route('/dashboard/contacts/add', methods=['GET'])
+def show_contact_add_form():
     """Allow user to add a contact"""
 
     # redirect if user is not logged in
     if not session:
         return redirect('/')
     else:
-        pass
+        # get user_id from session
+        user_id = session['user_id']
+
+        # find user existing companies based on job_events, jobs, companies
+        # query for user job events, return list
+        user_job_events = JobEvent.query.options(
+            db.joinedload('jobs')
+            ).filter(JobEvent.user_id == user_id).all()
+
+        # make a set of all job ids
+        user_job_ids = set(job.job_id for job in user_job_events)
+
+        # make a list of all companies via job_ids
+        companies = set()
+        for job_id in user_job_ids:
+            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
+            company = Company.query.filter(Company.company_id == job.company_id).first()
+            companies.add(company)
+
+        return render_template('contacts-add.html', companies=companies)
+
+
+@app.route('/dashboard/contacts/add', methods=['POST'])
+def process_contact_form():
+    """Allow user to add a contact"""
+
+    # redirect if user is not logged in
+    if not session:
+        return redirect('/')
+    else:
+        # get data from post request
+        fname = request.form['fname']
+        lname = request.form['lname']
+
+        if request.form['email']:
+            email = request.form['email']
+        else:
+            email = None
+        if request.form['phone']:
+            phone = "".join((request.form['phone']).split('-'))
+        else:
+            phone = None
+        if request.form['notes']:
+            notes = request.form['notes']
+        else:
+            notes = None
+
+        # see if company exists, if not, create new company and add to database
+        company_name = request.form['company_info']
+        try:
+            company = Company.query.filter(Company.name.like(company_name)).first()
+            company_id = company.company_id
+        except:
+            new_company = Company(name=company_name)
+            db.session.add(new_company)
+            db.session.commit()
+            company_id = new_company.company_id
+
+        new_contact = Contact(fname=fname, lname=lname, email=email, phone=phone,
+                              company_id=company_id, notes=notes)
+        db.session.commit()
+
+        flash('{} {} added to your contacts'.format(new_contact.fname, new_contact.lname), 'success')
+        return redirect('/dashboard/contacts')
 
 
 # USER PROFILE

@@ -74,7 +74,7 @@ class ContactCode(db.Model):
 
     __tablename__ = 'contact_codes'
 
-    contact_code = db.Column(db.Integer, primary_key=True,autoincrement=True)
+    contact_code = db.Column(db.Integer, primary_key=True, autoincrement=True)
     description = db.Column(db.Text, nullable=False)
 
     def __repr__(self):

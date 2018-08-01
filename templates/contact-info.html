@@ -52,13 +52,13 @@
     <!-- STATIC MODE -->
     <div class="row"><h5>{{ contact.fname }} {{ contact.lname }}</h5></div>
 
-    <div class="row">Email:
+    <div class="row">Email: 
       <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
     </div>
 
-    <div class="row">Phone: {{ contact.phone }}</div>
+    <div class="row">Phone: {{ contact.phone[:3] }}-{{ contact.phone[3:6] }}-{{ contact.phone[6:] }}</div>
 
-    <div class="row">Company:
+    <div class="row">Company: 
       <a href="/dashboard/companies/{{ contact.company_id }}">
         {{ contact.companies.name }}</a>
     </div>
