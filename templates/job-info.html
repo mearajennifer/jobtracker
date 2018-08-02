@@ -78,17 +78,17 @@
 
       <div class="form-group">
         <label>Job posting: </label>
-        <input type="text" class="form-control" name="link" value="{{ job.link }}">
+        <input type="text" class="form-control" name="link" value="{{ job.link if job.link != None else "" }}">
       </div>
 
       <div class="form-group">
         <label>Average salary: </label>
-        <input type="text" class="form-control" name="avg_salary" value="{{ job.avg_salary }}">
+        <input type="text" class="form-control" name="avg_salary" value="{{ job.avg_salary if job.avg_salary != None else "" }}">
       </div
 
       <div class="form-group">
         <label>Notes: </label></p>
-        <textarea class="form-control" rows="3" name="notes">{{ job.notes }}</textarea>
+        <textarea class="form-control" rows="3" name="notes">{{ job.notes if job.notes != None else "" }}</textarea>
       </div>
 
       <div class="row">
@@ -103,14 +103,14 @@
 
     <!-- JOB TITLE -->
     <div class="row">
-      Job posting: <a href="{{ job.link }}" target="_blank">{{ job.link }}</a>
+      Job posting: <a href="{{ job.link if job.link != None else "" }}" target="_blank">{{ job.link if job.link != None else "" }}</a>
     </div>
 
     <div class="row">
       {% if job.avg_salary %}
 
         <!-- SALARY ALREADY SELECTED -->
-        Average salary: {{ job.avg_salary }}
+        Average salary: {{ job.avg_salary if job.avg_salary != None else "" }}
 
       {% else %}
 
@@ -144,12 +144,7 @@
 
     <!-- NOTES -->
     <div class="row">
-      <p><label>Notes: </label></p>
-      {% if job.notes == None %}
-        <p>--</p>
-      {% else %}
-        <p>{{ job.notes }}</p>
-      {% endif %}
+      <label>Notes: </label>{{ job.notes if job.notes != None else "" }}
     </div>
 
     <!-- EDIT BUTTON -->

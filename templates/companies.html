@@ -22,25 +22,25 @@
 
   <!-- COMPANIES -->
     <tbody>
-    {% for key, value in companies.items() %}
+    {% for company, count in companies.items() %}
 
       <tr>
       <!-- COMPANY NAME -->
       <td>
-        <form action="/dashboard/companies/{{ key.company_id }}" method="GET">
+        <form action="/dashboard/companies/{{ company.company_id }}" method="GET">
           <input type="hidden" name="edit" value="edits-off">
-          <button type="button submit" class="btn btn-link">{{ key.name }}</button>
+          <button type="button submit" class="btn btn-link">{{ company.name }}</button>
         </form>
       </td>
 
       <!-- JOBS TRACKED -->
       <td>
-        {{ value }}
+        {{ count }}
       </td>
 
       <!-- NOTES -->
       <td>
-        {{ key.notes }}
+        {{ company.notes if company.notes != None else "" }}
       </td>
 
   {% endfor %}

@@ -22,12 +22,12 @@
 
       <div class="form-group">
         <label>Email:</label>
-        <input type="email" class="form-control" name="email" value="{{ contact.email }}">
+        <input type="email" class="form-control" name="email" value="{{ contact.email if contact.email != None else "" }}">
       </div>
 
       <div class="form-group">
         <label>Phone:</label>
-        <input type="phone" class="form-control" name="phone" value="{{ contact.phone }}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+        <input type="phone" class="form-control" name="phone" value="{{ contact.phone if contact.phone != None else "" }}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
       </div>
 
       <div class="form-group">
@@ -37,7 +37,7 @@
 
       <div class="form-group">
         <label>Notes:</label>
-        <textarea class="form-control" rows="3" name="notes">{{ contact.notes }}</textarea>
+        <textarea class="form-control" rows="3" name="notes">{{ contact.notes if contact.notes != None else ""}}</textarea>
       </div>
 
       <div class="row">
@@ -52,19 +52,14 @@
     <!-- STATIC MODE -->
     <div class="row"><h5>{{ contact.fname }} {{ contact.lname }}</h5></div>
 
-    <div class="row">Email: 
-      {% if contact.email == None %}
-        --
-      {% else %}
-        <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
-      {% endif %}
+    <div class="row">Email:
+        <a href="mailto:{{ contact.email if contact.email != None else "" }}">{{ contact.email if contact.email != None else "" }}</a>
     </div>
 
-    <div class="row">Phone: 
-      {% if contact.phone == None %}
-        --
-      {% else %}
+    <div class="row">Phone:
+      {% if contact.phone != None %}
         {{ contact.phone[:3] }}-{{ contact.phone[3:6] }}-{{ contact.phone[6:] }}
+      {% else %}
       {% endif %}
     </div>
 
@@ -74,11 +69,7 @@
     </div>
 
     <div class="row">Notes:
-      {% if contact.notes == None %}
-        <p>--</p>
-      {% else %}
-        <p>{{ contact.notes }}</p>
-      {% endif %}
+      {{ contact.notes if contact.notes != None else "" }}
     </div>
 
     <div class="row">

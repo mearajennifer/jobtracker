@@ -11,12 +11,12 @@
 
       <div class="form-group">
         <label>Street:</label>
-        <input type="text" class="form-control" name="street" value="{{ company.street }}">
+        <input type="text" class="form-control" name="street" value="{{ company.street if company.street != None else "" }}">
       </div>
 
       <div class="form-group">
         <label>City:</label>
-        <input type="text" class="form-control" name="city" value="{{ company.city }}">
+        <input type="text" class="form-control" name="city" value="{{ company.city if company.city != None else "" }}">
       </div>
 
       <div class="form-group">
@@ -33,17 +33,17 @@
 
       <div class="form-group">
         <label>Zipcode:</label>
-        <input type="text" class="form-control" name="zipcode" value="{{ company.zipcode }}" maxlength="5">
+        <input type="text" class="form-control" name="zipcode" value="{{ company.zipcode if company.zipcode != None else "" }}" maxlength="5">
       </div>
 
       <div class="form-group">
         <label>Website:</label>
-        <input type="text" class="form-control" name="website" value="{{ company.website }}">
+        <input type="text" class="form-control" name="website" value="{{ company.website if company.website != None else "" }}">
       </div>
 
       <div class="form-group">
         <label>Notes: </label></p>
-        <textarea class="form-control" rows="3" name="notes">{{ company.notes }}</textarea>
+        <textarea class="form-control" rows="3" name="notes">{{ company.notes if company.notes != None else "" }}</textarea>
       </div>
 
       <div class="row">
@@ -55,16 +55,11 @@
 
   {% else %}
     <!-- STATIC MODE -->
-    <div class="row">{{ company.street }}</div>
-    <div class="row">{{ company.city }}, {{ company.state }} {{ company.zipcode }}</div>
-    <div class="row"><a href="{{ company.website }}" target="_blank">{{ company.website }}</a></div>
-    <div class="row">
-      <p><label>Notes: </label></p>
-      {% if company.notes == None %}
-        <p>--</p>
-      {% else %}
-        <p>{{ company.notes }}</p>
-      {% endif %}
+    <div class="row">Address:</div>
+    <div class="row">{{ company.street if company.street != None else "" }}</div>
+    <div class="row">{{ company.city if company.city != None else "" }}, {{ company.state if company.state != None else "" }} {{ company.zipcode if company.zipcode != None else "" }}</div>
+    <div class="row"><label>Website: </label><a href="{{ company.website if company.website != None else ""}}" target="_blank">{{ company.website if company.website != None else "" }}</a></div>
+    <div class="row"><label>Notes: </label>{{ company.notes if company.notes != None else "" }}
     </div>
     <div class="row">
       <form action="/dashboard/companies/{{ company.company_id }}" method="GET">

@@ -48,7 +48,7 @@ def register_user():
     try:
         phone = request.form['phone']
     except KeyError:
-        phone = None
+        phone = ""
 
     # check to make sure this is working
     print(fname, lname, email, password, phone)
@@ -265,8 +265,8 @@ def show_a_job(job_id):
             job_titles = db.session.query(Salary.job_title).group_by(Salary.job_title).order_by(Salary.job_title).all()
 
         else:
-            metros = None
-            job_titles = None
+            metros = ""
+            job_titles = ""
 
         return render_template('job-info.html',
                                job=job,
@@ -290,6 +290,11 @@ def edit_a_job(job_id):
         avg_salary = request.form.get('avg_salary')
         notes = request.form.get('notes')
 
+        if link is None:
+            link = ""
+        elif link[:4] != 'http':
+            link = ''.join(['http://', link])
+
         # get job from database and pre-load company data
         job = Job.query.filter(
             Job.job_id == job_id
@@ -312,8 +317,8 @@ def edit_a_job(job_id):
             metros = db.session.query(Salary.metro).group_by(Salary.metro).order_by(Salary.metro).all()
             job_titles = db.session.query(Salary.job_title).group_by(Salary.job_title).order_by(Salary.job_title).all()
         else:
-            metros = None
-            job_titles = None
+            metros = ""
+            job_titles = ""
 
         return render_template('job-info.html',
                                job=job,
@@ -396,6 +401,10 @@ def process_job_form():
         # look for optional data and add if it exists
         if request.form['job_link']:
             job_link = request.form['job_link']
+            if job_link is None:
+                job_link = ""
+            elif job_link[:4] != 'http':
+                job_link = ''.join(['http://', job_link])
         else:
             job_link = ""
 
@@ -456,11 +465,7 @@ def show_all_companies():
         # make a list of all companies via job ids
         companies = {}
         for job_id in user_job_ids:
-            job = Job.query.filter(
-                Job.job_id == job_id
-                ).options(
-                db.joinedload('companies')
-                ).first()
+            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
             count = Job.query.filter(
                 Job.company_id == job.companies.company_id).count()
             companies[job.companies] = count
@@ -479,15 +484,13 @@ def show_a_company(company_id):
         edit = request.args.get('edit')
 
         #get company info and pre-load jobs
-        company = Company.query.filter(
-            Company.company_id == company_id
-            ).options(db.joinedload('jobs')).options(db.joinedload('contacts')).first()
+        company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).options(db.joinedload('contacts')).first()
 
-        states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
-          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
-          "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
-          "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", 
-          "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
+        states = ["", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
+                  "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+                  "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+                  "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+                  "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
 
         return render_template('company-info.html', company=company, edit=edit, states=states)
 
@@ -509,74 +512,29 @@ def edit_a_company(company_id):
         company.city = request.form['city']
         company.state = request.form['state']
         company.zipcode = request.form['zipcode']
-        company.website = request.form['website']
         company.notes = request.form['notes']
+
+        # if website doesn't have http or https in front, add it
+        website = request.form['website']
+        if not website:
+            website = None
+        elif website[:4] != 'http':
+            website = ''.join(['http://', website])
+        company.website = website
 
         db.session.commit()
 
         # get updated company info and pre-load jobs
-        company = Company.query.filter(
-            Company.company_id == company_id
-            ).options(db.joinedload('jobs')).first()
+        company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
 
-        states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
-          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
-          "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
-          "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", 
-          "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
+        states = ["", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
+                  "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+                  "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+                  "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+                  "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
 
         flash('Change made for {}'.format(company.name), 'success')
         return render_template('company-info.html', company=company, edit=edit, states=states)
-
-
-# @app.route('/dashboard/companies/add', methods=['GET'])
-# def show_company_add_form():
-#     """Allow user to add a company"""
-
-#     # redirect if user is not logged in
-#     if not session:
-#         return redirect('/')
-#     else:
-
-#         return render_template('companies-add.html')
-
-
-# @app.route('/dashboard/companies/add', methods=['POST'])
-# def process_company_form():
-#     """Allow user to add a company"""
-
-#     # redirect if user is not logged in
-#     if not session:
-#         return redirect('/')
-#     else:
-#         # get user_id from session
-#         user_id = session['user_id']
-
-#         # get data from form
-#         name = request.form['name']
-
-#         try:
-#             street = request.form['street']
-#             city = request.form['city']
-#             state = request.form['state']
-#             zipcode = request.form['zipcode']
-#             website = request.form['website']
-#             notes = request.form['notes']
-#         except KeyError:
-#             street = ''
-#             city = ''
-#             state = ''
-#             zipcode = ''
-#             website = ''
-#             notes = ''
-
-#         company = Company(name=name, street=street, city=city, state=state,
-#                           zipcode=zipcode, website=website, notes=notes)
-#         db.session.add(company)
-#         db.session.commit()
-
-#         flash('{} added to your companies.'.format(name), 'success')
-#         return redirect('/dashboard/companies')
 
 
 # CONTACTS
