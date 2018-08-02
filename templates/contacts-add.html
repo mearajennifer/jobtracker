@@ -37,7 +37,7 @@
     <label class="control-label">Company:</label>
 
       <!-- SELECT MENU -->
-      <select class="form-control" name="company_info">
+      <select class="form-control" name="company_id">
         <option selected value>Select existing company</option>
         {% for company in companies %}
           <option value="{{ company.company_id }}" >{{ company.name }}</option>
@@ -45,7 +45,19 @@
       </select><br>
 
       <!-- TEXT INPUT -->
-      <input type="text" class="form-control" name="company_info" placeholder="New company">
+      <input type="text" class="form-control" name="company_name" placeholder="New company">
+  </div>
+
+  <!-- CONTACT EVENTS -->
+  <div class="form-group">
+    <label class="control-label">Contact event:</label>
+    <select class="form-control" name="contact_event" required />
+      <option value="1">Met at networking event</option>
+      <option value="2">Requested informational interview</option>
+      <option value="3">Met for informational interview</option>
+      <option value="4">Introduced to others</option>
+      <option value="5">Referred for job application</option>
+    </select>
   </div>
 
   <!-- NOTES -->

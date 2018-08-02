@@ -2,7 +2,7 @@
 
 
 from sqlalchemy import func
-from model import (User, Company, Contact, ContactCode, JobCode, ToDoCode,
+from model import (User, Company, Contact, ContactEvent, ContactCode, JobCode, ToDoCode,
                    Salary, Job, JobEvent, connect_to_db, db)
 from server import app
 
@@ -45,14 +45,11 @@ def load_contacts():
     # Read user file and insert data
     for row in open("data/contact-example.txt"):
         row = row.rstrip()
-        contact_id, fname, lname, email, phone, company_id = row.split("|")
+        fname, lname, company_id = row.split("|")
 
-        contact = Contact(contact_id=contact_id,
-                    fname=fname,
-                    lname=lname,
-                    email=email,
-                    phone=phone,
-                    company_id=company_id)
+        contact = Contact(fname=fname,
+                          lname=lname,
+                          company_id=company_id)
 
         # Add to the session or it won't ever be stored
         db.session.add(contact)
@@ -104,7 +101,7 @@ def load_contactcodes():
         contact_code, description = row.split("|")
 
         contactcode = ContactCode(contact_code=contact_code,
-                          description=description)
+                                  description=description)
 
         # Add to the session or it won't ever be stored
         db.session.add(contactcode)
@@ -202,7 +199,8 @@ def load_jobs():
         row = row.rstrip()
         title, link, company_id, active_status, notes = row.split("|")
 
-        job = Job(title=title, link=link, company_id=company_id, active_status=bool(active_status), notes=notes)
+        job = Job(title=title, link=link, company_id=company_id,
+                  active_status=bool(active_status), notes=notes)
 
         # Add to the session
         db.session.add(job)
@@ -225,10 +223,39 @@ def load_jobevents():
         row = row.rstrip()
         job_id, user_id, job_code, date_created = row.split("|")
 
-        job_event = JobEvent(job_id=job_id, user_id=user_id, job_code=job_code, date_created=date_created)
+        job_event = JobEvent(job_id=job_id,
+                             user_id=user_id,
+                             job_code=job_code,
+                             date_created=date_created)
 
         # Add to the session
         db.session.add(job_event)
+
+    # commit the session to database
+    db.session.commit()
+
+
+# load contact events
+def load_contactevents():
+    """Load fake sample contact event data from contact-event-examples.txt into database"""
+
+    print("Loading contact events...")
+
+    # Delete all rows in table to make sure there are no dupes
+    ContactEvent.query.delete()
+
+    # Read file and insert data
+    for row in open("data/contact-event-examples.txt"):
+        row = row.rstrip()
+        user_id, contact_id, contact_code, date_created = row.split("|")
+
+        contact_event = ContactEvent(user_id=user_id,
+                                     contact_id=contact_id,
+                                     contact_code=contact_code,
+                                     date_created=date_created)
+
+        # Add to the session
+        db.session.add(contact_event)
 
     # commit the session to database
     db.session.commit()
@@ -265,6 +292,7 @@ if __name__ == "__main__":
     load_users()
     load_companies()
     load_contacts()
+    load_contactevents()
 
     load_jobs()
     load_jobevents()

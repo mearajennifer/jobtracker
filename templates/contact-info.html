@@ -36,7 +36,7 @@
       </div>
 
       <div class="form-group">
-        <label>Notes:</label></p>
+        <label>Notes:</label>
         <textarea class="form-control" rows="3" name="notes">{{ contact.notes }}</textarea>
       </div>
 
@@ -53,18 +53,27 @@
     <div class="row"><h5>{{ contact.fname }} {{ contact.lname }}</h5></div>
 
     <div class="row">Email: 
-      <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+      {% if contact.email == None %}
+        --
+      {% else %}
+        <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+      {% endif %}
     </div>
 
-    <div class="row">Phone: {{ contact.phone[:3] }}-{{ contact.phone[3:6] }}-{{ contact.phone[6:] }}</div>
+    <div class="row">Phone: 
+      {% if contact.phone == None %}
+        --
+      {% else %}
+        {{ contact.phone[:3] }}-{{ contact.phone[3:6] }}-{{ contact.phone[6:] }}
+      {% endif %}
+    </div>
 
     <div class="row">Company: 
       <a href="/dashboard/companies/{{ contact.company_id }}">
         {{ contact.companies.name }}</a>
     </div>
 
-    <div class="row">
-      <p><label>Notes: </label></p>
+    <div class="row">Notes:
       {% if contact.notes == None %}
         <p>--</p>
       {% else %}

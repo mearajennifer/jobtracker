@@ -390,36 +390,45 @@ def process_job_form():
         user_id = session['user_id']
 
         # get data from form
-        company_info = request.form['company_info']
         job_title = request.form['job_title']
         job_status = request.form['job_status']
 
-        try:
+        # look for optional data and add if it exists
+        if request.form['job_link']:
             job_link = request.form['job_link']
-            job_notes = request.form['job_notes']
-        except KeyError:
+        else:
             job_link = ""
+
+        if request.form['job_notes']:
+            job_notes = request.form['job_notes']
+        else:
             job_notes = ""
 
-        try:
-            company = Company.query.filter(Company.company_id == int(company_info)).first()
-        except:
-            # create company
-            company = Company(name=company_info)
+        # look for company_id and find existing company
+        # or get new company_name and create company object, add, commit
+        if request.form['company_id']:
+            company_id = int(request.form['company_id'])
+            company = Company.query.filter(Company.company_id == company_id).first()
+        elif request.form['company_name']:
+            company_name = request.form['company_name']
+            company = Company(name=company_name)
             db.session.add(company)
             db.session.commit()
 
+        # create a new job object, add, commit
         job = Job(title=job_title, link=job_link, company_id=company.company_id,
                   active_status=True, notes=job_notes)
         db.session.add(job)
         db.session.commit()
 
+        # create a job event to kick off job status, add, commit
         today = datetime.date(datetime.now())
         job_event = JobEvent(user_id=user_id, job_id=job.job_id,
                              job_code=job_status, date_created=today)
         db.session.add(job_event)
         db.session.commit()
 
+        # return to active jobs and show confirmation
         flash('{} added to your jobs.'.format(job_title), 'success')
         return redirect('/dashboard/jobs')
 
@@ -474,7 +483,13 @@ def show_a_company(company_id):
             Company.company_id == company_id
             ).options(db.joinedload('jobs')).options(db.joinedload('contacts')).first()
 
-        return render_template('company-info.html', company=company, edit=edit)
+        states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
+          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
+          "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
+          "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", 
+          "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
+
+        return render_template('company-info.html', company=company, edit=edit, states=states)
 
 
 @app.route('/dashboard/companies/<company_id>', methods=['POST'])
@@ -488,9 +503,7 @@ def edit_a_company(company_id):
         edit = request.args.get('edit')
 
         # get company object to update
-        company = Company.query.filter(
-            Company.company_id == company_id
-            ).options(db.joinedload('jobs')).first()
+        company = Company.query.filter(Company.company_id == company_id).first()
 
         company.street = request.form['street']
         company.city = request.form['city']
@@ -506,8 +519,14 @@ def edit_a_company(company_id):
             Company.company_id == company_id
             ).options(db.joinedload('jobs')).first()
 
+        states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA", 
+          "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", 
+          "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", 
+          "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", 
+          "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
+
         flash('Change made for {}'.format(company.name), 'success')
-        return render_template('company-info.html', company=company, edit=edit)
+        return render_template('company-info.html', company=company, edit=edit, states=states)
 
 
 # @app.route('/dashboard/companies/add', methods=['GET'])
@@ -701,29 +720,42 @@ def process_contact_form():
         if request.form['email']:
             email = request.form['email']
         else:
-            email = None
+            email = ""
         if request.form['phone']:
             phone = "".join((request.form['phone']).split('-'))
         else:
-            phone = None
+            phone = ""
         if request.form['notes']:
             notes = request.form['notes']
         else:
-            notes = None
+            notes = ""
 
-        # see if company exists, if not, create new company and add to database
-        company_name = request.form['company_info']
-        try:
-            company = Company.query.filter(Company.name.like(company_name)).first()
-            company_id = company.company_id
-        except:
-            new_company = Company(name=company_name)
-            db.session.add(new_company)
+        # look for company_id and find existing company
+        # or get new company_name and create company object, add, commit
+        if request.form['company_id']:
+            company_id = int(request.form['company_id'])
+            company = Company.query.filter(Company.company_id == company_id).first()
+        elif request.form['company_name']:
+            company_name = request.form['company_name']
+            company = Company(name=company_name)
+            db.session.add(company)
             db.session.commit()
-            company_id = new_company.company_id
 
+        company_id = company.company_id
+
+        # create new contact and commit to db
         new_contact = Contact(fname=fname, lname=lname, email=email, phone=phone,
                               company_id=company_id, notes=notes)
+        db.session.add(new_contact)
+        db.session.commit()
+
+        # create initial contact event
+        contact_code = request.form['contact_event']
+        user_id = session['user_id']
+        today = datetime.date(datetime.now())
+        contact_event = ContactEvent(user_id=user_id, contacts=new_contact,
+                                     contact_code=contact_code, date_created=today)
+        db.session.add(contact_event)
         db.session.commit()
 
         flash('{} {} added to your contacts'.format(new_contact.fname, new_contact.lname), 'success')

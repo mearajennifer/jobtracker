@@ -20,8 +20,15 @@
       </div>
 
       <div class="form-group">
-        <label>State:</label>
-        <input type="text" class="form-control" name="state" value="{{ company.state }}" maxlength="2">
+        <label class="control-label">State:</label>
+        <select class="form-control" name="state">
+          {% for state in states %}
+            <option value="{{ state }}">{{ state }}</option>
+            {% if state == company.state %}
+              <option selected value="{{ state }}">{{ state }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
       </div>
 
       <div class="form-group">
