@@ -347,22 +347,24 @@ def show_job_add_form():
     else:
         # get user_id from session
         user_id = session['user_id']
+        user = User.query.filter(User.user_id == user_id).one()
+        companies = user.companies
 
         # query for user job events, return list
         # Look at created a db.relationship from users to jobs
-        user_job_events = JobEvent.query.options(
-            db.joinedload('jobs')
-            ).filter(JobEvent.user_id == user_id).all()
+        # user_job_events = JobEvent.query.options(
+        #     db.joinedload('jobs')
+        #     ).filter(JobEvent.user_id == user_id).all()
 
-        # make a set of all job ids
-        user_job_ids = set(job.job_id for job in user_job_events)
+        # # make a set of all job ids
+        # user_job_ids = set(job.job_id for job in user_job_events)
 
-        # make a list of all companies via job_ids
-        companies = set()
-        for job_id in user_job_ids:
-            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
-            company = Company.query.filter(Company.company_id == job.company_id).first()
-            companies.add(company)
+        # # make a list of all companies via job_ids
+        # companies = set()
+        # for job_id in user_job_ids:
+        #     job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
+        #     company = Company.query.filter(Company.company_id == job.company_id).first()
+        #     companies.add(company)
 
         return render_template('jobs-add.html', companies=companies)
 

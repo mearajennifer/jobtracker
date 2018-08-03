@@ -25,13 +25,14 @@ class User(db.Model):
         """ """
         pass
 
-    def get_companies(self):
+    @property
+    def companies(self):
         """Find all companies a user has applied to."""
         # query for user job events, return list
         # Look at created a db.relationship from users to jobs
         user_job_events = JobEvent.query.options(
             db.joinedload('jobs')
-            ).filter(JobEvent.user_id == user_id).all()
+            ).filter(JobEvent.user_id == self.user_id).all()
 
         # make a set of all job ids
         user_job_ids = set(job.job_id for job in user_job_events)
@@ -42,6 +43,7 @@ class User(db.Model):
             job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
             company = Company.query.filter(Company.company_id == job.company_id).first()
             companies.add(company)
+
         return companies
 
     def __repr__(self):
