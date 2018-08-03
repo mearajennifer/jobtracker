@@ -439,9 +439,7 @@ def show_all_companies():
 
         # query for user job events, return list
         # Look at created a db.relationship from users to jobs
-        user_job_events = JobEvent.query.options(
-            db.joinedload('jobs')
-            ).filter(JobEvent.user_id == user_id).all()
+        user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).all()
 
         # make a set of all job ids
         user_job_ids = set(job.job_id for job in user_job_events)
@@ -450,9 +448,15 @@ def show_all_companies():
         companies = {}
         for job_id in user_job_ids:
             job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
-            count = Job.query.filter(
-                Job.company_id == job.companies.company_id).count()
+            count = Job.query.filter(Job.company_id == job.companies.company_id).count()
             companies[job.companies] = count
+
+        # add companies from contacts
+        user_contact_events = ContactEvent.query.options(db.joinedload('contacts')).filter(ContactEvent.user_id == user_id).all()
+        user_contact_ids = set(contact.contact_id for contact in user_contact_events)
+        for contact_id in user_contact_ids:
+            contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
+            companies[contact.companies] = 0
 
         return render_template('companies.html', companies=companies)
 
