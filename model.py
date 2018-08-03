@@ -21,6 +21,29 @@ class User(db.Model):
     phone = db.Column(db.String(12), nullable=True)
     password = db.Column(db.String(50), nullable=False)
 
+    def user_jobs(self):
+        """ """
+        pass
+
+    def get_companies(self):
+        """Find all companies a user has applied to."""
+        # query for user job events, return list
+        # Look at created a db.relationship from users to jobs
+        user_job_events = JobEvent.query.options(
+            db.joinedload('jobs')
+            ).filter(JobEvent.user_id == user_id).all()
+
+        # make a set of all job ids
+        user_job_ids = set(job.job_id for job in user_job_events)
+
+        # make a list of all companies via job_ids
+        companies = set()
+        for job_id in user_job_ids:
+            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
+            company = Company.query.filter(Company.company_id == job.company_id).first()
+            companies.add(company)
+        return companies
+
     def __repr__(self):
         """Provide helpful representation when printed."""
 
@@ -57,7 +80,7 @@ class ContactEvent(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     contact_id = db.Column(db.Integer, db.ForeignKey('contacts.contact_id'), nullable=False)
     contact_code = db.Column(db.Integer, db.ForeignKey('contact_codes.contact_code'))
-    date_created = db.Column(db.Date, nullable=False)
+    date_created = db.Column(db.DateTime, nullable=False)
 
     users = db.relationship('User', backref=db.backref('contact_events', order_by=contact_event_id))
     contacts = db.relationship('Contact', backref=db.backref('contact_events', order_by=contact_event_id))
@@ -133,7 +156,7 @@ class JobEvent(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('jobs.job_id'), nullable=False)
     job_code = db.Column(db.Integer, db.ForeignKey('job_codes.job_code'), nullable=False)
-    date_created = db.Column(db.Date, nullable=False)
+    date_created = db.Column(db.DateTime, nullable=False)
 
     users = db.relationship('User', backref=db.backref('job_events', order_by=job_event_id))
     jobs = db.relationship('Job', backref=db.backref('job_events', order_by=job_event_id))
@@ -168,8 +191,8 @@ class ToDo(db.Model):
     job_event_id = db.Column(db.Integer, db.ForeignKey('job_events.job_event_id'), nullable=True)
     contact_event_id = db.Column(db.Integer, db.ForeignKey('contact_events.contact_event_id'), nullable=True)
     todo_code = db.Column(db.Integer, db.ForeignKey('todo_codes.todo_code'), nullable=False)
-    date_created = db.Column(db.Date, nullable=False)
-    date_due = db.Column(db.Date, nullable=False)
+    date_created = db.Column(db.DateTime, nullable=False)
+    date_due = db.Column(db.DateTime, nullable=False)
 
     job_events = db.relationship('JobEvent', backref=db.backref('todos', order_by=todo_id))
     contact_events = db.relationship('ContactEvent', backref=db.backref('todos', order_by=todo_id))

@@ -16,18 +16,19 @@
 
   <!-- TABLE ROWS -->
   <tbody>
-    {% for job_status, company in all_active_status.items() %}
+    {% for status in all_active_status %}
       <tr>
         <!-- COMPANY NAME -->
         <td>
-            <a href="/dashboard/companies/{{ company.company_id }}">{{ company.name }}</a>
+              <a href="/dashboard/companies/{{ status.jobs.companies.company_id }}">{{ status.jobs.companies.name }}</a>
+
         </td>
 
         <!-- JOB TITLE -->
         <td>
-          <form action="/dashboard/jobs/{{ job_status.jobs.job_id }}" method="GET">
+          <form action="/dashboard/jobs/{{ status.jobs.job_id }}" method="GET">
             <input type="hidden" name="edit" value="edits-off">
-            <button type="button submit" class="btn btn-link">{{ job_status.jobs.title }}</button>
+            <button type="button submit" class="btn btn-link">{{ status.jobs.title }}</button>
           </form>
         </td>
 
@@ -37,11 +38,11 @@
             <form action="/dashboard/job-status" method="POST">
 
               <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{ job_status.job_codes.description }}
+                {{ status.job_codes.description }}
               </button>
 
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <input type="hidden" name="job_id" value="{{ job_status.job_id }}">
+                <input type="hidden" name="job_id" value="{{ status.job_id }}">
 
                 <button class="dropdown-item submit" type="submit" name="job_code" value="1">
                   Interested
@@ -76,19 +77,18 @@
                 </button>
               
               </div>
-
             </form>
           </div>
         </td>
 
         <!-- DATE LAST MODIFIED -->
         <td>
-          {{ job_status.date_created.strftime('%B %d, %Y') }}
+          {{ status.date_created.strftime('%B %d, %Y') }}
         </td>
 
         <!-- NOTES -->
         <td>
-          {{ job_status.jobs.notes if job_status.jobs.notes != None else "" }}
+          {{ status.jobs.notes if status.jobs.notes != None else "" }}
         </td>
 
       </tr>

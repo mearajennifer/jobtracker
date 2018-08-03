@@ -7,7 +7,6 @@ from sqlalchemy import desc
 from model import (User, Contact, ContactEvent, ContactCode, Company, Job,
                    JobEvent, JobCode, ToDo, ToDoCode, Salary, connect_to_db, db)
 from datetime import datetime
-from datetime import date
 import os
 
 app = Flask(__name__)
@@ -49,9 +48,6 @@ def register_user():
         phone = request.form['phone']
     except KeyError:
         phone = ""
-
-    # check to make sure this is working
-    print(fname, lname, email, password, phone)
 
     # create new user object
     new_user = User(fname=fname, lname=lname, email=email,
@@ -134,36 +130,27 @@ def logout():
 #################################################################################
 @app.route('/dashboard/jobs')
 def show_active_jobs():
-    """Shows list jobs the user is connected to."""
+    """Shows list jobs the user is interested in, applied to, or interviewing for."""
 
-    # redirect if user is not logged in
-    if not session:
-        return redirect('/')
-    else:
-        # get user_id from session
-        user_id = session['user_id']
+    # get user_id from session
+    user_id = session['user_id']
 
-        # query for user job events, return list
-        # Look at created a db.relationship from users to jobs
-        user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
+    # query for user job events, return list -- Look at created a db.relationship from users to jobs
+    user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
 
-        # make a set of all job_ids and remove any that are inactive
-        user_job_ids = set(job.job_id for job in user_job_events
-                           if job.jobs.active_status == True)
+    # make a set of all job_ids and remove any that are inactive
+    user_job_ids = set(job.job_id for job in user_job_events if job.jobs.active_status == True)
 
-        # grab only the most recent events for each job_id
-        all_active_status = {}
-        for user_job_id in user_job_ids:
-            # get all events for one job id
-            events = [event for event in user_job_events if event.job_id == user_job_id]
-            # find that latest event and add to list
-            status = events[0]
-            company = Company.query.filter(
-                Company.company_id == status.jobs.company_id).first()
-            all_active_status[status] = company
+    # grab only the most recent events for each job_id
+    all_active_status = []
+    for user_job_id in user_job_ids:
+        # get all events for one job id
+        events = [event for event in user_job_events if event.job_id == user_job_id]
+        # find that latest event and add to list
+        status = events[0]
+        all_active_status.append(status)
 
-        return render_template('jobs-active.html',
-                               all_active_status=all_active_status)
+    return render_template('jobs-active.html', all_active_status=all_active_status)
 
 
 @app.route('/dashboard/job-status', methods=['POST'])
@@ -180,7 +167,7 @@ def update_job_status():
         user_id = session['user_id']
 
         # create job event
-        today = datetime.date(datetime.now())
+        today = datetime.now()
         job_event = JobEvent(user_id=user_id,
                              job_id=job_id,
                              job_code=job_code,
@@ -210,10 +197,7 @@ def show_archived_jobs():
 
         # query for user job events, return list
         # Look at created a db.relationship from users to jobs
-        user_job_events = JobEvent.query.options(
-            db.joinedload('jobs')
-            ).filter(JobEvent.user_id == user_id
-                     ).order_by(desc('date_created')).all()
+        user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
 
         # make a set of all job_ids and remove any that are inactive
         user_job_ids = set(job.job_id for job in user_job_events
@@ -431,7 +415,7 @@ def process_job_form():
         db.session.commit()
 
         # create a job event to kick off job status, add, commit
-        today = datetime.date(datetime.now())
+        today = datetime.now()
         job_event = JobEvent(user_id=user_id, job_id=job.job_id,
                              job_code=job_status, date_created=today)
         db.session.add(job_event)
@@ -573,6 +557,9 @@ def show_a_contact(contact_id):
     if not session:
         return redirect('/')
     else:
+        # get user_id from session
+        user_id = session['user_id']
+
         # get edit status
         edit = request.args.get('edit')
 
@@ -580,10 +567,27 @@ def show_a_contact(contact_id):
         contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
         contact_events = ContactEvent.query.filter(ContactEvent.contact_id == contact_id).order_by(desc('date_created')).all()
 
+        # find user existing companies based on job_events, jobs, companies
+        # query for user job events, return list
+        user_job_events = JobEvent.query.options(
+            db.joinedload('jobs')
+            ).filter(JobEvent.user_id == user_id).all()
+
+        # make a set of all job ids
+        user_job_ids = set(job.job_id for job in user_job_events)
+
+        # make a list of all companies via job_ids
+        companies = set()
+        for job_id in user_job_ids:
+            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
+            company = Company.query.filter(Company.company_id == job.company_id).first()
+            companies.add(company)
+
         return render_template('contact-info.html',
                                edit=edit,
                                contact=contact,
-                               contact_events=contact_events)
+                               contact_events=contact_events,
+                               companies=companies)
 
 
 @app.route('/dashboard/contacts/<contact_id>', methods=['POST'])
@@ -594,6 +598,9 @@ def edit_a_contact(contact_id):
     if not session:
         return redirect('/')
     else:
+        # get user_id from session
+        user_id = session['user_id']
+
         # get edit status
         edit = request.args.get('edit')
 
@@ -609,28 +616,46 @@ def edit_a_contact(contact_id):
         if request.form['phone']:
             phone = "".join((request.form['phone']).split('-'))
             contact.phone = phone
-        if request.form['company_name']:
-            company_name = request.form['company_name']
-            try:
-                company = Company.query.filter(Company.name.like('company_name')).first()
-                contact.company_id = company.company_id
-            except:
-                new_company = Company(name=company_name)
-                db.session.add(new_company)
-                db.session.commit()
-                contact.company_id = new_company.company_id
 
+        # look for company_id and find existing company
+        # or get new company_name and create company object, add, commit
+        if request.form['company_id']:
+            company_id = int(request.form['company_id'])
+            company = Company.query.filter(Company.company_id == company_id).first()
+        elif request.form['company_name']:
+            company_name = request.form['company_name']
+            company = Company(name=company_name)
+            db.session.add(company)
+            db.session.commit()
+        contact.company_id = company.company_id
         db.session.commit()
 
         # get updated contact info and events
         contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
         contact_events = ContactEvent.query.filter(ContactEvent.contact_id == contact_id).order_by(desc('date_created')).all()
 
+        # find user existing companies based on job_events, jobs, companies
+        # query for user job events, return list
+        user_job_events = JobEvent.query.options(
+            db.joinedload('jobs')
+            ).filter(JobEvent.user_id == user_id).all()
+
+        # make a set of all job ids
+        user_job_ids = set(job.job_id for job in user_job_events)
+
+        # make a list of all companies via job_ids
+        companies = set()
+        for job_id in user_job_ids:
+            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
+            company = Company.query.filter(Company.company_id == job.company_id).first()
+            companies.add(company)
+
         flash('Change made for {} {}'.format(contact.fname, contact.lname), 'success')
         return render_template('contact-info.html',
                                edit=edit,
                                contact=contact,
-                               contact_events=contact_events)
+                               contact_events=contact_events,
+                               companies=companies)
 
 
 @app.route('/dashboard/contacts/add', methods=['GET'])
@@ -710,7 +735,7 @@ def process_contact_form():
         # create initial contact event
         contact_code = request.form['contact_event']
         user_id = session['user_id']
-        today = datetime.date(datetime.now())
+        today = datetime.now()
         contact_event = ContactEvent(user_id=user_id, contacts=new_contact,
                                      contact_code=contact_code, date_created=today)
         db.session.add(contact_event)
