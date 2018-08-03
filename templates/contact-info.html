@@ -61,7 +61,50 @@
   {% else %}
 
     <!-- STATIC MODE -->
-    <div class="row"><h5>{{ contact.fname }} {{ contact.lname }}</h5></div>
+    <div class="row">
+
+      <!-- CONTACT NAME -->
+      <div class="col-8">
+        <h5>{{ contact.fname }} {{ contact.lname }}</h5>
+      </div>
+
+      <!-- CONTACT EVENTS -->
+      <div class="col-2">
+        <div class="dropdown">
+          <form action="/dashboard/contact-status" method="POST">
+
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ contact_events[0].contact_codes.description }}
+            </button>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <input type="hidden" name="contact_id" value="{{ contact.contact_id }}">
+              <button class="dropdown-item submit" type="submit" name="contact_code" value="1">
+                Met at networking event
+              </button>
+
+              <button class="dropdown-item submit" type="submit" name="contact_code" value="2">
+                Requested informational interview
+              </button>
+
+              <button class="dropdown-item submit" type="submit" name="contact_code" value="3">
+                Met for informational interview
+              </button>
+
+              <button class="dropdown-item submit" type="submit" name="contact_code" value="4">
+                Introduced to new contacts
+              </button>
+
+              <button class="dropdown-item submit" type="submit" name="contact_code" value="5">
+                Referred for job application
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
 
     <div class="row">Email:
         <a href="mailto:{{ contact.email if contact.email != None else "" }}">{{ contact.email if contact.email != None else "" }}</a>

@@ -274,8 +274,8 @@ def edit_a_job(job_id):
         avg_salary = request.form.get('avg_salary')
         notes = request.form.get('notes')
 
-        if link is None:
-            link = ""
+        if not link:
+            link = None
         elif link[:4] != 'http':
             link = ''.join(['http://', link])
 
@@ -385,8 +385,8 @@ def process_job_form():
         # look for optional data and add if it exists
         if request.form['job_link']:
             job_link = request.form['job_link']
-            if job_link is None:
-                job_link = ""
+            if not job_link:
+                job_link = None
             elif job_link[:4] != 'http':
                 job_link = ''.join(['http://', job_link])
         else:
@@ -746,6 +746,31 @@ def process_contact_form():
         db.session.commit()
 
         flash('{} {} added to your contacts'.format(new_contact.fname, new_contact.lname), 'success')
+        return redirect('/dashboard/contacts')
+
+
+@app.route('/dashboard/contact-status', methods=['POST'])
+def update_contact_status():
+    """ Adds new contact events to database """
+
+    # redirect if user is not logged in
+    if not session:
+        return redirect('/')
+    else:
+        # get contact_id, contact_code from POST and user_id from cookie
+        contact_id = request.form['contact_id']
+        contact_code = request.form['contact_code']
+        user_id = session['user_id']
+
+        # create job event
+        today = datetime.now()
+        contact_event = ContactEvent(user_id=user_id,
+                                     contact_id=contact_id,
+                                     contact_code=contact_code,
+                                     date_created=today)
+        db.session.add(contact_event)
+        db.session.commit()
+
         return redirect('/dashboard/contacts')
 
 
