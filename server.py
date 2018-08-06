@@ -118,8 +118,10 @@ def logout():
 def show_active_jobs():
     """Shows list jobs the user is interested in, applied to, or interviewing for."""
 
-    # get user_id from session
+    # get user_id from session and pass in companies
     user_id = session['user_id']
+    user = User.query.filter(User.user_id == user_id).one()
+    companies = user.companies
 
     # query for user job events, return list -- Look at created a db.relationship from users to jobs
     user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
@@ -136,7 +138,7 @@ def show_active_jobs():
         status = events[0]
         all_active_status.append(status)
 
-    return render_template('jobs-active.html', all_active_status=all_active_status)
+    return render_template('jobs-active.html', all_active_status=all_active_status, companies=companies)
 
 
 @app.route('/dashboard/job-status', methods=['POST'])
@@ -180,6 +182,8 @@ def show_archived_jobs():
     else:
         # get user_id from session
         user_id = session['user_id']
+        user = User.query.filter(User.user_id == user_id).one()
+        companies = user.companies
 
         # query for user job events, return list
         # Look at created a db.relationship from users to jobs
@@ -204,7 +208,8 @@ def show_archived_jobs():
             all_archived[status] = company
 
         return render_template('jobs-archive.html',
-                               all_archived=all_archived)
+                               all_archived=all_archived,
+                               companies=companies)
 
 
 @app.route('/dashboard/jobs/<job_id>', methods=['GET'])
@@ -217,6 +222,8 @@ def show_a_job(job_id):
     else:
         edit = request.args.get('edit')
         user_id = session['user_id']
+        user = User.query.filter(User.user_id == user_id).one()
+        companies = user.companies
 
         # get job from database and pre-load company data
         job = Job.query.filter(
@@ -243,7 +250,8 @@ def show_a_job(job_id):
                                metros=metros,
                                job_titles=job_titles,
                                job_status=job_status,
-                               edit=edit)
+                               edit=edit,
+                               companies=companies)
 
 
 @app.route('/dashboard/jobs/<job_id>', methods=['POST'])
@@ -254,7 +262,11 @@ def edit_a_job(job_id):
     if not session:
         return redirect('/')
     else:
+        # get user_id from session and pass in companies
         user_id = session['user_id']
+        user = User.query.filter(User.user_id == user_id).one()
+        companies = user.companies
+
         edit = request.form.get('edit')
         link = request.form.get('link')
         avg_salary = request.form.get('avg_salary')
@@ -295,7 +307,8 @@ def edit_a_job(job_id):
                                metros=metros,
                                job_titles=job_titles,
                                job_status=job_status,
-                               edit=edit)
+                               edit=edit,
+                               companies=companies)
 
 
 @app.route('/dashboard/jobs/salary', methods=['POST'])
@@ -323,18 +336,18 @@ def get_salary():
         return redirect('/dashboard/jobs/' + job_id)
 
 
-@app.route('/dashboard/jobs/add', methods=['GET'])
-def show_job_add_form():
-    """Allow user to add a job"""
+# @app.route('/dashboard/jobs/add', methods=['GET'])
+# def show_job_add_form():
+#     """Allow user to add a job"""
 
-    # redirect if user is not logged in
-    if not session:
-        return redirect('/')
-    else:
-        # get user_id from session
-        user_id = session['user_id']
-        user = User.query.filter(User.user_id == user_id).one()
-        companies = user.companies
+#     # redirect if user is not logged in
+#     if not session:
+#         return redirect('/')
+#     else:
+#         # get user_id from session
+#         user_id = session['user_id']
+#         user = User.query.filter(User.user_id == user_id).one()
+#         companies = user.companies
 
         # query for user job events, return list
         # Look at created a db.relationship from users to jobs
@@ -352,7 +365,7 @@ def show_job_add_form():
         #     company = Company.query.filter(Company.company_id == job.company_id).first()
         #     companies.add(company)
 
-        return render_template('jobs-add.html', companies=companies)
+        # return render_template('jobs-add.html', companies=companies)
 
 
 @app.route('/dashboard/jobs/add', methods=['POST'])
@@ -459,6 +472,11 @@ def show_a_company(company_id):
     else:
         edit = request.args.get('edit')
 
+        # get user_id from session
+        user_id = session['user_id']
+        user = User.query.filter(User.user_id == user_id).one()
+        companies = user.companies
+
         #get company info and pre-load jobs
         company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).options(db.joinedload('contacts')).first()
 
@@ -468,7 +486,11 @@ def show_a_company(company_id):
                   "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
                   "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
 
-        return render_template('company-info.html', company=company, edit=edit, states=states)
+        return render_template('company-info.html',
+                               company=company,
+                               edit=edit,
+                               states=states,
+                               companies=companies)
 
 
 @app.route('/dashboard/companies/<company_id>', methods=['POST'])
@@ -480,6 +502,11 @@ def edit_a_company(company_id):
         return redirect('/')
     else:
         edit = request.args.get('edit')
+
+        # get user_id from session
+        user_id = session['user_id']
+        user = User.query.filter(User.user_id == user_id).one()
+        companies = user.companies
 
         # get company object to update
         company = Company.query.filter(Company.company_id == company_id).first()
@@ -510,7 +537,11 @@ def edit_a_company(company_id):
                   "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
 
         flash('Change made for {}'.format(company.name), 'success')
-        return render_template('company-info.html', company=company, edit=edit, states=states)
+        return render_template('company-info.html',
+                               company=company,
+                               edit=edit,
+                               states=states,
+                               companies=companies)
 
 
 # CONTACTS
@@ -525,6 +556,8 @@ def show_all_contacts():
     else:
         # get user
         user_id = session['user_id']
+        user = User.query.filter(User.user_id == user_id).one()
+        companies = user.companies
 
         # get all user events with all contacts
         contact_events = ContactEvent.query.filter(ContactEvent.user_id == user_id).all()
@@ -538,7 +571,7 @@ def show_all_contacts():
             contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
             contacts.append(contact)
 
-        return render_template('contacts.html', contacts=contacts)
+        return render_template('contacts.html', contacts=contacts, companies=companies)
 
 
 @app.route('/dashboard/contacts/<contact_id>', methods=['GET'])
@@ -780,8 +813,9 @@ def show_user_profile():
         # find user in db
         user_id = session['user_id']
         user = User.query.filter(User.user_id == user_id).one()
+        companies = user.companies
 
-        return render_template('profile.html', user=user, edit=edit)
+        return render_template('profile.html', user=user, edit=edit, companies=companies)
 
 
 #################################################################################
