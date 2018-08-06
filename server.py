@@ -25,13 +25,6 @@ def show_landing_page():
     return render_template('landing.html')
 
 
-@app.route('/register', methods=['GET'])
-def show_registration_form():
-    """Shows registration form to user"""
-
-    return render_template('register-form.html')
-
-
 @app.route('/register', methods=['POST'])
 def register_user():
     """Gets user input from registration form and checks against database.
@@ -58,19 +51,12 @@ def register_user():
 
     if verify_email:
         flash('A user is already registered under that email address.', 'error')
-        return render_template('register-form.html')
+        return redirect('/')
     else:
         db.session.add(new_user)
         db.session.commit()
         flash('Thanks for registering! Please log in.', 'success')
-        return redirect('/login')
-
-
-@app.route('/login', methods=['GET'])
-def show_login_form():
-    """Shows login form to user"""
-
-    return render_template('login-form.html')
+        return redirect('/')
 
 
 @app.route('/login', methods=['POST'])
@@ -89,12 +75,12 @@ def login_user():
     # if user doesn't exist, redirect
     if not user:
         flash('No user exists with that email address.', 'error')
-        return redirect('/login')
+        return redirect('/')
 
     # if user exists but passwords don't match
     if user.password != password:
         flash('Incorrect password for the email address entered.', 'error')
-        return redirect('/login')
+        return redirect('/')
 
     # add user_id to session
     session['user_id'] = user.user_id

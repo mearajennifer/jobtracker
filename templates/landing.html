@@ -39,24 +39,85 @@
   <div class="container">
     <div class="jumbotron">
 
-      <h1 class="display-4">JobTracker</h1>
+      <img src="/static/img/JobTracker.png" width="100%">
 
       <p class="lead">Track your app.</p>
 
       <hr class="my-4">
 
-      <a href="/login" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">
-        login
-      </a>
+        <a class="btn btn-secondary btn-lg" data-toggle="collapse" href="#login-form" role="button" aria-pressed="true" aria-expanded="false" aria-controls="login-form" />
+          login
+        </a>
 
-      <a href="/register" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">
-        register
-      </a>
+        <a class="btn btn-secondary btn-lg" data-toggle="collapse" href="#registration-form" role="button" aria-pressed="true" aria-expanded="false" aria-controls="registration-form" />
+          register
+        </a>
 
-      <hr class="my-4">
+        <hr class="my-4">
 
-      {% block content %}
-      {% endblock %}
+        <!-- LOGIN FORM -->
+        <div class="collapse" id="login-form">
+          <form action="/login" method="POST">
+
+            <!-- EMAIL -->
+            <div class="form-group">
+              <label>Email: </label>
+              <input type="email" class="form-control" name="email">
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+              <label>Password:</label>
+              <input type="password" class="form-control" name="password">
+            </div>
+
+            <!-- BUTTON -->
+            <div class="form-group">
+              <button type="button submit" class="btn btn-secondary btn-sm">submit</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- REGISTRATION FORM -->
+        <div class="collapse" id="registration-form">
+          <form action="/register" method="POST">
+
+            <!-- FIRST NAME -->
+            <div class="form-group"
+              <label>First name:</label>
+              <input type="text" class="form-control" name="fname" placeholder="Jane" required />
+            </div>
+
+            <!-- LAST NAME -->
+            <div class="form-group">
+              <label> Last name:</label>
+              <input type="text" class="form-control" name="lname" placeholder="Jobseeker" required />
+            </div>
+
+            <!-- EMAIL -->
+            <div class="form-group">
+              <label>Email:</label>
+              <input type="email" class="form-control" name="email" placeholder="jane@jobseeker.com" required />
+            </div>
+
+            <!-- TELEPHONE (OPTIONAL) -->
+            <div class="form-group">
+              <label>Phone:</label>
+              <input type="tel" class="form-control" name="phone" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+              <label>password: </label>
+                <input type="password" class="form-control" name="password" required />
+            </div>
+
+            <!-- BUTTON -->
+            <div class="form-group">
+              <button type="button submit" class="btn btn-secondary btn-sm">submit</button>
+            </div>
+          </form>
+        </div>
 
     </div>
   </div>
