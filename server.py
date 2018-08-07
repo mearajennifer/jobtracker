@@ -479,6 +479,9 @@ def show_a_company(company_id):
 
         #get company info and pre-load jobs
         company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).options(db.joinedload('contacts')).first()
+        # get list of active jobs and of arcived jobs
+        active_jobs = [job for job in company.jobs if job.active_status]
+        archived_jobs = [job for job in company.jobs if not job.active_status]
 
         states = ["", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
                   "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
@@ -490,7 +493,9 @@ def show_a_company(company_id):
                                company=company,
                                edit=edit,
                                states=states,
-                               companies=companies)
+                               companies=companies,
+                               active_jobs=active_jobs,
+                               archived_jobs=archived_jobs)
 
 
 @app.route('/dashboard/companies/<company_id>', methods=['POST'])
@@ -530,6 +535,10 @@ def edit_a_company(company_id):
         # get updated company info and pre-load jobs
         company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
 
+        # get list of active jobs and of arcived jobs
+        active_jobs = [job for job in company.jobs if job.active_status]
+        archived_jobs = [job for job in company.jobs if not job.active_status]
+
         states = ["", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
                   "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
                   "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
@@ -541,7 +550,10 @@ def edit_a_company(company_id):
                                company=company,
                                edit=edit,
                                states=states,
-                               companies=companies)
+                               companies=companies,
+                               active_jobs=active_jobs,
+                               archived_jobs=archived_jobs)
+        # can i pass companies by default - look at jinja context processors
 
 
 # CONTACTS

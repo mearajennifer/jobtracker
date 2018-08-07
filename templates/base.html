@@ -39,18 +39,17 @@
 
 
     <!-- TOP NAV -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="top">
+    <nav class="navbar navbar-expand-md navbar-light bg-white" id="top">
     
       <!-- LOGO HOMEPAGE -->
-      <a href="/dashboard/jobs" class="navbar-brand">
-        <img src="/static/img/JobTracker.png" alt="JobTracker logo" width="180">
+      <a href="/dashboard/jobs" class="navbar-brand col-md-3 mr-auto">
+        <img src="/static/img/JobTracker.png" alt="JobTracker logo" width="100%">
       </a>
 
-
       <!-- HAMBURGER ICON -->
-      <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-      </button> -->
+      </button>
 
       <!-- NAV ITEMS -->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -66,14 +65,14 @@
 
           <!-- ADD JOB -->
           <li class="nav-item">
-            <a type="button" href="" class="nav/link btn btn-primary" data-toggle="modal" data-target="#addNewJob" />
+            <a class="nav-link" href="" data-toggle="modal" data-target="#addNewJob">
               <i class="fas fa-plus-circle"></i> Job
             </a>
           </li>
 
           <!-- ADD CONTACT -->
           <li class="nav-item">
-            <a type="button" href="" class="nav/link btn btn-primary" data-toggle="modal" data-target="#addNewContact" />
+            <a class="nav-link" href="" data-toggle="modal" data-target="#addNewContact">
               <i class="fas fa-plus-circle"></i> Contact
             </a>
           </li>
@@ -102,7 +101,7 @@
 
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid" position="fixed">
       <div class="row">
 
         <!-- SIDE MENU -->

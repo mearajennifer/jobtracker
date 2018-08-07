@@ -9,6 +9,9 @@
 
   <!-- BOOTSTRAP CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+  <!-- CSS -->
+    <link rel="stylesheet" href="/static/css/landing.css">
     
 </head>
 
@@ -36,12 +39,10 @@
     {% endif %}
   </div>
 
-  <div class="container">
+  <div class="container col-10">
     <div class="jumbotron">
 
-      <img src="/static/img/JobTracker.png" width="100%">
-
-      <p class="lead">Track your app.</p>
+      <img src="/static/img/JobTracker.png" width="90%" class="text-center">
 
       <hr class="my-4">
 
@@ -53,10 +54,8 @@
           register
         </a>
 
-        <hr class="my-4">
-
         <!-- LOGIN FORM -->
-        <div class="collapse" id="login-form">
+        <div class="collapse show" id="login-form">
           <form action="/login" method="POST">
 
             <!-- EMAIL -->

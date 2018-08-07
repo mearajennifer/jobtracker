@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container" style="min-height: 100%, height:100%">
   <div class="row"><h5>{{ company.name }}</h5></div>
 
   {% if edit == "edits-on" %}
@@ -69,58 +69,61 @@
   </div>
   <br>
 
+  {% if active_jobs %}
     <div class="container">
       <div class="row"><h5>Active Jobs</h5></div>
       <div class="row">
         <ul>
-          {% for job in company.jobs|sort(attribute = 'title') %}
-            {% if job.active_status %}
+          {% for job in active_jobs|sort(attribute = 'title') %}
               <li>
                 <form action="/dashboard/jobs/{{ job.job_id }}" method="GET">
                   <input type="hidden" name="edit" value="edits-off">
                   <button type="button submit" class="btn btn-link">{{ job.title }}</button>
                 </form>
               </li>
-            {% endif %}
           {% endfor %}
         </ul>
       </div>
     </div>
     <br>
+  {% endif %}
 
+
+  {% if archived_jobs %}
     <div class="container">
       <div class="row"><h5>Archived Jobs</h5></div>
       <div class="row">
         <ul>
-          {% for job in company.jobs|sort(attribute = 'title') %}
-            {% if not job.active_status %}
-              <li>
-                <form action="/dashboard/jobs/{{ job.job_id }}" method="GET">
-                  <input type="hidden" name="edit" value="edits-off">
-                  <button type="button submit" class="btn btn-link">{{ job.title }}</button>
-                </form>
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row"><h5>Contacts</h5></div>
-      <div class="row">
-        <ul>
-          {% for contact in company.contacts|sort(attribute = 'lname') %}
+          {% for job in archived_jobs|sort(attribute = 'title') %}
             <li>
-              <form action="/dashboard/contacts/{{ contact.contact_id }}" method="GET">
+              <form action="/dashboard/jobs/{{ job.job_id }}" method="GET">
                 <input type="hidden" name="edit" value="edits-off">
-                <button type="button submit" class="btn btn-link">{{ contact.fname }} {{ contact.lname }}</button>
+                <button type="button submit" class="btn btn-link">{{ job.title }}</button>
               </form>
             </li>
           {% endfor %}
         </ul>
       </div>
     </div>
+  {% endif %}
+
+    {% if company.contacts %}
+      <div class="container">
+        <div class="row"><h5>Contacts</h5></div>
+        <div class="row">
+          <ul>
+            {% for contact in company.contacts|sort(attribute = 'lname') %}
+              <li>
+                <form action="/dashboard/contacts/{{ contact.contact_id }}" method="GET">
+                  <input type="hidden" name="edit" value="edits-off">
+                  <button type="button submit" class="btn btn-link">{{ contact.fname }} {{ contact.lname }}</button>
+                </form>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}
 
   {% endif %}
 
