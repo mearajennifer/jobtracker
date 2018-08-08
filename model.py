@@ -21,7 +21,8 @@ class User(db.Model):
     phone = db.Column(db.String(12), nullable=True)
     password = db.Column(db.String(50), nullable=False)
 
-    def user_jobs(self):
+    @property
+    def jobs(self):
         """ """
         pass
 
@@ -37,12 +38,20 @@ class User(db.Model):
         # make a set of all job ids
         user_job_ids = set(job.job_id for job in user_job_events)
 
-        # make a list of all companies via job_ids
+        # make a set of all companies via job_ids
         companies = set()
         for job_id in user_job_ids:
             job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
             company = Company.query.filter(Company.company_id == job.company_id).first()
             companies.add(company)
+
+        # add companies from contacts to the set
+        # user_contact_events = ContactEvent.query.options(db.joinedload('contacts')).filter(ContactEvent.user_id == user_id).all()
+        # user_contact_ids = set(contact.contact_id for contact in user_contact_events)
+        # for contact_id in user_contact_ids:
+        #     contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
+        #     company = Company.query.filter(Company.company_id == contact.company_id).first()
+        #     companies.add(company)
 
         return companies
 
@@ -195,6 +204,7 @@ class ToDo(db.Model):
     todo_code = db.Column(db.Integer, db.ForeignKey('todo_codes.todo_code'), nullable=False)
     date_created = db.Column(db.DateTime, nullable=False)
     date_due = db.Column(db.DateTime, nullable=False)
+    active_status = db.Column(db.Boolean, nullable=False)
 
     job_events = db.relationship('JobEvent', backref=db.backref('todos', order_by=todo_id))
     contact_events = db.relationship('ContactEvent', backref=db.backref('todos', order_by=todo_id))

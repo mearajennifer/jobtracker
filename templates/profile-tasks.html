@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <!-- <h5><span id="greeting"></span></h5> -->
+  <div id="profile-info"></div>
+  
+{% endblock %}
+
+{% block script %}
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="http://unpkg.com/babel-standalone"></script>
+  <script src="/static/js/profile.jsx" type="text/jsx"></script>
+  <script type="text/jsx">
+    ReactDOM.render(
+      <UserProfile fname="{{ user.fname }}" lname="{{ user.lname }}"/>,
+      document.getElementById('profile-info')
+    );
+  </script>
+{% endblock %}

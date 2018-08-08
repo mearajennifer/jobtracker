@@ -8,6 +8,7 @@ from model import (User, Contact, ContactEvent, ContactCode, Company, Job,
                    JobEvent, JobCode, ToDo, ToDoCode, Salary, connect_to_db, db)
 from datetime import datetime
 import os
+from random import choice
 
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
@@ -35,12 +36,13 @@ def register_user():
     lname = request.form['lname']
     email = request.form['email']
     password = request.form['password']
+    phone = request.form['phone']
 
     # try to get form data that isn't required
-    try:
-        phone = request.form['phone']
-    except KeyError:
-        phone = ""
+    # try:
+        
+    # except KeyError:
+    #     phone = ""
 
     # create new user object
     new_user = User(fname=fname, lname=lname, email=email,
@@ -99,7 +101,6 @@ def dashboard():
         return redirect('/')
     else:
         return redirect("/dashboard/jobs")
-
 
 
 @app.route("/logout")
@@ -807,6 +808,11 @@ def update_contact_status():
         return redirect('/dashboard/contacts')
 
 
+# TO DO ITEMS
+#################################################################################
+
+
+
 # USER PROFILE
 #################################################################################
 @app.route('/dashboard/profile', methods=['GET'])
@@ -827,7 +833,14 @@ def show_user_profile():
         user = User.query.filter(User.user_id == user_id).one()
         companies = user.companies
 
-        return render_template('profile.html', user=user, edit=edit, companies=companies)
+        return render_template('profile-tasks.html', user=user, edit=edit, companies=companies)
+
+
+@app.route('/greeting')
+def get_user_greeting():
+    greeting_list = ['Hello, world!', 'You\'ve got this!', 'Today\'s your day!', 'Dream it. Do it.'];
+    return choice(greeting_list)
+
 
 
 #################################################################################
