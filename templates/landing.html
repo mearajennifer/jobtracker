@@ -5,14 +5,19 @@
   <title>Job Hunt App</title>
 
   <!-- FONTS -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
   <!-- BOOTSTRAP CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  
+  <!-- BOOTSTRAP STYLE -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
   <!-- CSS -->
-    <link rel="stylesheet" href="/static/css/landing.css">
-    
+  <link rel="stylesheet" href="/static/css/landing.css">
+
 </head>
 
 <body>
@@ -46,86 +51,23 @@
 
       <hr class="my-4">
 
-        <a class="btn btn-secondary btn-lg" data-toggle="collapse" href="#login-form" role="button" aria-pressed="true" aria-expanded="false" aria-controls="login-form" />
-          login
-        </a>
-
-        <a class="btn btn-secondary btn-lg" data-toggle="collapse" href="#registration-form" role="button" aria-pressed="true" aria-expanded="false" aria-controls="registration-form" />
-          register
-        </a>
-
-        <!-- LOGIN FORM -->
-        <div class="collapse show" id="login-form">
-          <form action="/login" method="POST">
-
-            <!-- EMAIL -->
-            <div class="form-group">
-              <label>Email: </label>
-              <input type="email" class="form-control" name="email">
-            </div>
-
-            <!-- PASSWORD -->
-            <div class="form-group">
-              <label>Password:</label>
-              <input type="password" class="form-control" name="password">
-            </div>
-
-            <!-- BUTTON -->
-            <div class="form-group">
-              <button type="button submit" class="btn btn-secondary btn-sm">submit</button>
-            </div>
-          </form>
-        </div>
-
-        <!-- REGISTRATION FORM -->
-        <div class="collapse" id="registration-form">
-          <form action="/register" method="POST">
-
-            <!-- FIRST NAME -->
-            <div class="form-group"
-              <label>First name:</label>
-              <input type="text" class="form-control" name="fname" placeholder="Jane" required />
-            </div>
-
-            <!-- LAST NAME -->
-            <div class="form-group">
-              <label> Last name:</label>
-              <input type="text" class="form-control" name="lname" placeholder="Jobseeker" required />
-            </div>
-
-            <!-- EMAIL -->
-            <div class="form-group">
-              <label>Email:</label>
-              <input type="email" class="form-control" name="email" placeholder="jane@jobseeker.com" required />
-            </div>
-
-            <!-- TELEPHONE (OPTIONAL) -->
-            <div class="form-group">
-              <label>Phone:</label>
-              <input type="tel" class="form-control" name="phone" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
-            </div>
-
-            <!-- PASSWORD -->
-            <div class="form-group">
-              <label>password: </label>
-                <input type="password" class="form-control" name="password" required />
-            </div>
-
-            <!-- BUTTON -->
-            <div class="form-group">
-              <button type="button submit" class="btn btn-secondary btn-sm">submit</button>
-            </div>
-          </form>
-        </div>
+      {% block content %}
+        <div id="landing"></div>
+      {% endblock %}
 
     </div>
   </div>
 
-
-  <!-- Bootstrap -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="http://unpkg.com/babel-standalone"></script>
+  <script src="/static/js/landing.jsx" type="text/jsx"></script>
+  <script type="text/jsx">
+    ReactDOM.render(
+      <Landing />,
+      document.getElementById('landing')
+    );
+  </script>
 
 </body>
 </html>

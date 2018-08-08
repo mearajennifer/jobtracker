@@ -56,7 +56,7 @@ class UserGreeting extends React.Component {
 
 
 // render Parent
-ReactDOM.render(
-    <UserProfile />,
-    document.getElementById('profile-info')
-);
+// ReactDOM.render(
+    // <UserProfile />,
+    // document.getElementById('profile-info')
+// );

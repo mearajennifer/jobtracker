@@ -38,12 +38,6 @@ def register_user():
     password = request.form['password']
     phone = request.form['phone']
 
-    # try to get form data that isn't required
-    # try:
-        
-    # except KeyError:
-    #     phone = ""
-
     # create new user object
     new_user = User(fname=fname, lname=lname, email=email,
                     password=password, phone=phone)
