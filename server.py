@@ -46,13 +46,11 @@ def register_user():
     verify_email = User.query.filter(User.email == new_user.email).all()
 
     if verify_email:
-        flash('A user is already registered under that email address.', 'error')
-        return redirect('/')
+        return 'A user is already registered under that email address.'
     else:
         db.session.add(new_user)
         db.session.commit()
-        flash('Thanks for registering! Please log in.', 'success')
-        return redirect('/')
+        return 'Thanks for registering! Please log in.'
 
 
 @app.route('/login', methods=['POST'])
