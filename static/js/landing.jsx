@@ -32,9 +32,12 @@ class Landing extends React.Component {
             data: data,
             success: function (resp) {
                 alert(resp);
-                this.handleClick(e)
-            }.bind(this),
+            },
+            error: function () {
+                alert('Error: Please try again.');
+            }
         });
+        
     }
 
     render() {
@@ -128,7 +131,7 @@ class Registration extends React.Component {
                 </div>
 
                 <div className='form-group'>
-                  <button type='button submit' className='btn btn-secondary btn-sm' onClick={this.props.handleClick}>submit</button>
+                  <button type='button submit' className='btn btn-secondary btn-sm'>submit</button>
                 </div>
               </form>
               <hr className='my-4' />
