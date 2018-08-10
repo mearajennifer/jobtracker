@@ -98,7 +98,7 @@ class UserAnalytics extends React.Component {
                 
                 <div className="row">
 
-                    <div className="card col-2">
+                    <div className="card col-2" id="interested">
                         <div className="card-header">
                             <h5 className="card-title">Interested</h5>
                         </div>
@@ -106,7 +106,7 @@ class UserAnalytics extends React.Component {
                             <h1>{data.interested}</h1>
                         </div>
                     </div>
-                    <div className="card col-2">
+                    <div className="card col-2" id="applied">
                         <div className="card-header">
                             <h5 className="card-title">Applied</h5>
                         </div>
@@ -114,7 +114,7 @@ class UserAnalytics extends React.Component {
                             <h1>{data.applied}</h1>
                         </div>
                     </div>
-                    <div className="card col-2">
+                    <div className="card col-2" id="phone">
                         <div className="card-header">
                             <h5 className="card-title">Phone Interview</h5>
                         </div>
@@ -122,7 +122,7 @@ class UserAnalytics extends React.Component {
                             <h1>{data.phone}</h1>
                         </div>
                     </div>
-                    <div className="card col-2">
+                    <div className="card col-2" id="onsite">
                         <div className="card-header">
                             <h5 className="card-title">On-site Interview</h5>
                         </div>
@@ -130,7 +130,7 @@ class UserAnalytics extends React.Component {
                             <h1>{data.onsite}</h1>
                         </div>
                     </div>
-                    <div className="card col-2">
+                    <div className="card col-2" id="offers">
                         <div className="card-header">
                             <h5 className="card-title">Job Offers</h5>
                         </div>
