@@ -88,8 +88,6 @@
         </td>
 
         <!-- TODO -->
-        
-        
         <td>
           {% for todo in all_todos %}
             {{ todo.todo_codes.description if todo.job_event_id == status.job_event_id else "" }}

@@ -100,7 +100,7 @@
 
   {% else %}
     <!-- STATIC MODE -->
-
+  <div>
     <!-- JOB TITLE -->
     <div class="row">
       Job posting: <a href="{{ job.link if job.link != None else "" }}" target="_blank">{{ job.link if job.link != None else "" }}</a>
@@ -117,7 +117,7 @@
         <!-- FORM TO SELECT SALARY -->
         <form action="/dashboard/jobs/salary" method="POST">
           <div class="form-group">
-            <label>Find average salary</label>
+            <label>Find average salary:</label>
 
               <!-- SALARY METRO AREA SELECTION -->
               <select class="form-control" name="metro">
@@ -163,8 +163,10 @@
     <!-- HEADER -->
     <th>
       <tr>
-        <th scope="col">Date</th>
-        <th scope="col">Status</th>
+        <th scope="col-2">Date</th>
+        <th scope="col-2">Status</th>
+        <th scope="col-2">Task</th>
+        <th scope="col-2">Due</th>
       </tr>
     </th>
 
@@ -181,6 +183,36 @@
           <!-- STATUS -->
           <td>
             {{ status.job_codes.description }}
+          </td>
+
+          <!-- TODO -->
+          <td>
+            {% for todo in all_todos %}
+              {% if todo.job_event_id == status.job_event_id %}
+                {% if todo.active_status %}
+                  {{ todo.todo_codes.description}}
+                {% else %}
+                  <strike>{{ todo.todo_codes.description}}</strike>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </td>
+          <td>
+            {% for todo in all_todos %}
+              {% if todo.job_event_id == status.job_event_id %}
+                {% if todo.active_status %}
+                  {{ todo.date_due.strftime('%-m/%-d/%y') }}
+                  <form action="/dashboard/archive-task" method="POST">
+                    <button class="btn" type="submit">
+                      <input type="hidden" name="todo_id" value="{{ todo.todo_id }}">
+                      <i class="fas fa-archive"></i>
+                    </button>
+                  </form>
+                {% else %}
+                  <strike>{{ todo.date_due.strftime('%-m/%-d/%y') }}</strike>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
           </td>
 
         </tr>

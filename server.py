@@ -246,9 +246,13 @@ def show_a_job(job_id):
 
         # query for user job events, return list
         # Look at created a db.relationship from users to jobs
-        job_status = JobEvent.query.filter(JobEvent.user_id == user_id,
-                                           JobEvent.job_id == job_id
-                                           ).order_by(desc('date_created')).order_by(desc('job_code')).all()
+        job_status = JobEvent.query.options(db.joinedload('todos')).filter(JobEvent.user_id == user_id, JobEvent.job_id == job_id).order_by(desc('date_created')).order_by(desc('job_code')).all()
+
+        # query for associated tasks, return list
+        all_todos = []
+        for status in job_status:
+            todo = ToDo.query.filter(ToDo.job_event_id == status.job_event_id).options(db.joinedload('todo_codes')).first()
+            all_todos.append(todo)
 
         if not job.avg_salary:
             metros = db.session.query(Salary.metro).group_by(Salary.metro).order_by(Salary.metro).all()
@@ -263,6 +267,7 @@ def show_a_job(job_id):
                                metros=metros,
                                job_titles=job_titles,
                                job_status=job_status,
+                               all_todos=all_todos,
                                edit=edit,
                                companies=companies)
 
@@ -401,6 +406,21 @@ def process_job_form():
         job_event = JobEvent(user_id=user_id, job_id=job.job_id,
                              job_code=job_status, date_created=today)
         db.session.add(job_event)
+        db.session.commit()
+
+        todo_for_event = {'1': '1', '2': '2', '3': '3', '4': '3', '5': '4', '6': '5', '7': '6', '8': '7'}
+        todo_code = todo_for_event[job_status]
+        find_code = ToDoCode.query.filter(ToDoCode.todo_code == todo_code).first()
+        num_days = find_code.sugg_due_date
+        due_date = today + timedelta(days=num_days)
+
+        # activate todo for event
+        new_todo = ToDo(job_event_id=job_event.job_event_id,
+                        todo_code=todo_code,
+                        date_created=today,
+                        date_due=due_date,
+                        active_status=True)
+        db.session.add(new_todo)
         db.session.commit()
 
         # return to active jobs and show confirmation
