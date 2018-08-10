@@ -7,6 +7,7 @@ from sqlalchemy import desc
 from model import (User, Contact, ContactEvent, ContactCode, Company, Job,
                    JobEvent, JobCode, ToDo, ToDoCode, Salary, connect_to_db, db)
 from datetime import datetime
+from datetime import timedelta
 import os
 from random import choice
 
@@ -118,20 +119,25 @@ def show_active_jobs():
 
     # query for user job events, return list -- Look at created a db.relationship from users to jobs
     user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
+    job_event_ids = [event.job_event_id for event in user_job_events]
 
     # make a set of all job_ids and remove any that are inactive
     user_job_ids = set(job.job_id for job in user_job_events if job.jobs.active_status == True)
 
-    # grab only the most recent events for each job_id
+    # grab only the most recent events and todos for each job_id
     all_active_status = []
+    all_todos = []
     for user_job_id in user_job_ids:
         # get all events for one job id
         events = [event for event in user_job_events if event.job_id == user_job_id]
         # find that latest event and add to list
         status = events[0]
         all_active_status.append(status)
+        user_todo = ToDo.query.filter(ToDo.job_event_id == status.job_event_id, ToDo.active_status == True).first()
+        if user_todo:
+            all_todos.append(user_todo)
 
-    return render_template('jobs-active.html', all_active_status=all_active_status, companies=companies)
+    return render_template('jobs-active.html', all_active_status=all_active_status, all_todos=all_todos, companies=companies)
 
 
 @app.route('/dashboard/job-status', methods=['POST'])
@@ -154,6 +160,20 @@ def update_job_status():
                              job_code=job_code,
                              date_created=today)
         db.session.add(job_event)
+
+        todo_for_event = {'1': '1', '2': '2', '3': '3', '4': '3', '5': '4', '6': '5', '7': '6', '8': '7'}
+        todo_code = todo_for_event[job_code]
+        find_code = ToDoCode.query.filter(ToDoCode.todo_code == todo_code).first()
+        num_days = find_code.sugg_due_date
+        due_date = today + timedelta(days=num_days)
+
+        # activate todo for event
+        new_todo = ToDo(job_event_id=job_event.job_event_id,
+                        todo_code=todo_code,
+                        date_created=today,
+                        date_due=due_date,
+                        active_status=True)
+        db.session.add(new_todo)
 
         # find job in database and archive if necessary
         job = Job.query.filter(Job.job_id == job_id).first()
@@ -329,38 +349,6 @@ def get_salary():
         return redirect('/dashboard/jobs/' + job_id)
 
 
-# @app.route('/dashboard/jobs/add', methods=['GET'])
-# def show_job_add_form():
-#     """Allow user to add a job"""
-
-#     # redirect if user is not logged in
-#     if not session:
-#         return redirect('/')
-#     else:
-#         # get user_id from session
-#         user_id = session['user_id']
-#         user = User.query.filter(User.user_id == user_id).one()
-#         companies = user.companies
-
-        # query for user job events, return list
-        # Look at created a db.relationship from users to jobs
-        # user_job_events = JobEvent.query.options(
-        #     db.joinedload('jobs')
-        #     ).filter(JobEvent.user_id == user_id).all()
-
-        # # make a set of all job ids
-        # user_job_ids = set(job.job_id for job in user_job_events)
-
-        # # make a list of all companies via job_ids
-        # companies = set()
-        # for job_id in user_job_ids:
-        #     job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
-        #     company = Company.query.filter(Company.company_id == job.company_id).first()
-        #     companies.add(company)
-
-        # return render_template('jobs-add.html', companies=companies)
-
-
 @app.route('/dashboard/jobs/add', methods=['POST'])
 def process_job_form():
     """Allow user to add a job"""
@@ -420,6 +408,28 @@ def process_job_form():
         return redirect('/dashboard/jobs')
 
 
+# TO DO ITEMS
+#################################################################################
+@app.route('/dashboard/archive-task', methods=['POST'])
+def archive_task():
+    """Move a todo item from active to archived, so it no longer shows in the dashboard."""
+
+    # redirect if user is not logged in
+    if not session:
+        return redirect('/')
+    else:
+        # get todo_id from POST
+        todo_id = request.form['todo_id']
+
+        # find todo in database and change status
+        todo = ToDo.query.filter(ToDo.todo_id == todo_id).first()
+        todo.active_status = False
+        db.session.commit()
+    return redirect('dashboard/jobs')
+
+
+# COMPANIES
+################################################################################
 @app.route('/dashboard/companies')
 def show_all_companies():
     """Show all companies a user has interest in."""
@@ -798,11 +808,6 @@ def update_contact_status():
         db.session.commit()
 
         return redirect('/dashboard/contacts')
-
-
-# TO DO ITEMS
-#################################################################################
-
 
 
 # USER PROFILE

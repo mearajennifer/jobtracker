@@ -6,11 +6,12 @@
   <!-- TABLE HEADERS -->
   <thead>
     <tr>
-      <th scope="col">Company</th>
-      <th scope="col">Job</th>
-      <th scope="col">Status</th>
-      <th scope="col">Date</th>
-      <th scope="col">Notes</th>
+      <th scope="col-2">Company</th>
+      <th scope="col-2">Job</th>
+      <th scope="col-2">Status</th>
+      <th scope="col-1">Date</th>
+      <th scope="col-2">Tasks</th>
+      <th scope="col-1">Due</th>
     </tr>
   </thead>
 
@@ -83,14 +84,31 @@
 
         <!-- DATE LAST MODIFIED -->
         <td>
-          {{ status.date_created.strftime('%B %d, %Y') }}
+          {{ status.date_created.strftime('%-m/%-d/%y') }}
         </td>
 
-        <!-- NOTES -->
+        <!-- TODO -->
+        
+        
         <td>
-          {{ status.jobs.notes if status.jobs.notes != None else "" }}
+          {% for todo in all_todos %}
+            {{ todo.todo_codes.description if todo.job_event_id == status.job_event_id else "" }}
+          {% endfor %}
         </td>
-
+        <td>
+          {% for todo in all_todos %}
+            {% if todo.job_event_id == status.job_event_id %}
+              {{ todo.date_due.strftime('%-m/%-d/%y') }}
+              <form action="/dashboard/archive-task" method="POST">
+                <button class="btn" type="submit">
+                  <input type="hidden" name="todo_id" value="{{ todo.todo_id }}">
+                  <i class="fas fa-archive"></i>
+                </button>
+              </form>
+            {% else %}
+            {% endif %}
+          {% endfor %}
+        </td>
       </tr>
     {% endfor %}
 

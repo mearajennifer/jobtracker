@@ -95,27 +95,51 @@ class UserAnalytics extends React.Component {
         return (
             <React.Fragment>
                 <h5>Your latest job tracking stats:</h5>
+                
                 <div className="row">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Interested</th>
-                                <th>Applied</th>
-                                <th>Phone Interview</th>
-                                <th>On-site Interview</th>
-                                <th>Job Offers</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{data.interested}</td>
-                                <td>{data.applied}</td>
-                                <td>{data.phone}</td>
-                                <td>{data.onsite}</td>
-                                <td>{data.offers}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                    <div className="card col-2">
+                        <div className="card-header">
+                            <h5 className="card-title">Interested</h5>
+                        </div>
+                        <div className="card-body">
+                            <h1>{data.interested}</h1>
+                        </div>
+                    </div>
+                    <div className="card col-2">
+                        <div className="card-header">
+                            <h5 className="card-title">Applied</h5>
+                        </div>
+                        <div className="card-body">
+                            <h1>{data.applied}</h1>
+                        </div>
+                    </div>
+                    <div className="card col-2">
+                        <div className="card-header">
+                            <h5 className="card-title">Phone Interview</h5>
+                        </div>
+                        <div className="card-body">
+                            <h1>{data.phone}</h1>
+                        </div>
+                    </div>
+                    <div className="card col-2">
+                        <div className="card-header">
+                            <h5 className="card-title">On-site Interview</h5>
+                        </div>
+                        <div className="card-body">
+                            <h1>{data.onsite}</h1>
+                        </div>
+                    </div>
+                    <div className="card col-2">
+                        <div className="card-header">
+                            <h5 className="card-title">Job Offers</h5>
+                        </div>
+                        <div className="card-body">
+                            <h1>{data.offers}</h1>
+                        </div>
+                    </div>
+                    
+
                 </div>
             </React.Fragment>
         );

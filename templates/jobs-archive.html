@@ -36,7 +36,7 @@
       
       <td>{{ job.job_codes.description }}</td>
       
-      <td>{{ job.date_created.strftime('%B %d, %Y') }}</td>
+      <td>{{ job.date_created.strftime('%-m/%-d/%y') }}</td>
       
       <td>{{ job.jobs.notes if job.jobs.notes != None else "" }}</td>
     
