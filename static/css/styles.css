@@ -1,0 +1,62 @@
+/* CSS for main app dashboard */
+
+body {
+    font-family: 'Raleway', sans-serif;
+    max-height: 100%;
+}
+
+.container {
+    height: 100%;
+}
+
+.navbar {
+    border-bottom: 2px solid #232c55;
+    /*max-height: 80%;*/
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+/*#navbar > img {
+    max-height: 70%;
+}*/
+
+.container-fluid {
+    height: 100%;
+    /*position: fixed;*/
+    /*padding-right: 0px;*/
+    /*padding-left: 0px;*/
+}
+
+#dashboard {
+    height: 100%;
+}
+
+.sidebar {
+    background-color: #232c55;
+    color: white;
+    height: 100%;
+    position: fixed;
+    /*padding-right: 0px;*/
+    /*padding-left: 0px;*/
+    /*padding-bottom: 100%;*/
+}
+
+.sidebar-sticky {
+    height: 100%;
+    /*padding-right: 0px;*/
+    /*padding-left: 20px;*/
+    /*padding-top: 5px;*/
+}
+
+.flex-column {
+    height: 100%;
+    /*padding-right: 0px;*/
+    /*padding-left: 0px;*/
+    /*padding-top: 20px;*/
+}
+
+.item > a {
+    color: white;
+    /*padding-top: 5px;*/
+    /*padding-left: 20px;*/
+}

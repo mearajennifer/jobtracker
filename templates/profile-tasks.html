@@ -6,13 +6,30 @@
 {% endblock %}
 
 {% block script %}
+  <script type="text/javascript">
+    const greetingList = ['Hello, world!', 'You\'ve got this!', 'Today\'s your day!',
+                         'Dream it. Do it.', 'Work hard. Dream big.', 'Prove them wrong.',
+                         'You can and you will.', 'Don\'t sweat the small stuff.', 
+                         'The shortest answer is doing.', 'Goals are dreams with deadlines.',
+                         'Luck is believing you\'re lucky.', 'Progress over perfection.',
+                         'Be brave. Be you.', 'Make yourself a priority.',
+                         'Keep on trying!', 'Trust your gut.', 'Rise \'n\' grind!',
+                         'Positivity is a super power!', 'Conquer from within.',
+                         'Your potential is endless', 'You\'re a star!', 'Embrace the day.',
+                         'Learn something new today.', 'Find your fire.', 'Aspire to inspire.',
+                         'The future is bright.', 'Think outside the box.'];
+    const firstGreeting = greetingList[Math.floor(Math.random() * greetingList.length)];
+  </script>
+  <script type="text/javascript">
+    const data = {{ user_analytics|tojson|safe }}
+  </script>
   <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
   <script src="http://unpkg.com/babel-standalone"></script>
   <script src="/static/js/profile.jsx" type="text/jsx"></script>
   <script type="text/jsx">
     ReactDOM.render(
-      <UserProfile fname="{{ user.fname }}" lname="{{ user.lname }}"/>,
+      <UserProfile fname="{{ user.fname }}" lname="{{ user.lname }}" email="{{ user.email }}" phone="{{ user.phone }}" />,
       document.getElementById('profile-info')
     );
   </script>

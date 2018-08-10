@@ -825,13 +825,23 @@ def show_user_profile():
         user = User.query.filter(User.user_id == user_id).one()
         companies = user.companies
 
-        return render_template('profile-tasks.html', user=user, edit=edit, companies=companies)
+        # get user data to pass into charts
+        user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).all()
+        total_interested = len([event for event in user_job_events if event.job_code == 1])
+        total_applied = len([event for event in user_job_events if event.job_code == 2])
+        total_phone = len([event for event in user_job_events if event.job_code == 3])
+        total_in_person = len([event for event in user_job_events if event.job_code == 4])
+        total_job_offer = len([event for event in user_job_events if event.job_code == 5])
 
+        user_analytics = {
+            'interested': total_interested,
+            'applied': total_applied,
+            'phone': total_phone,
+            'onsite': total_in_person,
+            'offers': total_job_offer
+        }
 
-@app.route('/greeting')
-def get_user_greeting():
-    greeting_list = ['Hello, world!', 'You\'ve got this!', 'Today\'s your day!', 'Dream it. Do it.'];
-    return choice(greeting_list)
+        return render_template('profile-tasks.html', user=user, edit=edit, companies=companies, user_analytics=user_analytics)
 
 
 

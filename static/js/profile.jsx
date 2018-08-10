@@ -13,8 +13,36 @@ class UserProfile extends React.Component {
             <React.Fragment>
                 <UserGreeting />
                 <UserName fname={this.props.fname} lname={this.props.lname} />
+                <UserInformation email={this.props.email} phone={this.props.phone} />
+                <UserAnalytics />
             </React.Fragment>
             )
+    }
+}
+
+// Greeting component
+class UserGreeting extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { value: firstGreeting };
+    }
+
+    greet = () => {
+        const newGreeting = greetingList[Math.floor(Math.random() * greetingList.length)];
+        this.setState({ value: newGreeting })
+    }
+
+    render() {
+        return (
+            <React.Fragment>
+                <div className="row">
+                    <h3 className="greeting">{this.state.value}</h3>
+                </div>
+                <div className="row">
+                    <button onClick={this.greet}>Give me another!</button>
+                </div>
+            </React.Fragment>
+        );
     }
 }
 
@@ -26,37 +54,70 @@ class UserName extends React.Component {
 
     render() {
         return (
-            <p>{this.props.fname} {this.props.lname}</p>
+            <React.Fragment>
+                <div className="row name">
+                    <h5>{this.props.fname} {this.props.lname}</h5>
+                </div>
+            </React.Fragment>
         );
     }
 }
 
-
-// Greeting component
-class UserGreeting extends React.Component {
+// User info component
+class UserInformation extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { value: 'Hello, world!' };
-    }
-
-    greet = () => {
-        const greeting_list = ['Hello, world!', 'You\'ve got this!', 'Today\'s your day!', 'Dream it. Do it.', 'Work hard. Dream big.', 'Prove them wrong.', 'You can and you will.'];
-        const greeting = greeting_list[Math.floor(Math.random() * greeting_list.length)];
-        this.setState({ value: greeting })
     }
 
     render() {
         return (
-            <h5 className="greeting" onClick={this.greet}>
-                {this.state.value}
-            </h5>
+            <React.Fragment>
+                <div className="row">
+                    <p>Email: {this.props.email}</p>
+                </div>
+                <div className="row ">
+                    <p>Phone number: {this.props.phone}</p>
+                </div>
+            </React.Fragment>
         );
     }
 }
 
+// User Analytics
+class UserAnalytics extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
-// render Parent
-// ReactDOM.render(
-    // <UserProfile />,
-    // document.getElementById('profile-info')
-// );
+    // Need to pass JSON from db/server with stats back to this child element
+
+    render() {
+        return (
+            <React.Fragment>
+                <h5>Your latest job tracking stats:</h5>
+                <div className="row">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Interested</th>
+                                <th>Applied</th>
+                                <th>Phone Interview</th>
+                                <th>On-site Interview</th>
+                                <th>Job Offers</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{data.interested}</td>
+                                <td>{data.applied}</td>
+                                <td>{data.phone}</td>
+                                <td>{data.onsite}</td>
+                                <td>{data.offers}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </React.Fragment>
+        );
+    }
+}
