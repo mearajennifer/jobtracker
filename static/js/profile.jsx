@@ -96,49 +96,58 @@ class UserAnalytics extends React.Component {
             <React.Fragment>
                 <h5>Your latest job tracking stats:</h5>
                 
-                <div className="row">
+                <div className="row justify-content-center">
 
-                    <div className="card col-2" id="interested">
-                        <div className="card-header">
-                            <h5 className="card-title">Interested</h5>
-                        </div>
-                        <div className="card-body">
-                            <h1>{data.interested}</h1>
-                        </div>
-                    </div>
-                    <div className="card col-2" id="applied">
-                        <div className="card-header">
-                            <h5 className="card-title">Applied</h5>
-                        </div>
-                        <div className="card-body">
-                            <h1>{data.applied}</h1>
+                    <div class="col-fixed ml-auto mr-auto">
+                        <div className="card" id="interested">
+                            <div className="card-header dark-bg">
+                                <h5 className="card-title"><br/>Interested</h5>
+                            </div>
+                            <div className="card-body justify-content-center">
+                                <h1>{data.interested}</h1>
+                            </div>
                         </div>
                     </div>
-                    <div className="card col-2" id="phone">
-                        <div className="card-header">
-                            <h5 className="card-title">Phone Interview</h5>
-                        </div>
-                        <div className="card-body">
-                            <h1>{data.phone}</h1>
-                        </div>
-                    </div>
-                    <div className="card col-2" id="onsite">
-                        <div className="card-header">
-                            <h5 className="card-title">On-site Interview</h5>
-                        </div>
-                        <div className="card-body">
-                            <h1>{data.onsite}</h1>
+                    <div class="col-fixed ml-auto mr-auto">
+                        <div className="card" id="applied">
+                            <div className="card-header">
+                                <h5 className="card-title"><br/>Applied</h5>
+                            </div>
+                            <div className="card-body">
+                                <h1>{data.applied}</h1>
+                            </div>
                         </div>
                     </div>
-                    <div className="card col-2" id="offers">
-                        <div className="card-header">
-                            <h5 className="card-title">Job Offers</h5>
-                        </div>
-                        <div className="card-body">
-                            <h1>{data.offers}</h1>
+                    <div class="col-fixed ml-auto mr-auto">
+                        <div className="card" id="phone">
+                            <div className="card-header">
+                                <h5 className="card-title">Phone<br/>Interview</h5>
+                            </div>
+                            <div className="card-body">
+                                <h1>{data.phone}</h1>
+                            </div>
                         </div>
                     </div>
-                    
+                    <div class="col-fixed ml-auto mr-auto">
+                        <div className="card" id="onsite">
+                            <div className="card-header">
+                                <h5 className="card-title">On-site<br/>Interview</h5>
+                            </div>
+                            <div className="card-body">
+                                <h1>{data.onsite}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-fixed ml-auto mr-auto">
+                        <div className="card" id="offers">
+                            <div className="card-header">
+                                <h5 className="card-title"><br/>Job Offers</h5>
+                            </div>
+                            <div className="card-body">
+                                <h1>{data.offers}</h1>
+                            </div>
+                        </div>
+                    </div>                    
 
                 </div>
             </React.Fragment>

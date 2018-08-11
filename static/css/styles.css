@@ -36,52 +36,53 @@ body {
     color: white;
     height: 100%;
     position: fixed;
-    /*padding-right: 0px;*/
-    /*padding-left: 0px;*/
-    /*padding-bottom: 100%;*/
 }
 
 .sidebar-sticky {
     height: 100%;
-    /*padding-right: 0px;*/
-    /*padding-left: 20px;*/
-    /*padding-top: 5px;*/
 }
 
 .flex-column {
     height: 100%;
-    /*padding-right: 0px;*/
-    /*padding-left: 0px;*/
-    /*padding-top: 20px;*/
 }
 
 .item > a {
     color: white;
-    /*padding-top: 5px;*/
-    /*padding-left: 20px;*/
 }
 
 #interested {
     background-color: #4f63c2;
+    width: 100%;
+    text-align: center;
 }
 
 #applied {
     background-color: #6dc3ca;
+    width: 100%;
+    text-align: center;
 }
 
 #phone {
     background-color: #f96b69;
+    width: 100%;
+    text-align: center;
 }
 
 #onsite {
     background-color: #ffea7f;
+    width: 100%;
+    text-align: center;
 }
 
 #offers {
     background-color: #c8ecee;
+    width: 100%;
+    text-align: center;
 }
 
-
+.col-fixed {
+    width: 150px;
+}
 
 
 
