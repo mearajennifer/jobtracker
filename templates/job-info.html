@@ -107,38 +107,70 @@
     </div>
 
     <div class="row">
-      {% if job.avg_salary %}
 
-        <!-- SALARY ALREADY SELECTED -->
-        Average salary: {{ job.avg_salary if job.avg_salary != None else "" }}
+      Average salary: {{ job.avg_salary if job.avg_salary != None else "" }}<span id="averageSalary"></span>
 
-      {% else %}
+      {% if not job.avg_salary %}
 
         <!-- FORM TO SELECT SALARY -->
-        <form action="/dashboard/jobs/salary" method="POST">
-          <div class="form-group">
-            <label>Find average salary:</label>
+        <form id="submitSalaryInfo" action="/dashboard/jobs/salary" method="post">
 
-              <!-- SALARY METRO AREA SELECTION -->
-              <select class="form-control" name="metro">
+          <!-- SALARY METRO AREA SELECTION -->
+            <div id="metroDiv" class="form-group">
+              <select class="form-control" name="metro" id="metro-field">
                 <option selected>Metro area</option>
                 {% for metro in metros %}
                   <option value="{{ metro[0] }}">{{ metro[0] }}</option>
                 {% endfor %}
               </select>
+            </div>
 
-              <!-- SALARY JOB TITLE SELECTION -->
-              <select class="form-control" name="job_title">
+            <!-- SALARY JOB TITLE SELECTION -->
+            <div id="jobTitleDiv" class="form-group">
+              <select class="form-control" name="job_title" id="job-title-field">
                 <option selected>Job title</option>
                 {% for job_title in job_titles %}
                   <option value="{{ job_title[0] }}">{{ job_title[0] }}</option>
                 {% endfor %}
               </select>
+            </div>
 
-              <input type="hidden" name="job_id" value="{{ job.job_id }}">
-            <button type="button submit" class="btn btn-secondary btn-sm">submit</button>
-          </div>
+            <input type="hidden" name="job_id" id="job-id-field" value="{{ job.job_id }}">
+
+            <input type="submit" class="btn btn-secondary btn-sm" id="salaryButton">
+
         </form>
+
+        <script type="text/javascript">
+
+        function showSalary(results) {
+          $('#averageSalary').html(results);
+          $('#metroDiv').hide();
+          $('#jobTitleDiv').hide();
+          $('#salaryButton').hide();
+        }
+
+        function getSalary(e) {
+          console.log(e);
+          e.preventDefault();
+
+          const formInputs = {
+            'metro': $('#metro-field').val(),
+            'job_title': $('#job-title-field').val(),
+            'job_id': $('#job-id-field').val(),
+          };
+
+          $.post('/dashboard/jobs/salary',
+                 formInputs,
+                 showSalary);
+        }
+
+        $('#submitSalaryInfo').on('submit', getSalary);
+
+        </script>
+
+
+
       {% endif %}
     </div>
 

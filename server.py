@@ -1,7 +1,7 @@
 """Job Hunt app server"""
 
 from jinja2 import StrictUndefined
-from flask import (Flask, render_template, redirect, request, flash, session)
+from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import desc
 from model import (User, Contact, ContactEvent, ContactCode, Company, Job,
@@ -351,7 +351,7 @@ def get_salary():
 
         db.session.commit()
 
-        return redirect('/dashboard/jobs/' + job_id)
+        return job.avg_salary
 
 
 @app.route('/dashboard/jobs/add', methods=['POST'])
