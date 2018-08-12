@@ -153,12 +153,14 @@ def update_job_status():
         job_code = request.form['job_code']
         user_id = session['user_id']
 
+        last_job_event = JobEvent.query.filter(JobEvent.job_id == job_id).order_by(desc('date_created')).first()
+        last_todo = ToDo.query.filter(ToDo.job_event_id == last_job_event.job_event_id).first()
+        last_todo.active_status = False
+        db.session.commit()
+
         # create job event
         today = datetime.now()
-        job_event = JobEvent(user_id=user_id,
-                             job_id=job_id,
-                             job_code=job_code,
-                             date_created=today)
+        job_event = JobEvent(user_id=user_id, job_id=job_id, job_code=job_code, date_created=today)
         db.session.add(job_event)
 
         todo_for_event = {'1': '1', '2': '2', '3': '3', '4': '3', '5': '4', '6': '5', '7': '6', '8': '7'}
