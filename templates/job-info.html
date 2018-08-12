@@ -183,11 +183,11 @@
                 {% if todo.job_event_id == status.job_event_id %}
                   {% if todo.active_status %}
                     <td class="active-task">
-                      {{ todo.todo_codes.description}}
+                      <span id="archiveTask">{{ todo.todo_codes.description}}</span>
                     </td>
                   {% else %}
                     <td class="archived-task">
-                      <strike>{{ todo.todo_codes.description}}</strike>
+                      <del>{{ todo.todo_codes.description}}</del>
                     </td>
                   {% endif %}
                 {% endif %}
@@ -198,17 +198,17 @@
                 {% if todo.job_event_id == status.job_event_id %}
                   {% if todo.active_status %}
                     <td class="active-task">
-                      {{ todo.date_due.strftime('%-m/%-d/%y') }}
-                      <form action="/dashboard/archive-task" method="POST">
-                        <button class="btn" type="submit">
-                          <input type="hidden" name="todo_id" value="{{ todo.todo_id }}">
+                      <span id="archiveDueDate">{{ todo.date_due.strftime('%-m/%-d/%y') }}</span>
+                      <form id="submitTaskArchive" action="/dashboard/archive-task" method="POST">
+                        <button id="archiveButton" class="btn" type="submit">
+                          <input id="todo-id-field" type="hidden" name="todo_id" value="{{ todo.todo_id }}">
                           <i class="fas fa-archive"></i>
                         </button>
                       </form>
                     </td>
                   {% else %}
                     <td class="archived-task">
-                      <strike>{{ todo.date_due.strftime('%-m/%-d/%y') }}</strike>
+                      <del>{{ todo.date_due.strftime('%-m/%-d/%y') }}</del>
                     </td>
                   {% endif %}
                 {% endif %}
@@ -220,6 +220,33 @@
     </table>
   </div>
 </div>
+
+<!-- TASK ARCHIVE SCRIPT -->
+<script type="text/javascript">
+
+  function strikeArchiveTask(results) {
+    alert(results);
+    $('#submitTaskArchive').hide();
+    $('#archiveTask').css({'text-decoration': 'line-through'});
+    $('#archiveDueDate').css({'text-decoration': 'line-through'});
+  }
+
+  function sendArchiveTask(e) {
+    console.log(e);
+    e.preventDefault();
+
+    const formInputs = {
+      'todo_id': $('#todo-id-field').val(),
+    };
+
+    $.post('/dashboard/archive-task',
+           formInputs,
+           strikeArchiveTask);
+  }  
+
+  $('#submitTaskArchive').on('submit', sendArchiveTask);
+
+</script>
 
 
 <!-- SALARY PICKER AJAX SCRIPT -->

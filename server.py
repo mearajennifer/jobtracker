@@ -225,7 +225,7 @@ def show_archived_jobs():
                                companies=companies)
 
 
-@app.route('/dashboard/jobs/<job_id>', methods=['GET'])
+@app.route('/dashboard/jobs/<job_id>')
 def show_a_job(job_id):
     """Shows detailed info about a job"""
 
@@ -422,7 +422,7 @@ def archive_task():
         todo.active_status = False
         db.session.commit()
 
-    return ''
+    return 'Task archived!'
 
 
 # COMPANIES
