@@ -233,7 +233,6 @@ def show_a_job(job_id):
     if not session:
         return redirect('/')
     else:
-        edit = request.args.get('edit')
         user_id = session['user_id']
         user = User.query.filter(User.user_id == user_id).one()
         companies = user.companies
@@ -262,13 +261,12 @@ def show_a_job(job_id):
             metros = ""
             job_titles = ""
 
-        return render_template('job-info-copy.html',
+        return render_template('job-info.html',
                                job=job,
                                metros=metros,
                                job_titles=job_titles,
                                job_status=job_status,
                                all_todos=all_todos,
-                               edit=edit,
                                companies=companies)
 
 
