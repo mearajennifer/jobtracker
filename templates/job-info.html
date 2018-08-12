@@ -72,187 +72,235 @@
     <a href="/dashboard/companies/{{ job.company_id }}">{{ job.companies.name }}</a>
   </div>
 
-  {% if edit == "edits-on" %}
-    <!-- EDIT MODE -->
-    <form action="/dashboard/jobs/{{ job.job_id }}" method="POST">
 
+  <!-- JOB POSTING LINK -->
+  <div class="row" id="job-posting">
+    Job posting: <a href="{{ job.link if job.link != None else "" }}" target="_blank"><span id="jobPosting">{{ job.link if job.link != None else "" }}</span></a>
+  </div>
+
+  <!-- AVERAGE SALARY -->
+  <div class="row" id="avg-salary">
+    Average salary: <span id="averageSalary">{{ job.avg_salary if job.avg_salary != None else "" }}</span>
+
+    {% if not job.avg_salary %}
+      <!-- FORM TO SELECT SALARY -->
+      <form id="submitSalaryInfo" action="/dashboard/jobs/salary" method="post">
+
+        <!-- SALARY METRO AREA SELECTION -->
+        <div id="metroDiv" class="form-group">
+          <select class="form-control" name="metro" id="metro-field">
+            <option selected>Metro area</option>
+            {% for metro in metros %}
+              <option value="{{ metro[0] }}">{{ metro[0] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- SALARY JOB TITLE SELECTION -->
+        <div id="jobTitleDiv" class="form-group">
+          <select class="form-control" name="job_title" id="job-title-field">
+            <option selected>Job title</option>
+            {% for job_title in job_titles %}
+              <option value="{{ job_title[0] }}">{{ job_title[0] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <input type="hidden" name="job_id" id="job-id-field" value="{{ job.job_id }}">
+        <input type="submit" class="btn btn-secondary btn-sm" id="salaryButton">
+      </form>
+    {% endif %}
+  </div>
+
+  <!-- NOTES -->
+  <div class="row" id="notes">
+    <label>Notes: </label><span id="jobNotes">{{ job.notes if job.notes != None else "" }}</span>
+  </div>
+
+  <!-- EDIT BUTTON -->
+  <div class="row">
+    <button id="toggleEditButton" type="button" class="btn btn-secondary btn-sm">
+      edit
+    </button>
+  </div>
+
+  <!-- FORM TO EDIT JOB INFO -->
+  <div class="row" id="edit-fields">
+    <form id="submitJobEdits" action="/dashboard/jobs/edit" method="post">
       <div class="form-group">
         <label>Job posting: </label>
-        <input type="text" class="form-control" name="link" value="{{ job.link if job.link != None else "" }}">
+        <input id="job-link-field" type="text" class="form-control" name="link" value="{{ job.link if job.link != None else "" }}" />
       </div>
 
       <div class="form-group">
         <label>Average salary: </label>
-        <input type="text" class="form-control" name="avg_salary" value="{{ job.avg_salary if job.avg_salary != None else "" }}">
-      </div
+        <input id="avg-salary-field" type="text" class="form-control" name="avg_salary" value="{{ job.avg_salary if job.avg_salary != None else "" }}" />
+      </div>
 
       <div class="form-group">
-        <label>Notes: </label></p>
-        <textarea class="form-control" rows="3" name="notes">{{ job.notes if job.notes != None else "" }}</textarea>
+        <label>Notes: </label>
+        <textarea id="job-notes-field" class="form-control" rows="3" name="notes">{{ job.notes if job.notes != None else "" }}</textarea>
       </div>
 
-      <div class="row">
-        <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="edits-off">submit</button>
-      </div>
-
+      <input type="hidden" name="job_id" id="job-id-field" value="{{ job.job_id }}">
+      <input type="submit" class="btn btn-secondary btn-sm" />
     </form>
   </div>
 
-  {% else %}
-    <!-- STATIC MODE -->
-  <div>
-    <!-- JOB TITLE -->
-    <div class="row">
-      Job posting: <a href="{{ job.link if job.link != None else "" }}" target="_blank">{{ job.link if job.link != None else "" }}</a>
-    </div>
-
-    <div class="row">
-
-      Average salary: {{ job.avg_salary if job.avg_salary != None else "" }}<span id="averageSalary"></span>
-
-      {% if not job.avg_salary %}
-
-        <!-- FORM TO SELECT SALARY -->
-        <form id="submitSalaryInfo" action="/dashboard/jobs/salary" method="post">
-
-          <!-- SALARY METRO AREA SELECTION -->
-            <div id="metroDiv" class="form-group">
-              <select class="form-control" name="metro" id="metro-field">
-                <option selected>Metro area</option>
-                {% for metro in metros %}
-                  <option value="{{ metro[0] }}">{{ metro[0] }}</option>
-                {% endfor %}
-              </select>
-            </div>
-
-            <!-- SALARY JOB TITLE SELECTION -->
-            <div id="jobTitleDiv" class="form-group">
-              <select class="form-control" name="job_title" id="job-title-field">
-                <option selected>Job title</option>
-                {% for job_title in job_titles %}
-                  <option value="{{ job_title[0] }}">{{ job_title[0] }}</option>
-                {% endfor %}
-              </select>
-            </div>
-
-            <input type="hidden" name="job_id" id="job-id-field" value="{{ job.job_id }}">
-
-            <input type="submit" class="btn btn-secondary btn-sm" id="salaryButton">
-
-        </form>
-
-        <script type="text/javascript">
-
-        function showSalary(results) {
-          $('#averageSalary').html(results);
-          $('#metroDiv').hide();
-          $('#jobTitleDiv').hide();
-          $('#salaryButton').hide();
-        }
-
-        function getSalary(e) {
-          console.log(e);
-          e.preventDefault();
-
-          const formInputs = {
-            'metro': $('#metro-field').val(),
-            'job_title': $('#job-title-field').val(),
-            'job_id': $('#job-id-field').val(),
-          };
-
-          $.post('/dashboard/jobs/salary',
-                 formInputs,
-                 showSalary);
-        }
-
-        $('#submitSalaryInfo').on('submit', getSalary);
-
-        </script>
-
-
-
-      {% endif %}
-    </div>
-
-    <!-- NOTES -->
-    <div class="row">
-      <label>Notes: </label>{{ job.notes if job.notes != None else "" }}
-    </div>
-
-    <!-- EDIT BUTTON -->
-    <div class="row">
-      <form action="/dashboard/jobs/{{ job.job_id }}" method="GET">
-        <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="edits-on">edit</button>
-      </form>
-    </div>
-
-  </div>
   <br>
 
   <!-- EVENTS -->
-  <table>
+  <div id="jobEventsTasks" class="row">
+    <table>
 
-    <!-- HEADER -->
-    <th>
-      <tr>
-        <th scope="col">Date</th>
-        <th scope="col">Status</th>
-        <th scope="col">Task</th>
-        <th scope="col">Due</th>
-      </tr>
-    </th>
-
-    <tbody>
-      <!-- LOOP THROUGH STATUS LIST -->
-      {% for status in job_status %}
+      <!-- HEADER -->
+      <th>
         <tr>
-
-          <!-- DATE -->
-          <td>
-            {{ status.date_created.strftime('%-m/%-d/%y') }}
-          </td>
-
-          <!-- STATUS -->
-          <td>
-            {{ status.job_codes.description }}
-          </td>
-
-          <!-- TODO -->
-          <td>
-            {% for todo in all_todos %}
-              {% if todo.job_event_id == status.job_event_id %}
-                {% if todo.active_status %}
-                  {{ todo.todo_codes.description}}
-                {% else %}
-                  <strike>{{ todo.todo_codes.description}}</strike>
-                {% endif %}
-              {% endif %}
-            {% endfor %}
-          </td>
-          <td>
-            {% for todo in all_todos %}
-              {% if todo.job_event_id == status.job_event_id %}
-                {% if todo.active_status %}
-                  {{ todo.date_due.strftime('%-m/%-d/%y') }}
-                  <form action="/dashboard/archive-task" method="POST">
-                    <button class="btn" type="submit">
-                      <input type="hidden" name="todo_id" value="{{ todo.todo_id }}">
-                      <i class="fas fa-archive"></i>
-                    </button>
-                  </form>
-                {% else %}
-                  <strike>{{ todo.date_due.strftime('%-m/%-d/%y') }}</strike>
-                {% endif %}
-              {% endif %}
-            {% endfor %}
-          </td>
-
+          <th scope="col">Date</th>
+          <th scope="col">Status</th>
+          <th scope="col">Task</th>
+          <th scope="col">Due</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </th>
 
-  {% endif %}
+      <tbody>
+        <!-- LOOP THROUGH STATUS LIST -->
+        {% for status in job_status %}
+          <tr>
+
+            <!-- DATE -->
+            <td>
+              {{ status.date_created.strftime('%-m/%-d/%y') }}
+            </td>
+
+            <!-- STATUS -->
+            <td>
+              {{ status.job_codes.description }}
+            </td>
+
+            <!-- TODO TASK -->
+              {% for todo in all_todos %}
+                {% if todo.job_event_id == status.job_event_id %}
+                  {% if todo.active_status %}
+                    <td class="active-task">
+                      {{ todo.todo_codes.description}}
+                    </td>
+                  {% else %}
+                    <td class="archived-task">
+                      <strike>{{ todo.todo_codes.description}}</strike>
+                    </td>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+
+            <!-- DUE DATE -->
+              {% for todo in all_todos %}
+                {% if todo.job_event_id == status.job_event_id %}
+                  {% if todo.active_status %}
+                    <td class="active-task">
+                      {{ todo.date_due.strftime('%-m/%-d/%y') }}
+                      <form action="/dashboard/archive-task" method="POST">
+                        <button class="btn" type="submit">
+                          <input type="hidden" name="todo_id" value="{{ todo.todo_id }}">
+                          <i class="fas fa-archive"></i>
+                        </button>
+                      </form>
+                    </td>
+                  {% else %}
+                    <td class="archived-task">
+                      <strike>{{ todo.date_due.strftime('%-m/%-d/%y') }}</strike>
+                    </td>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- SALARY PICKER AJAX SCRIPT -->
+<script type="text/javascript">
+
+  function showSalary(results) {
+    $('#averageSalary').html(results);
+    $('#metroDiv').hide();
+    $('#jobTitleDiv').hide();
+    $('#salaryButton').hide();
+  }
+
+  function getSalary(e) {
+    console.log(e);
+    e.preventDefault();
+
+    const formInputs = {
+      'metro': $('#metro-field').val(),
+      'job_title': $('#job-title-field').val(),
+      'job_id': $('#job-id-field').val(),
+    };
+
+    $.post('/dashboard/jobs/salary',
+           formInputs,
+           showSalary);
+  }
+
+  $('#submitSalaryInfo').on('submit', getSalary);
+
+</script>
+
+<!-- JOB INFO EDITING SCRIPT -->
+<script type="text/javascript">
+
+  function showJobInfo(results) {
+    $('#job-posting').show();
+    $('#avg-salary').show();
+    $('#notes').show();
+    $('#edit-fields').hide();
+    $('#jobEventsTasks').show();
+    $('#jobPosting').html(results['link']);
+    $('#averageSalary').html(results['avg_salary']);
+    $('#jobNotes').html(results['notes']);
+  }
+
+  function getJobEdits(e) {
+    console.log(e);
+    e.preventDefault();
+
+    const formInputs = {
+      'link': $('#job-link-field').val(),
+      'avg_salary': $('#avg-salary-field').val(),
+      'notes': $('#job-notes-field').val(),
+      'job_id': $('#job-id-field').val(),
+    };
+
+    $.post('/dashboard/jobs/edit',
+           formInputs,
+           showJobInfo,
+    );
+  }
+
+  $('#submitJobEdits').on('submit', getJobEdits);
+
+</script>
+
+<!-- JOB EDITS ON/OFF SCRIPT -->
+<script>
+  function toggleEditFields(e) {
+    console.log(e);
+    e.preventDefault();
+    $('#job-posting').toggle();
+    $('#avg-salary').toggle();
+    $('#notes').toggle();
+    $('#edit-fields').toggle();
+    $('#jobEventsTasks').toggle();
+  }
+
+  $('#toggleEditButton').on('click', toggleEditFields);
+
+</script>
 
 {% endblock %}
 

@@ -262,7 +262,7 @@ def show_a_job(job_id):
             metros = ""
             job_titles = ""
 
-        return render_template('job-info.html',
+        return render_template('job-info-copy.html',
                                job=job,
                                metros=metros,
                                job_titles=job_titles,
@@ -272,61 +272,39 @@ def show_a_job(job_id):
                                companies=companies)
 
 
-@app.route('/dashboard/jobs/<job_id>', methods=['POST'])
-def edit_a_job(job_id):
+@app.route('/dashboard/jobs/edit', methods=['POST'])
+def edit_a_job():
     """Allows user to edit info about a job"""
 
     # redirect if user is not logged in
     if not session:
         return redirect('/')
     else:
-        # get user_id from session and pass in companies
-        user_id = session['user_id']
-        user = User.query.filter(User.user_id == user_id).one()
-        companies = user.companies
-
-        edit = request.form.get('edit')
-        link = request.form.get('link')
-        avg_salary = request.form.get('avg_salary')
-        notes = request.form.get('notes')
+        # get edited data from post request
+        link = request.form['link']
+        avg_salary = request.form['avg_salary']
+        notes = request.form['notes']
+        job_id = request.form['job_id']
 
         if not link:
             link = None
         elif link[:4] != 'http':
             link = ''.join(['http://', link])
 
-        # get job from database and pre-load company data
-        job = Job.query.filter(
-            Job.job_id == job_id
-            ).options(
-            db.joinedload('companies')).first()
-
+        # get job from database, update, commit to db
+        job = Job.query.filter(Job.job_id == job_id).first()
         job.link = link
         job.avg_salary = avg_salary
         job.notes = notes
-
         db.session.commit()
 
-        # query for user job events, return list
-        # Look at created a db.relationship from users to jobs
-        job_status = JobEvent.query.filter(JobEvent.user_id == user_id,
-                                           JobEvent.job_id == job_id
-                                           ).order_by(desc('date_created')).order_by(desc('job_code')).all()
+        results = {
+            'link': job.link,
+            'avg_salary': job.avg_salary,
+            'notes': job.notes,
+        }
 
-        if not job.avg_salary:
-            metros = db.session.query(Salary.metro).group_by(Salary.metro).order_by(Salary.metro).all()
-            job_titles = db.session.query(Salary.job_title).group_by(Salary.job_title).order_by(Salary.job_title).all()
-        else:
-            metros = ""
-            job_titles = ""
-
-        return render_template('job-info.html',
-                               job=job,
-                               metros=metros,
-                               job_titles=job_titles,
-                               job_status=job_status,
-                               edit=edit,
-                               companies=companies)
+        return jsonify(results)
 
 
 @app.route('/dashboard/jobs/salary', methods=['POST'])
@@ -445,7 +423,8 @@ def archive_task():
         todo = ToDo.query.filter(ToDo.todo_id == todo_id).first()
         todo.active_status = False
         db.session.commit()
-    return redirect('dashboard/jobs')
+
+    return ''
 
 
 # COMPANIES

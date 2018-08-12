@@ -84,11 +84,9 @@ body {
     width: 150px;
 }
 
-
-
-
-
-
+#edit-fields {
+    display: none;
+}
 
 
 
