@@ -815,15 +815,10 @@ def update_contact_status():
 def show_user_profile():
     """Show user's profile and allow update to information."""
 
-# redirect if user is not logged in
+    # redirect if user is not logged in
     if not session:
         return redirect('/')
     else:
-        try:
-            edit = request.args.get('edit')
-        except KeyError:
-            edit = 'edits-off'
-
         # find user in db
         user_id = session['user_id']
         user = User.query.filter(User.user_id == user_id).one()
@@ -845,9 +840,36 @@ def show_user_profile():
             'offers': total_job_offer
         }
 
-        return render_template('profile-tasks.html', user=user, edit=edit, companies=companies, user_analytics=user_analytics)
+        return render_template('profile-tasks.html', user=user, companies=companies, user_analytics=user_analytics)
 
 
+@app.route('/dashboard/profile/edit', methods=['POST'])
+def edit_user_profile():
+    """ Update user info in database """
+
+# redirect if user is not logged in
+    if not session:
+        return redirect('/')
+    else:
+        # find user in db
+        user_id = session['user_id']
+        user = User.query.filter(User.user_id == user_id).one()
+
+        # get user data from AJAX request and update db
+        user.fname = request.form['fname']
+        user.lname = request.form['lname']
+        user.email = request.form['email']
+        user.phone = request.form['phone']
+        db.session.commit()
+
+        results = {
+            'fname': user.fname,
+            'lname': user.lname,
+            'email': user.email,
+            'phone': user.phone,
+        }
+
+    return jsonify(results)
 
 #################################################################################
 if __name__ == '__main__':
