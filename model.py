@@ -28,30 +28,25 @@ class User(db.Model):
 
     @property
     def companies(self):
-        """Find all companies a user has applied to."""
-        # query for user job events, return list
-        # Look at created a db.relationship from users to jobs
-        user_job_events = JobEvent.query.options(
-            db.joinedload('jobs')
-            ).filter(JobEvent.user_id == self.user_id).all()
-
-        # make a set of all job ids
-        user_job_ids = set(job.job_id for job in user_job_events)
-
-        # make a set of all companies via job_ids
+        """Find all companies a user is associated with and return set of objects."""
+        # make a set of company objects to add to from jobs and contacts
         companies = set()
-        for job_id in user_job_ids:
-            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
-            company = Company.query.filter(Company.company_id == job.company_id).first()
-            companies.add(company)
+
+        # query for user job events, get set of all job ids, make set of all connected companies
+        user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == self.user_id).all()
+        if user_job_events:
+            user_job_ids = set(job.job_id for job in user_job_events)
+            for job_id in user_job_ids:
+                job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
+                companies.add(job.companies)
 
         # add companies from contacts to the set
-        # user_contact_events = ContactEvent.query.options(db.joinedload('contacts')).filter(ContactEvent.user_id == user_id).all()
-        # user_contact_ids = set(contact.contact_id for contact in user_contact_events)
-        # for contact_id in user_contact_ids:
-        #     contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
-        #     company = Company.query.filter(Company.company_id == contact.company_id).first()
-        #     companies.add(company)
+        user_contact_events = ContactEvent.query.options(db.joinedload('contacts')).filter(ContactEvent.user_id == self.user_id).all()
+        if user_contact_events:
+            user_contact_ids = set(contact.contact_id for contact in user_contact_events)
+            for contact_id in user_contact_ids:
+                contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
+                companies.add(contact.companies)
 
         return companies
 

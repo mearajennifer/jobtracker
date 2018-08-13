@@ -4,13 +4,13 @@ from jinja2 import StrictUndefined
 from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import desc
-from model import (User, Contact, ContactEvent, ContactCode, Company, Job,
-                   JobEvent, JobCode, ToDo, ToDoCode, Salary, connect_to_db, db)
+from model import (User, Contact, ContactEvent, Company, Job, JobEvent, ToDo,
+                   ToDoCode, Salary, connect_to_db, db)
 from datetime import datetime
 from datetime import timedelta
 import os
-from random import choice
 
+# instanciate Flask app object
 app = Flask(__name__)
 app.secret_key = os.environ['FLASK_SECRET_KEY']
 
@@ -240,10 +240,7 @@ def show_a_job(job_id):
         companies = user.companies
 
         # get job from database and pre-load company data
-        job = Job.query.filter(
-            Job.job_id == job_id
-            ).options(
-            db.joinedload('companies')).first()
+        job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
 
         # query for user job events, return list
         # Look at created a db.relationship from users to jobs
@@ -258,7 +255,6 @@ def show_a_job(job_id):
         if not job.avg_salary:
             metros = db.session.query(Salary.metro).group_by(Salary.metro).order_by(Salary.metro).all()
             job_titles = db.session.query(Salary.job_title).group_by(Salary.job_title).order_by(Salary.job_title).all()
-
         else:
             metros = ""
             job_titles = ""
