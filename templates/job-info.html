@@ -144,6 +144,7 @@
 
       <input type="hidden" name="job_id" id="job-id-field" value="{{ job.job_id }}">
       <input type="submit" class="btn btn-secondary btn-sm" />
+      <a id="cancelEditsButton" href="">cancel</a>
     </form>
   </div>
 
@@ -323,9 +324,11 @@
     $('#notes').toggle();
     $('#edit-fields').toggle();
     $('#jobEventsTasks').toggle();
+    $('#toggleEditButton').toggle();
   }
 
   $('#toggleEditButton').on('click', toggleEditFields);
+  $('#cancelEditsButton').on('click', toggleEditFields);
 
 </script>
 
