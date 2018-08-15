@@ -73,14 +73,14 @@ def login_user():
 
     # if user exists but passwords don't match
     if user.password != password:
-        flash('Incorrect password for the email address entered.', 'error')
+        flash('Incorrect password. Please try again.', 'error')
         return redirect('/')
 
     # add user_id to session
     session['user_id'] = user.user_id
 
     # redirect to main dashboard page
-    flash('May the job force be with you...', 'success')
+    flash('Good luck in your job search today, {}!'.format(user.fname), 'success')
     return redirect('/dashboard/jobs')
 
 

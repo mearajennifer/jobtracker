@@ -38,6 +38,7 @@ class Landing extends React.Component {
             }
         });
         
+        this.setState({formType: 'login'});        
     }
 
     render() {
