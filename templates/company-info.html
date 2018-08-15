@@ -2,26 +2,58 @@
 
 {% block content %}
 
-<div class="container" style="min-height: 100%, height:100%">
-  <div class="row"><h5>{{ company.name }}</h5></div>
+<div class="container">
 
-  {% if edit == "edits-on" %}
-    <!-- EDIT MODE -->
-    <form action="/dashboard/companies/{{ company.company_id }}" method="POST">
+  <!-- COMPANY NAME -->
+  <div class="row">
+    <h5>{{ company.name }}</h5>
+  </div>
+
+  <!-- ADDRESS -->
+  <div id="address" class="row" style="display: block">
+    Address:<br>
+    <span id="companyStreetAddress">{{ company.street if company.street != None else "" }}</span><br>
+    <span id="companyCity">{{ company.city if company.city != None else "" }}</span>, <span id="companyState">{{ company.state if company.state != None else "" }}</span> <span id="companyZip">{{ company.zipcode if company.zipcode != None else "" }}</span><br>
+  </div>
+  
+  <!-- WEBSITE -->
+  <div id="website" class="row">
+    Website:
+    <br>
+    <a href="{{ company.website if company.website != None else ""}}" target="_blank"><span id="companyWebsite">{{ company.website if company.website != None else "" }}</span></a>
+  </div>
+
+  <!-- NOTES -->
+  <div id="notes" class="row">
+    Notes:
+    <br>
+    <span id="companyNotes">{{ company.notes if company.notes != None else "" }}</span>
+  </div>
+
+  <!-- EDIT BUTTON -->
+  <div class="row">
+    <button id="toggleEditButton" type="button" class="btn btn-secondary btn-sm">
+      edit
+    </button>
+  </div>
+
+  <!-- FORM TO EDIT COMPANY INFO -->
+  <div id="edit-fields" class="row">
+    <form id="submitCompanyEdits" action="/dashboard/companies/edit" method="post">
 
       <div class="form-group">
         <label>Street:</label>
-        <input type="text" class="form-control" name="street" value="{{ company.street if company.street != None else "" }}">
+        <input id="street-field" type="text" class="form-control" name="street" value="{{ company.street if company.street != None else "" }}" />
       </div>
 
       <div class="form-group">
         <label>City:</label>
-        <input type="text" class="form-control" name="city" value="{{ company.city if company.city != None else "" }}">
+        <input id="city-field" type="text" class="form-control" name="city" value="{{ company.city if company.city != None else "" }}">
       </div>
 
       <div class="form-group">
         <label class="control-label">State:</label>
-        <select class="form-control" name="state">
+        <select id="state-field" class="form-control" name="state">
           {% for state in states %}
             <option value="{{ state }}">{{ state }}</option>
             {% if state == company.state %}
@@ -33,98 +65,136 @@
 
       <div class="form-group">
         <label>Zipcode:</label>
-        <input type="text" class="form-control" name="zipcode" value="{{ company.zipcode if company.zipcode != None else "" }}" maxlength="5">
+        <input id="zipcode-field" type="text" class="form-control" name="zipcode" value="{{ company.zipcode if company.zipcode != None else "" }}" maxlength="5">
       </div>
 
       <div class="form-group">
         <label>Website:</label>
-        <input type="text" class="form-control" name="website" value="{{ company.website if company.website != None else "" }}">
+        <input id="website-field" type="text" class="form-control" name="website" value="{{ company.website if company.website != None else "" }}">
       </div>
 
       <div class="form-group">
         <label>Notes: </label></p>
-        <textarea class="form-control" rows="3" name="notes">{{ company.notes if company.notes != None else "" }}</textarea>
+        <textarea id="notes-field" class="form-control" rows="3" name="notes">{{ company.notes if company.notes != None else "" }}</textarea>
       </div>
 
-      <div class="row">
-        <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="edits-off">submit</button>
-      </div>
-
+      <input id="company-id-field" type="hidden" name="company_id" value="{{ company.company_id }}" />
+      <input type="submit" class="btn btn-secondary btn-sm" />
+      <a id="cancelEditsButton" href="">cancel</a>
     </form>
-  </div>
-
-  {% else %}
-    <!-- STATIC MODE -->
-    <div class="row">Address:</div>
-    <div class="row">{{ company.street if company.street != None else "" }}</div>
-    <div class="row">{{ company.city if company.city != None else "" }}, {{ company.state if company.state != None else "" }} {{ company.zipcode if company.zipcode != None else "" }}</div>
-    <div class="row"><label>Website: </label><a href="{{ company.website if company.website != None else ""}}" target="_blank">{{ company.website if company.website != None else "" }}</a></div>
-    <div class="row"><label>Notes: </label>{{ company.notes if company.notes != None else "" }}
-    </div>
-    <div class="row">
-      <form action="/dashboard/companies/{{ company.company_id }}" method="GET">
-        <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="edits-on">edit</button>
-      </form>
-    </div>
   </div>
   <br>
 
   {% if active_jobs %}
-    <div class="container">
-      <div class="row"><h5>Active Jobs</h5></div>
-      <div class="row">
-        <ul>
-          {% for job in active_jobs|sort(attribute = 'title') %}
-              <li>
-                <form action="/dashboard/jobs/{{ job.job_id }}" method="GET">
-                  <input type="hidden" name="edit" value="edits-off">
-                  <button type="button submit" class="btn btn-link">{{ job.title }}</button>
-                </form>
-              </li>
-          {% endfor %}
-        </ul>
-      </div>
+    <div id="activeJobs" class="row" style="display: block">
+      <h5>Active Jobs</h5>
+      <ul>
+        {% for job in active_jobs|sort(attribute = 'title') %}
+            <li>
+            <a href="/dashboard/jobs/{{ job.job_id }}">
+              {{ job.title }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
-    <br>
   {% endif %}
 
 
   {% if archived_jobs %}
-    <div class="container">
-      <div class="row"><h5>Archived Jobs</h5></div>
-      <div class="row">
-        <ul>
-          {% for job in archived_jobs|sort(attribute = 'title') %}
-            <li>
-              <form action="/dashboard/jobs/{{ job.job_id }}" method="GET">
-                <input type="hidden" name="edit" value="edits-off">
-                <button type="button submit" class="btn btn-link">{{ job.title }}</button>
-              </form>
-            </li>
-          {% endfor %}
-        </ul>
-      </div>
+    <div id="archivedJobs" class="row" style="display: block">
+      <h5>Archived Jobs</h5>
+      <ul>
+        {% for job in archived_jobs|sort(attribute = 'title') %}
+          <li>
+            <a href="/dashboard/jobs/{{ job.job_id }}">
+              {{ job.title }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
     </div>
   {% endif %}
 
-    {% if company.contacts %}
-      <div class="container">
-        <div class="row"><h5>Contacts</h5></div>
-        <div class="row">
-          <ul>
-            {% for contact in company.contacts|sort(attribute = 'lname') %}
-              <li>
-                <form action="/dashboard/contacts/{{ contact.contact_id }}" method="GET">
-                  <input type="hidden" name="edit" value="edits-off">
-                  <button type="button submit" class="btn btn-link">{{ contact.fname }} {{ contact.lname }}</button>
-                </form>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-    {% endif %}
-
+  {% if company.contacts %}
+    <div id="companyContacts" class="row" style="display: block">
+      <h5>Contacts</h5>
+      <ul>
+        {% for contact in company.contacts|sort(attribute = 'lname') %}
+          <li>
+            <form action="/dashboard/contacts/{{ contact.contact_id }}" method="GET">
+              <input type="hidden" name="edit" value="edits-off">
+              <button type="button submit" class="btn btn-link">{{ contact.fname }} {{ contact.lname }}</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
   {% endif %}
+</div>
+
+<!-- COMPANY INFO EDITING SCRIPT -->
+<script type="text/javascript">
+
+  function showCompanyInfo(results) {
+    $('#address').show();
+    $('#website').show();
+    $('#notes').show();
+    $('#edit-fields').hide();
+    $('#activeJobs').show();
+    $('#archivedJobs').show();
+    $('#companyContacts').show();
+    $('#companyStreetAddress').html(results['street']);
+    $('#companyCity').html(results['city']);
+    $('#companyState').html(results['state']);
+    $('#companyZip').html(results['zipcode']);
+    $('#companyWebsite').html(results['website']);
+    $('#companyNotes').html(results['notes']);
+  }
+
+  function getCompanyEdits(e) {
+    console.log(e);
+    e.preventDefault();
+
+    const formInputs = {
+      'company_id': $('#company-id-field').val(),
+      'street': $('#street-field').val(),
+      'city': $('#city-field').val(),
+      'state': $('#state-field').val(),
+      'zipcode': $('#zipcode-field').val(),
+      'notes': $('#notes-field').val(),
+      'website': $('#website-field').val()
+    };
+
+    $.post('/dashboard/companies/edit',
+           formInputs,
+           showCompanyInfo,
+    );
+  }
+
+  $('#submitCompanyEdits').on('submit', getCompanyEdits);
+
+</script>
+
+<!-- COMPANY EDITS ON/OFF SCRIPT -->
+<script>
+  function toggleEditFields(e) {
+    console.log(e);
+    e.preventDefault();
+    $('#address').toggle();
+    $('#website').toggle();
+    $('#notes').toggle();
+    $('#edit-fields').toggle();
+    $('#activeJobs').toggle();
+    $('#archivedJobs').toggle();
+    $('#companyContacts').toggle();
+    $('#toggleEditButton').toggle();
+  }
+
+  $('#toggleEditButton').on('click', toggleEditFields);
+  $('#cancelEditsButton').on('click', toggleEditFields);
+
+</script>
+
 
 {% endblock %}

@@ -116,7 +116,7 @@ def show_active_jobs():
     user = User.query.filter(User.user_id == user_id).one()
     companies = user.companies
 
-    # query for user job events, return list -- Look at created a db.relationship from users to jobs
+    # query for user job events, return list
     user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
     job_event_ids = [event.job_event_id for event in user_job_events]
 
@@ -200,7 +200,6 @@ def show_archived_jobs():
         companies = user.companies
 
         # query for user job events, return list
-        # Look at created a db.relationship from users to jobs
         user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
 
         # make a set of all job_ids and remove any that are inactive
@@ -481,22 +480,16 @@ def show_a_company(company_id):
                                archived_jobs=archived_jobs)
 
 
-@app.route('/dashboard/companies/<company_id>', methods=['POST'])
-def edit_a_company(company_id):
-    """Edit a company a user has interest in."""
+@app.route('/dashboard/companies/edit', methods=['POST'])
+def edit_a_company():
+    """Allows user to edit info about a company."""
 
     # redirect if user is not logged in
     if not session:
         return redirect('/')
     else:
-        edit = request.args.get('edit')
-
-        # get user_id from session
-        user_id = session['user_id']
-        user = User.query.filter(User.user_id == user_id).one()
-        companies = user.companies
-
         # get company object to update
+        company_id = request.form['company_id']
         company = Company.query.filter(Company.company_id == company_id).first()
 
         company.street = request.form['street']
@@ -514,29 +507,18 @@ def edit_a_company(company_id):
         company.website = website
 
         db.session.commit()
+        
+        # send results back to webpage
+        results = {
+            'street': company.street,
+            'city': company.city,
+            'state': company.state,
+            'zipcode': company.zipcode,
+            'notes': company.notes,
+            'website': company.website,
+        }
 
-        # get updated company info and pre-load jobs
-        company = Company.query.filter(Company.company_id == company_id).options(db.joinedload('jobs')).first()
-
-        # get list of active jobs and of arcived jobs
-        active_jobs = [job for job in company.jobs if job.active_status]
-        archived_jobs = [job for job in company.jobs if not job.active_status]
-
-        states = ["", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DC", "DE", "FL", "GA",
-                  "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
-                  "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
-                  "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
-                  "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"]
-
-        flash('Change made for {}'.format(company.name), 'success')
-        return render_template('company-info.html',
-                               company=company,
-                               edit=edit,
-                               states=states,
-                               companies=companies,
-                               active_jobs=active_jobs,
-                               archived_jobs=archived_jobs)
-        # can i pass companies by default - look at jinja context processors
+        return jsonify(results)
 
 
 # CONTACTS
