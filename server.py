@@ -40,8 +40,7 @@ def register_user():
     phone = request.form['phone']
 
     # create new user object
-    new_user = User(fname=fname, lname=lname, email=email,
-                    password=password, phone=phone)
+    new_user = User(fname=fname, lname=lname, email=email, password=password, phone=phone)
 
     # before commiting to db, make sure user doesn't already exist
     verify_email = User.query.filter(User.email == new_user.email).all()
@@ -435,27 +434,13 @@ def show_all_companies():
     else:
         # get user_id from session
         user_id = session['user_id']
+        user = User.query.filter(User.user_id == user_id).one()
+        user_companies = user.companies
 
-        # query for user job events, return list
-        # Look at created a db.relationship from users to jobs
-        user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).all()
-
-        # make a set of all job ids
-        user_job_ids = set(job.job_id for job in user_job_events)
-
-        # make a list of all companies via job ids
         companies = {}
-        for job_id in user_job_ids:
-            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
-            count = Job.query.filter(Job.company_id == job.companies.company_id).count()
-            companies[job.companies] = count
-
-        # add companies from contacts
-        user_contact_events = ContactEvent.query.options(db.joinedload('contacts')).filter(ContactEvent.user_id == user_id).all()
-        user_contact_ids = set(contact.contact_id for contact in user_contact_events)
-        for contact_id in user_contact_ids:
-            contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
-            companies[contact.companies] = 0
+        for company in user_companies:
+            count = Job.query.filter(Job.company_id == company.company_id).count()
+            companies[company] = count
 
         return render_template('companies.html', companies=companies)
 
@@ -693,8 +678,8 @@ def edit_a_contact(contact_id):
                                companies=companies)
 
 
-@app.route('/dashboard/contacts/add', methods=['GET'])
-def show_contact_add_form():
+@app.route('/dashboard/contacts/add', methods=['POST'])
+def process_contact_form():
     """Allow user to add a contact"""
 
     # redirect if user is not logged in
@@ -704,33 +689,6 @@ def show_contact_add_form():
         # get user_id from session
         user_id = session['user_id']
 
-        # find user existing companies based on job_events, jobs, companies
-        # query for user job events, return list
-        user_job_events = JobEvent.query.options(
-            db.joinedload('jobs')
-            ).filter(JobEvent.user_id == user_id).all()
-
-        # make a set of all job ids
-        user_job_ids = set(job.job_id for job in user_job_events)
-
-        # make a list of all companies via job_ids
-        companies = set()
-        for job_id in user_job_ids:
-            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
-            company = Company.query.filter(Company.company_id == job.company_id).first()
-            companies.add(company)
-
-        return render_template('contacts-add.html', companies=companies)
-
-
-@app.route('/dashboard/contacts/add', methods=['POST'])
-def process_contact_form():
-    """Allow user to add a contact"""
-
-    # redirect if user is not logged in
-    if not session:
-        return redirect('/')
-    else:
         # get data from post request
         fname = request.form['fname']
         lname = request.form['lname']
@@ -759,19 +717,16 @@ def process_contact_form():
             db.session.add(company)
             db.session.commit()
 
-        company_id = company.company_id
-
         # create new contact and commit to db
         new_contact = Contact(fname=fname, lname=lname, email=email, phone=phone,
-                              company_id=company_id, notes=notes)
+                              company_id=company.company_id, notes=notes)
         db.session.add(new_contact)
         db.session.commit()
 
         # create initial contact event
         contact_code = request.form['contact_event']
-        user_id = session['user_id']
         today = datetime.now()
-        contact_event = ContactEvent(user_id=user_id, contacts=new_contact,
+        contact_event = ContactEvent(user_id=user_id, contact_id=new_contact.contact_id,
                                      contact_code=contact_code, date_created=today)
         db.session.add(contact_event)
         db.session.commit()

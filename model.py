@@ -23,8 +23,18 @@ class User(db.Model):
 
     @property
     def jobs(self):
-        """ """
-        pass
+        """Find all jobs a user is associated with and return set of objects."""
+        # make an empty set of job objects
+        jobs = set()
+
+        # query for all user jobs
+        user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == self.user_id).all()
+        if user_job_events:
+            user_job_ids = set(job.job_id for job in user_job_events)
+            for job_id in user_job_ids:
+                job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
+                jobs.add(job)
+        return jobs
 
     @property
     def companies(self):
