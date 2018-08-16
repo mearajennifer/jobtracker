@@ -21,18 +21,16 @@
 
         <!-- FIRST NAME -->
         <td>
-          <form action="/dashboard/contacts/{{ contact.contact_id }}" method="GET">
-            <input type="hidden" name="edit" value="edits-off">
-            <button type="button submit" class="btn btn-link">{{ contact.fname }}</button>
-          </form>
+          <a href="/dashboard/contacts/{{ contact.contact_id }}">
+            {{ contact.fname }}
+          </a>
         </td>
 
         <!-- LAST NAME -->
         <td>
-          <form action="/dashboard/contacts/{{ contact.contact_id }}" method="GET">
-            <input type="hidden" name="edit" value="edits-off">
-            <button type="button submit" class="btn btn-link">{{ contact.lname }}</button>
-          </form>
+          <a href="/dashboard/contacts/{{ contact.contact_id }}">
+            {{ contact.lname }}
+          </a>
         </td>
 
         <!-- COMPANY NAME -->
@@ -45,10 +43,15 @@
         <!-- TODO -->
         <td class="active-task">
           {% for todo in all_todos %}
-            <span id="archiveTask">{{ todo.todo_codes.description if todo.contact_events.contact_id == contact.contact_id else "" }}</span>
+            {% if todo.contact_events.contact_id == contact.contact_id %}
+              <span id="archiveTask">{{ todo.todo_codes.description }}</span>
+            {% else %}
+              {{ "" }}
+            {% endif %}
           {% endfor %}
         </td>
-        <td>
+
+        <td class="task-due-date">
           {% for todo in all_todos %}
             {% if todo.contact_events.contact_id == contact.contact_id %}
               <span id="archiveDueDate">{{ todo.date_due.strftime('%-m/%-d/%y') }}</span>
@@ -59,10 +62,10 @@
                 </button>
               </form>
             {% else %}
+              {{ "" }}
             {% endif %}
           {% endfor %}
         </td>
-
       </tr>
     {% endfor %}
 

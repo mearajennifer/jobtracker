@@ -20,10 +20,9 @@
       <tr>
       <!-- COMPANY NAME -->
       <td>
-        <form action="/dashboard/companies/{{ company.company_id }}" method="GET">
-          <input type="hidden" name="edit" value="edits-off">
-          <button type="button submit" class="btn btn-link">{{ company.name }}</button>
-        </form>
+        <a href="/dashboard/companies/{{ company.company_id }}">
+          {{ company.name }}
+        </a>
       </td>
 
       <!-- JOBS TRACKED -->

@@ -88,9 +88,14 @@
         <!-- TODO -->
         <td>
           {% for todo in all_todos %}
-            <span id="archiveTask">{{ todo.todo_codes.description if todo.job_event_id == status.job_event_id else "" }}</span>
+            {% if todo.job_event_id == status.job_event_id %}
+              <span id="archiveTask">{{ todo.todo_codes.description }}</span>
+            {% else %}
+              {{ "" }}
+            {% endif %}
           {% endfor %}
         </td>
+
         <td>
           {% for todo in all_todos %}
             {% if todo.job_event_id == status.job_event_id %}
@@ -102,6 +107,7 @@
                 </button>
               </form>
             {% else %}
+              {{ "" }}
             {% endif %}
           {% endfor %}
         </td>
@@ -116,10 +122,10 @@
 <script type="text/javascript">
 
   function strikeArchiveTask(results) {
-    alert(results);
-    $('#submitTaskArchive').hide();
     $('#archiveTask').css({'text-decoration': 'line-through'});
     $('#archiveDueDate').css({'text-decoration': 'line-through'});
+    $('#submitTaskArchive').hide();
+    alert(results);
   }
 
   function sendArchiveTask(e) {

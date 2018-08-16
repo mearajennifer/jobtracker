@@ -27,16 +27,18 @@
 
       <!-- JOB TITLE -->
       <td>
-        <form action="/dashboard/jobs/{{ job.jobs.job_id }}" method="GET">
-          <input type="hidden" name="edit" value="edits-off">
-          <button type="button submit" class="btn btn-link">{{ job.jobs.title }}</button>
-        </form>
+        <a href="/dashboard/jobs/{{ job.jobs.job_id }}">
+          {{ job.jobs.title }}
+        </a>
       </td>
       
+      <!-- STATUS -->
       <td>{{ job.job_codes.description }}</td>
       
+      <!-- DATE -->
       <td>{{ job.date_created.strftime('%-m/%-d/%y') }}</td>
       
+      <!-- NOTES -->
       <td>{{ job.jobs.notes if job.jobs.notes != None else "" }}</td>
     
     </tr>
