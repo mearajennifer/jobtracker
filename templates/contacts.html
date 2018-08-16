@@ -9,6 +9,8 @@
       <th scope="col"><a href="javascript:SortTable(0, 'T');">First</a></th>
       <th scope="col"><a href="javascript:SortTable(1, 'T');">Last</a></th>
       <th scope="col"><a href="javascript:SortTable(2, 'T');">Company</a></th>
+      <th scope="col"><a href="javascript:SortTable(3, 'T');">Task</a></th>
+      <th scope="col"><a href="javascript:SortTable(4, 'D');">Due Date</a></th>
     </tr>
   </thead>
 
@@ -39,12 +41,60 @@
             {{ contact.companies.name }}
           </a>
         </td>
+        
+        <!-- TODO -->
+        <td class="active-task">
+          {% for todo in all_todos %}
+            <span id="archiveTask">{{ todo.todo_codes.description if todo.contact_events.contact_id == contact.contact_id else "" }}</span>
+          {% endfor %}
+        </td>
+        <td>
+          {% for todo in all_todos %}
+            {% if todo.contact_events.contact_id == contact.contact_id %}
+              <span id="archiveDueDate">{{ todo.date_due.strftime('%-m/%-d/%y') }}</span>
+              <form id="submitTaskArchive" action="/dashboard/archive-task" method="POST">
+                <button id="archiveButton" class="btn" type="submit">
+                  <input id="todo-id-field" type="hidden" name="todo_id" value="{{ todo.todo_id }}">
+                  <i class="fas fa-archive"></i>
+                </button>
+              </form>
+            {% else %}
+            {% endif %}
+          {% endfor %}
+        </td>
 
       </tr>
     {% endfor %}
 
   </tbody>
 </table>
+
+<!-- TASK ARCHIVE SCRIPT -->
+<script type="text/javascript">
+
+  function strikeArchiveTask(results) {
+    $('#archiveTask').css({'text-decoration': 'line-through'});
+    $('#archiveDueDate').css({'text-decoration': 'line-through'});
+    $('#submitTaskArchive').hide();
+    alert(results);
+  }
+
+  function sendArchiveTask(e) {
+    console.log(e);
+    e.preventDefault();
+
+    const formInputs = {
+      'todo_id': $('#todo-id-field').val(),
+    };
+
+    $.post('/dashboard/archive-task',
+           formInputs,
+           strikeArchiveTask);
+  }  
+
+  $('#submitTaskArchive').on('submit', sendArchiveTask);
+
+</script>
 
 <script type="text/javascript">
 /* 

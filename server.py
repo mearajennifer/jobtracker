@@ -537,18 +537,25 @@ def show_all_contacts():
         companies = user.companies
 
         # get all user events with all contacts
-        contact_events = ContactEvent.query.filter(ContactEvent.user_id == user_id).all()
+        contact_events = ContactEvent.query.filter(ContactEvent.user_id == user_id).order_by(desc('date_created')).all()
 
         # make a set of all contact_ids
         contact_ids = set(contact_event.contact_id for contact_event in contact_events)
 
         # grab all contact objects by contact_id
         contacts = []
+        all_todos = []
         for contact_id in contact_ids:
             contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
             contacts.append(contact)
+            # get all contact events for the contact
+            events = [event for event in contact_events if event.contact_id == contact.contact_id]
+            latest_event = events[0]
+            user_todo = ToDo.query.filter(ToDo.contact_event_id == latest_event.contact_event_id, ToDo.active_status ==True).first()
+            if user_todo:
+                all_todos.append(user_todo)
 
-        return render_template('contacts.html', contacts=contacts, companies=companies)
+        return render_template('contacts.html', contacts=contacts, all_todos=all_todos, companies=companies)
 
 
 @app.route('/dashboard/contacts/<contact_id>', methods=['GET'])
@@ -561,6 +568,8 @@ def show_a_contact(contact_id):
     else:
         # get user_id from session
         user_id = session['user_id']
+        user = User.query.filter(User.user_id == user_id).one()
+        companies = user.companies
 
         # get edit status
         edit = request.args.get('edit')
@@ -569,26 +578,17 @@ def show_a_contact(contact_id):
         contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
         contact_events = ContactEvent.query.filter(ContactEvent.contact_id == contact_id).order_by(desc('date_created')).all()
 
-        # find user existing companies based on job_events, jobs, companies
-        # query for user job events, return list
-        user_job_events = JobEvent.query.options(
-            db.joinedload('jobs')
-            ).filter(JobEvent.user_id == user_id).all()
-
-        # make a set of all job ids
-        user_job_ids = set(job.job_id for job in user_job_events)
-
-        # make a list of all companies via job_ids
-        companies = set()
-        for job_id in user_job_ids:
-            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
-            company = Company.query.filter(Company.company_id == job.company_id).first()
-            companies.add(company)
+        # query for associated tasks, return list
+        all_todos = []
+        for event in contact_events:
+            todo = ToDo.query.filter(ToDo.contact_event_id == event.contact_event_id).options(db.joinedload('todo_codes')).first()
+            all_todos.append(todo)
 
         return render_template('contact-info.html',
                                edit=edit,
                                contact=contact,
                                contact_events=contact_events,
+                               all_todos=all_todos,
                                companies=companies)
 
 
@@ -687,6 +687,22 @@ def process_contact_form():
         db.session.add(contact_event)
         db.session.commit()
 
+        todo_for_event = {'1': '8', '2': '8', '3': '9', '4': '8', '5': '9'}
+        todo_code = todo_for_event[contact_code]
+        find_code = ToDoCode.query.filter(ToDoCode.todo_code == todo_code).first()
+        num_days = find_code.sugg_due_date
+        due_date = today + timedelta(days=num_days)
+
+        # activate todo for event
+        new_todo = ToDo(contact_event_id=contact_event.contact_event_id,
+                        todo_code=todo_code,
+                        date_created=today,
+                        date_due=due_date,
+                        active_status=True)
+        db.session.add(new_todo)
+        db.session.commit()
+
+
         flash('{} {} added to your contacts'.format(new_contact.fname, new_contact.lname), 'success')
         return redirect('/dashboard/contacts')
 
@@ -711,6 +727,21 @@ def update_contact_status():
                                      contact_code=contact_code,
                                      date_created=today)
         db.session.add(contact_event)
+        db.session.commit()
+
+        todo_for_event = {'1': '8', '2': '8', '3': '9', '4': '8', '5': '9'}
+        todo_code = todo_for_event[contact_code]
+        find_code = ToDoCode.query.filter(ToDoCode.todo_code == todo_code).first()
+        num_days = find_code.sugg_due_date
+        due_date = today + timedelta(days=num_days)
+
+        # activate todo for event
+        new_todo = ToDo(contact_event_id=contact_event.contact_event_id,
+                        todo_code=todo_code,
+                        date_created=today,
+                        date_due=due_date,
+                        active_status=True)
+        db.session.add(new_todo)
         db.session.commit()
 
         return redirect('/dashboard/contacts')
