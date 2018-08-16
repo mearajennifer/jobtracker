@@ -2,32 +2,100 @@
 
 {% block content %}
  
-
 <div class="container">
 
-  {% if edit == "edits-on" %}
+  <div class="row">
+    <!-- CONTACT NAME -->
+    <div class="col-8">
+      <h5>{{ contact.fname }} {{ contact.lname }}</h5>
+    </div>
 
-    <!-- EDIT MODE -->
-    <form action="/dashboard/contacts/{{ contact.contact_id }}" method="POST">
+    <!-- CONTACT EVENTS -->
+    <div class="col-2">
+      <div class="dropdown">
+        <form action="/dashboard/contact-status" method="POST">
 
-      <div class="form-group">
-        <label>First name:</label>
-        <input type="text" class="form-control" name="fname" value="{{ contact.fname }}" required />
+          <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ contact_events[0].contact_codes.description }}
+          </button>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <input type="hidden" name="contact_id" value="{{ contact.contact_id }}">
+            <button class="dropdown-item submit" type="submit" name="contact_code" value="1">
+              Met at networking event
+            </button>
+
+            <button class="dropdown-item submit" type="submit" name="contact_code" value="2">
+              Requested informational interview
+            </button>
+
+            <button class="dropdown-item submit" type="submit" name="contact_code" value="3">
+              Met for informational interview
+            </button>
+
+            <button class="dropdown-item submit" type="submit" name="contact_code" value="4">
+              Introduced to new contacts
+            </button>
+
+            <button class="dropdown-item submit" type="submit" name="contact_code" value="5">
+              Referred for job application
+            </button>
+          </div>
+        </form>
       </div>
+    </div>
+  </div>
 
-      <div class="form-group">
-        <label>Last name:</label>
-        <input type="text" class="form-control" name="lname" value="{{ contact.lname }}" required />
-      </div>
+  <!-- CONTACT EMAIL -->
+  <div id="email" class="row">
+    Email:<br>
+      <a href="mailto:{{ contact.email if contact.email != None else "" }}">
+        <span id="contactEmail">{{ contact.email if contact.email != None else "" }}</span>
+      </a>
+  </div>
+
+  <!-- CONTACT PHONE -->
+  <div id="phone-num" class="row">
+    Phone:<br>
+    {% if contact.phone != None %}
+      <span id="contactPhone">{{ contact.phone[:3] }}-{{ contact.phone[3:6] }}-{{ contact.phone[6:] }}</span>
+    {% else %}
+    {% endif %}
+  </div>
+
+  <!-- CONTACT COMPANY -->
+  <div id="company" class="row">
+    Company:<br>
+    <a href="/dashboard/companies/{{ contact.company_id }}">
+      <span id="contactCompany">{{ contact.companies.name }}</span>
+    </a>
+  </div>
+
+  <!-- CONTACT NOTES -->
+  <div id="notes" class="row">
+    Notes:<br>
+    <span id="contactNotes">{{ contact.notes if contact.notes != None else "" }}</span>
+  </div>
+
+  <!-- EDIT BUTTON -->
+  <div class="row">
+    <button id="toggleEditButton" type="button" class="btn btn-secondary btn-sm">
+      edit
+    </button>
+  </div>
+
+  <!-- FORM TO EDIT CONTACT INFO -->
+  <div id="edit-fields" class="row">
+    <form id="submitContactEdits" action="/dashboard/contacts/edit" method="post">
 
       <div class="form-group">
         <label>Email:</label>
-        <input type="email" class="form-control" name="email" value="{{ contact.email if contact.email != None else "" }}">
+        <input id="email-field" type="email" class="form-control" name="email" value="{{ contact.email if contact.email != None else "" }}">
       </div>
 
       <div class="form-group">
         <label>Phone:</label>
-        <input type="phone" class="form-control" name="phone" value="{{ contact.phone if contact.phone != None else "" }}" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+        <input id="phone-field" type="phone" class="form-control" name="phone" value="{{ contact.phone if contact.phone != None else "" }}">
       </div>
 
       <!-- COMPANY -->
@@ -35,138 +103,120 @@
         <label class="control-label">Company:</label>
 
           <!-- SELECT MENU -->
-          <select class="form-control" name="company_id">
-            <option selected value>Select existing company</option>
+          <select id="company-id-field" class="form-control" name="company_id">
+            <option selected value="{{ contact.company_id }}">{{ contact.companies.name }}</option>
             {% for company in companies %}
               <option value="{{ company.company_id }}" >{{ company.name }}</option>
             {% endfor %}  
           </select><br>
 
           <!-- TEXT INPUT -->
-          <input type="text" class="form-control" name="company_name" value="{{ contact.companies.name }}">
+          <input id="company-name-field" type="text" class="form-control" name="company_name" placeholder="New company">
       </div>
 
       <div class="form-group">
         <label>Notes:</label>
-        <textarea class="form-control" rows="3" name="notes">{{ contact.notes if contact.notes != None else ""}}</textarea>
+        <textarea id="contact-notes-field" class="form-control" rows="3" name="notes">{{ contact.notes if contact.notes != None else ""}}</textarea>
       </div>
 
-      <div class="row">
-        <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="edits-off">submit</button>
-      </div>
-
+      <input id="contact-id-field" type="hidden" name="contact_id" value="{{ contact.contact_id }}">
+      <input type="submit" class="btn btn-secondary btn-sm" />
+      <a id="cancelEditsButton" href="">cancel</a>
     </form>
-  </div>
-
-  {% else %}
-
-    <!-- STATIC MODE -->
-    <div class="row">
-
-      <!-- CONTACT NAME -->
-      <div class="col-8">
-        <h5>{{ contact.fname }} {{ contact.lname }}</h5>
-      </div>
-
-      <!-- CONTACT EVENTS -->
-      <div class="col-2">
-        <div class="dropdown">
-          <form action="/dashboard/contact-status" method="POST">
-
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{ contact_events[0].contact_codes.description }}
-            </button>
-
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <input type="hidden" name="contact_id" value="{{ contact.contact_id }}">
-              <button class="dropdown-item submit" type="submit" name="contact_code" value="1">
-                Met at networking event
-              </button>
-
-              <button class="dropdown-item submit" type="submit" name="contact_code" value="2">
-                Requested informational interview
-              </button>
-
-              <button class="dropdown-item submit" type="submit" name="contact_code" value="3">
-                Met for informational interview
-              </button>
-
-              <button class="dropdown-item submit" type="submit" name="contact_code" value="4">
-                Introduced to new contacts
-              </button>
-
-              <button class="dropdown-item submit" type="submit" name="contact_code" value="5">
-                Referred for job application
-              </button>
-            </div>
-
-          </form>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="row">Email:
-        <a href="mailto:{{ contact.email if contact.email != None else "" }}">{{ contact.email if contact.email != None else "" }}</a>
-    </div>
-
-    <div class="row">Phone:
-      {% if contact.phone != None %}
-        {{ contact.phone[:3] }}-{{ contact.phone[3:6] }}-{{ contact.phone[6:] }}
-      {% else %}
-      {% endif %}
-    </div>
-
-    <div class="row">Company: 
-      <a href="/dashboard/companies/{{ contact.company_id }}">
-        {{ contact.companies.name }}</a>
-    </div>
-
-    <div class="row">Notes:
-      {{ contact.notes if contact.notes != None else "" }}
-    </div>
-
-    <div class="row">
-      <form action="/dashboard/contacts/{{ contact.contact_id }}" method="GET">
-        <button type="button submit" class="btn btn-secondary btn-sm" name="edit" value="edits-on">edit</button>
-      </form>
-    </div>
-
   </div>
   <br>
 
   <!-- EVENTS -->
-  <table>
+  <div id="contactEvents" class="row">
+    <table>
 
-    <!-- HEADER -->
-    <th>
-      <tr>
-        <th scope="col">Date</th>
-        <th scope="col">Action</th>
-      </tr>
-    </th>
-
-    <tbody>
-      <!-- LOOP THROUGH STATUS LIST -->
-      {% for event in contact_events %}
+      <!-- HEADER -->
+      <th>
         <tr>
-
-          <!-- DATE -->
-          <td>
-            {{ event.date_created.strftime('%-m/%-d/%y') }}
-          </td>
-
-          <!-- STATUS -->
-          <td>
-            {{ event.contact_codes.description }}
-          </td>
-
+          <th scope="col">Date</th>
+          <th scope="col">Action</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </th>
 
-  {% endif %}
+      <tbody>
+        <!-- LOOP THROUGH STATUS LIST -->
+        {% for event in contact_events %}
+          <tr>
 
+            <!-- DATE -->
+            <td>
+              {{ event.date_created.strftime('%-m/%-d/%y') }}
+            </td>
+
+            <!-- STATUS -->
+            <td>
+              {{ event.contact_codes.description }}
+            </td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+
+  function showContactInfo(results) {
+    $('#email').toggle();
+    $('#phone-num').toggle();
+    $('#company').toggle();
+    $('#notes').toggle();
+    $('#edit-fields').toggle();
+    $('#contactEvents').toggle();
+    $('#toggleEditButton').toggle();
+    $('#contactEmail').html(results.email);
+    $('#contactPhone').html(results.phone);
+    $('#contactCompany').html(results.company);
+    $('#contactNotes').html(results.notes);
+  }
+
+  function getContactEdits(e) {
+    console.log(e);
+    e.preventDefault();
+
+    const formInputs = {
+      'contact_id': $('#contact-id-field').val(),
+      'email': $('#email-field').val(),
+      'phone': $('#phone-field').val(),
+      'company_id': $('#company-id-field').val(),
+      'company_name': $('#company-name-field').val(),
+      'notes': $('#contact-notes-field').val(),
+    };
+
+    $.post('/dashboard/contacts/edit',
+           formInputs,
+           showContactInfo,
+    );
+  }
+
+  $('#submitContactEdits').on('submit', getContactEdits);
+
+</script>
+
+<!-- COMPANY EDITS ON/OFF SCRIPT -->
+<script>
+  function toggleEditFields(e) {
+    console.log(e);
+    e.preventDefault();
+    $('#email').toggle();
+    $('#phone-num').toggle();
+    $('#company').toggle();
+    $('#notes').toggle();
+    $('#edit-fields').toggle();
+    $('#contactEvents').toggle();
+    $('#toggleEditButton').toggle();
+  }
+
+  $('#toggleEditButton').on('click', toggleEditFields);
+  $('#cancelEditsButton').on('click', toggleEditFields);
+
+</script>
 
 {% endblock %}

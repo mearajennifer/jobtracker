@@ -592,35 +592,25 @@ def show_a_contact(contact_id):
                                companies=companies)
 
 
-@app.route('/dashboard/contacts/<contact_id>', methods=['POST'])
-def edit_a_contact(contact_id):
+@app.route('/dashboard/contacts/edit', methods=['POST'])
+def edit_a_contact():
     """Allows user to edit info about a contact"""
 
     # redirect if user is not logged in
     if not session:
         return redirect('/')
     else:
-        # get user_id from session
-        user_id = session['user_id']
-
-        # get edit status
-        edit = request.args.get('edit')
-
         # get contact object to update
+        contact_id = request.form['contact_id']
         contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
 
-        # get data from post request
-        contact.fname = request.form['fname']
-        contact.lname = request.form['lname']
+        contact.notes = request.form['notes']
+        contact.email = request.form['email']
+        phone = "".join((request.form['phone']).split('-'))
+        contact.phone = phone
 
-        if request.form['email']:
-            contact.email = request.form['email']
-        if request.form['phone']:
-            phone = "".join((request.form['phone']).split('-'))
-            contact.phone = phone
-
-        # look for company_id and find existing company
-        # or get new company_name and create company object, add, commit
+        # look for company_id and find existing company OR
+        # get new company_name and create company object, add, commit
         if request.form['company_id']:
             company_id = int(request.form['company_id'])
             company = Company.query.filter(Company.company_id == company_id).first()
@@ -629,35 +619,19 @@ def edit_a_contact(contact_id):
             company = Company(name=company_name)
             db.session.add(company)
             db.session.commit()
+
         contact.company_id = company.company_id
         db.session.commit()
 
-        # get updated contact info and events
-        contact = Contact.query.filter(Contact.contact_id == contact_id).options(db.joinedload('companies')).first()
-        contact_events = ContactEvent.query.filter(ContactEvent.contact_id == contact_id).order_by(desc('date_created')).all()
+        # send results back to webpage
+        results = {
+            'email': contact.email,
+            'phone': contact.phone,
+            'company': contact.companies.name,
+            'notes': contact.notes,
+        }
 
-        # find user existing companies based on job_events, jobs, companies
-        # query for user job events, return list
-        user_job_events = JobEvent.query.options(
-            db.joinedload('jobs')
-            ).filter(JobEvent.user_id == user_id).all()
-
-        # make a set of all job ids
-        user_job_ids = set(job.job_id for job in user_job_events)
-
-        # make a list of all companies via job_ids
-        companies = set()
-        for job_id in user_job_ids:
-            job = Job.query.filter(Job.job_id == job_id).options(db.joinedload('companies')).first()
-            company = Company.query.filter(Company.company_id == job.company_id).first()
-            companies.add(company)
-
-        flash('Change made for {} {}'.format(contact.fname, contact.lname), 'success')
-        return render_template('contact-info.html',
-                               edit=edit,
-                               contact=contact,
-                               contact_events=contact_events,
-                               companies=companies)
+        return jsonify(results)
 
 
 @app.route('/dashboard/contacts/add', methods=['POST'])
