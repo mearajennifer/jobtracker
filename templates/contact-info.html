@@ -201,90 +201,12 @@
 
 </div>
 
-<!-- TASK ARCHIVE SCRIPT -->
-<script type="text/javascript">
-
-  function strikeArchiveTask(results) {
-    alert(results);
-    $('#submitTaskArchive').hide();
-    $('#archiveTask').css({'text-decoration': 'line-through'});
-    $('#archiveDueDate').css({'text-decoration': 'line-through'});
-  }
-
-  function sendArchiveTask(e) {
-    console.log(e);
-    e.preventDefault();
-
-    const formInputs = {
-      'todo_id': $('#todo-id-field').val(),
-    };
-
-    $.post('/dashboard/archive-task',
-           formInputs,
-           strikeArchiveTask);
-  }  
-
-  $('#submitTaskArchive').on('submit', sendArchiveTask);
-
-</script>
-
-<!-- EDIT CONTACT AJAX SCRIPT -->
-<script type="text/javascript">
-
-  function showContactInfo(results) {
-    $('#email').toggle();
-    $('#phone-num').toggle();
-    $('#company').toggle();
-    $('#notes').toggle();
-    $('#edit-fields').toggle();
-    $('#contactEvents').toggle();
-    $('#toggleEditButton').toggle();
-    $('#contactEmail').html(results.email);
-    $('#contactPhone').html(results.phone);
-    $('#contactCompany').html(results.company);
-    $('#contactNotes').html(results.notes);
-  }
-
-  function getContactEdits(e) {
-    console.log(e);
-    e.preventDefault();
-
-    const formInputs = {
-      'contact_id': $('#contact-id-field').val(),
-      'email': $('#email-field').val(),
-      'phone': $('#phone-field').val(),
-      'company_id': $('#company-id-field').val(),
-      'company_name': $('#company-name-field').val(),
-      'notes': $('#contact-notes-field').val(),
-    };
-
-    $.post('/dashboard/contacts/edit',
-           formInputs,
-           showContactInfo,
-    );
-  }
-
-  $('#submitContactEdits').on('submit', getContactEdits);
-
-</script>
-
-<!-- COMPANY EDITS ON/OFF SCRIPT -->
-<script>
-  function toggleEditFields(e) {
-    console.log(e);
-    e.preventDefault();
-    $('#email').toggle();
-    $('#phone-num').toggle();
-    $('#company').toggle();
-    $('#notes').toggle();
-    $('#edit-fields').toggle();
-    $('#contactEvents').toggle();
-    $('#toggleEditButton').toggle();
-  }
-
-  $('#toggleEditButton').on('click', toggleEditFields);
-  $('#cancelEditsButton').on('click', toggleEditFields);
-
-</script>
+  <script src="/static/js/contact-info.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    $('#submitTaskArchive').on('submit', sendArchiveTask);
+    $('#submitContactEdits').on('submit', getContactEdits);
+    $('#toggleEditButton').on('click', toggleEditFields);
+    $('#cancelEditsButton').on('click', toggleEditFields);
+  </script>
 
 {% endblock %}

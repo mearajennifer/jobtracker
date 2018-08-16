@@ -222,116 +222,14 @@
   </div>
 </div>
 
-<!-- TASK ARCHIVE SCRIPT -->
-<script type="text/javascript">
-
-  function strikeArchiveTask(results) {
-    alert(results);
-    $('#submitTaskArchive').hide();
-    $('#archiveTask').css({'text-decoration': 'line-through'});
-    $('#archiveDueDate').css({'text-decoration': 'line-through'});
-  }
-
-  function sendArchiveTask(e) {
-    console.log(e);
-    e.preventDefault();
-
-    const formInputs = {
-      'todo_id': $('#todo-id-field').val(),
-    };
-
-    $.post('/dashboard/archive-task',
-           formInputs,
-           strikeArchiveTask);
-  }  
-
-  $('#submitTaskArchive').on('submit', sendArchiveTask);
-
-</script>
-
-
-<!-- SALARY PICKER AJAX SCRIPT -->
-<script type="text/javascript">
-
-  function showSalary(results) {
-    $('#averageSalary').html(results);
-    $('#metroDiv').hide();
-    $('#jobTitleDiv').hide();
-    $('#salaryButton').hide();
-  }
-
-  function getSalary(e) {
-    console.log(e);
-    e.preventDefault();
-
-    const formInputs = {
-      'metro': $('#metro-field').val(),
-      'job_title': $('#job-title-field').val(),
-      'job_id': $('#job-id-field').val(),
-    };
-
-    $.post('/dashboard/jobs/salary',
-           formInputs,
-           showSalary);
-  }
-
-  $('#submitSalaryInfo').on('submit', getSalary);
-
-</script>
-
-<!-- JOB INFO EDITING SCRIPT -->
-<script type="text/javascript">
-
-  function showJobInfo(results) {
-    $('#job-posting').show();
-    $('#avg-salary').show();
-    $('#notes').show();
-    $('#edit-fields').hide();
-    $('#jobEventsTasks').show();
-    $('#toggleEditButton').show();
-    $('#jobPosting').html(results['link']);
-    $('#averageSalary').html(results['avg_salary']);
-    $('#jobNotes').html(results['notes']);
-  }
-
-  function getJobEdits(e) {
-    console.log(e);
-    e.preventDefault();
-
-    const formInputs = {
-      'link': $('#job-link-field').val(),
-      'avg_salary': $('#avg-salary-field').val(),
-      'notes': $('#job-notes-field').val(),
-      'job_id': $('#job-id-field').val(),
-    };
-
-    $.post('/dashboard/jobs/edit',
-           formInputs,
-           showJobInfo,
-    );
-  }
-
-  $('#submitJobEdits').on('submit', getJobEdits);
-
-</script>
-
-<!-- JOB EDITS ON/OFF SCRIPT -->
-<script>
-  function toggleEditFields(e) {
-    console.log(e);
-    e.preventDefault();
-    $('#job-posting').toggle();
-    $('#avg-salary').toggle();
-    $('#notes').toggle();
-    $('#edit-fields').toggle();
-    $('#jobEventsTasks').toggle();
-    $('#toggleEditButton').toggle();
-  }
-
-  $('#toggleEditButton').on('click', toggleEditFields);
-  $('#cancelEditsButton').on('click', toggleEditFields);
-
-</script>
+  <script src="/static/js/job-info.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    $('#submitTaskArchive').on('submit', sendArchiveTask);
+    $('#submitSalaryInfo').on('submit', getSalary);
+    $('#submitJobEdits').on('submit', getJobEdits);
+    $('#toggleEditButton').on('click', toggleEditFields);
+    $('#cancelEditsButton').on('click', toggleEditFields);
+  </script>
 
 {% endblock %}
 

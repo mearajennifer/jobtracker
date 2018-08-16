@@ -133,68 +133,11 @@
   {% endif %}
 </div>
 
-<!-- COMPANY INFO EDITING SCRIPT -->
-<script type="text/javascript">
-
-  function showCompanyInfo(results) {
-    $('#address').show();
-    $('#website').show();
-    $('#notes').show();
-    $('#edit-fields').hide();
-    $('#activeJobs').show();
-    $('#archivedJobs').show();
-    $('#companyContacts').show();
-    $('#companyStreetAddress').html(results['street']);
-    $('#companyCity').html(results['city']);
-    $('#companyState').html(results['state']);
-    $('#companyZip').html(results['zipcode']);
-    $('#companyWebsite').html(results['website']);
-    $('#companyNotes').html(results['notes']);
-  }
-
-  function getCompanyEdits(e) {
-    console.log(e);
-    e.preventDefault();
-
-    const formInputs = {
-      'company_id': $('#company-id-field').val(),
-      'street': $('#street-field').val(),
-      'city': $('#city-field').val(),
-      'state': $('#state-field').val(),
-      'zipcode': $('#zipcode-field').val(),
-      'notes': $('#notes-field').val(),
-      'website': $('#website-field').val()
-    };
-
-    $.post('/dashboard/companies/edit',
-           formInputs,
-           showCompanyInfo,
-    );
-  }
-
-  $('#submitCompanyEdits').on('submit', getCompanyEdits);
-
-</script>
-
-<!-- COMPANY EDITS ON/OFF SCRIPT -->
-<script>
-  function toggleEditFields(e) {
-    console.log(e);
-    e.preventDefault();
-    $('#address').toggle();
-    $('#website').toggle();
-    $('#notes').toggle();
-    $('#edit-fields').toggle();
-    $('#activeJobs').toggle();
-    $('#archivedJobs').toggle();
-    $('#companyContacts').toggle();
-    $('#toggleEditButton').toggle();
-  }
-
-  $('#toggleEditButton').on('click', toggleEditFields);
-  $('#cancelEditsButton').on('click', toggleEditFields);
-
-</script>
-
+  <script src="/static/js/company-info.js" type="text/javascript"></script>
+  <script>
+    $('#submitCompanyEdits').on('submit', getCompanyEdits);
+    $('#toggleEditButton').on('click', toggleEditFields);
+    $('#cancelEditsButton').on('click', toggleEditFields);
+  </script>
 
 {% endblock %}
