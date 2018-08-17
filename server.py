@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Job Hunt app server"""
 
 from jinja2 import StrictUndefined
@@ -451,7 +449,12 @@ def add_calendar_event():
         # get todo_id from POST
         todo_id = request.form['todo_id']
         todo = ToDo.query.filter(ToDo.todo_id == todo_id).first()
-        todo_summary = todo.todo_codes.description
+
+        todo_description = todo.todo_codes.description
+        job_event = JobEvent.query.filter(JobEvent.job_event_id == todo.job_event_id).first()
+        job_name = job_event.jobs.title
+        todo_summary = '{}: {}'.format(job_name, todo_description)
+
         todo_start = todo.date_due.strftime('%Y-%m-%d')
         todo_end = todo.date_due.strftime('%Y-%m-%d')
 
@@ -466,10 +469,9 @@ def add_calendar_event():
         }
 
         e = cal.events().insert(calendarId='primary', body=event).execute()
-        print('\n\n\n', e)
+        print(e)
 
-        flash('Event added to calendar!', 'success')
-        return redirect('/dashboard/jobs')
+        return 'Event added to calendar!'
 
 
 @app.route('/dashboard/authorize')

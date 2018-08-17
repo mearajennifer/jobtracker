@@ -8,7 +8,7 @@ function confirmAddedEvent(results) {
 
 function sendCalendarEvent(e) {
   console.log(e);
-  e.preventDefault;
+  e.preventDefault();
 
   const formInputs = {
     'todo_id': $('#todo-field').val(),
@@ -16,7 +16,7 @@ function sendCalendarEvent(e) {
 
   $.post('/dashboard/calendar-event',
           formInputs,
-          sendCalendarEvent);
+          confirmAddedEvent);
 }
 
 
