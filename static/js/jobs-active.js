@@ -1,5 +1,25 @@
 "use strict";
 
+// ADD TASK TO CALENDAR SCRIPT
+function confirmAddedEvent(results) {
+  $('#submitCalendarEvent').hide();
+  alert(results);
+}
+
+function sendCalendarEvent(e) {
+  console.log(e);
+  e.preventDefault;
+
+  const formInputs = {
+    'todo_id': $('#todo-field').val(),
+  };
+
+  $.post('/dashboard/calendar-event',
+          formInputs,
+          sendCalendarEvent);
+}
+
+
 // TASK ARCHIVE SCRIPT
 function strikeArchiveTask(results) {
     $('#archiveTask').css({'text-decoration': 'line-through'});
@@ -23,7 +43,7 @@ function sendArchiveTask(e) {
 
 // TABLE SORT SCRIPT
 /* 
-   Willmaster Table Sort
+    Willmaster Table Sort
    Version 1.1
    August 17, 2016
    Updated GetDateSortingKey() to correctly sort two-digit months and days numbers with leading 0.

@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+
 """Job Hunt app server"""
 
 from jinja2 import StrictUndefined
-from flask import (Flask, render_template, redirect, request, flash, session, jsonify)
+from flask import (Flask, render_template, redirect, request, flash, session, jsonify, url_for)
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy import desc
 from model import (User, Contact, ContactEvent, Company, Job, JobEvent, ToDo,
@@ -9,6 +11,10 @@ from model import (User, Contact, ContactEvent, Company, Job, JobEvent, ToDo,
 from datetime import datetime
 from datetime import timedelta
 import os
+import google.oauth2.credentials
+import google_auth_oauthlib.flow
+from googleapiclient.discovery import build
+
 
 # instanciate Flask app object
 app = Flask(__name__)
@@ -16,6 +22,13 @@ app.secret_key = os.environ['FLASK_SECRET_KEY']
 
 # If an undefined variable is used, Jinja2 will raise an error
 app.jinja_env.undefined = StrictUndefined
+
+# This variable specifies the name of a file that contains the OAuth 2.0
+# information for this application, including its client_id and client_secret.
+CLIENT_SECRETS_FILE = 'client_secret.json'
+SCOPES = ['https://www.googleapis.com/auth/calendar']
+API_SERVICE_NAME = 'calendar'
+API_VERSION = 'v3'
 
 
 # LANDING PAGE, REGISTER, LOGIN, LOGOUT
@@ -111,32 +124,36 @@ def logout():
 def show_active_jobs():
     """Shows list jobs the user is interested in, applied to, or interviewing for."""
 
-    # get user_id from session and pass in companies
-    user_id = session['user_id']
-    user = User.query.filter(User.user_id == user_id).one()
-    companies = user.companies
+    # redirect if user is not logged in
+    if not session:
+        return redirect('/')
+    else:
+        # get user_id from session and pass in companies
+        user_id = session['user_id']
+        user = User.query.filter(User.user_id == user_id).one()
+        companies = user.companies
 
-    # query for user job events, return list
-    user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
-    job_event_ids = [event.job_event_id for event in user_job_events]
+        # query for user job events, return list
+        user_job_events = JobEvent.query.options(db.joinedload('jobs')).filter(JobEvent.user_id == user_id).order_by(desc('date_created')).all()
+        job_event_ids = [event.job_event_id for event in user_job_events]
 
-    # make a set of all job_ids and remove any that are inactive
-    user_job_ids = set(job.job_id for job in user_job_events if job.jobs.active_status == True)
+        # make a set of all job_ids and remove any that are inactive
+        user_job_ids = set(job.job_id for job in user_job_events if job.jobs.active_status == True)
 
-    # grab only the most recent events and todos for each job_id
-    all_active_status = []
-    all_todos = []
-    for user_job_id in user_job_ids:
-        # get all events for one job id
-        events = [event for event in user_job_events if event.job_id == user_job_id]
-        # find that latest event and add to list
-        status = events[0]
-        all_active_status.append(status)
-        user_todo = ToDo.query.filter(ToDo.job_event_id == status.job_event_id, ToDo.active_status == True).first()
-        if user_todo:
-            all_todos.append(user_todo)
+        # grab only the most recent events and todos for each job_id
+        all_active_status = []
+        all_todos = []
+        for user_job_id in user_job_ids:
+            # get all events for one job id
+            events = [event for event in user_job_events if event.job_id == user_job_id]
+            # find that latest event and add to list
+            status = events[0]
+            all_active_status.append(status)
+            user_todo = ToDo.query.filter(ToDo.job_event_id == status.job_event_id, ToDo.active_status == True).first()
+            if user_todo:
+                all_todos.append(user_todo)
 
-    return render_template('jobs-active.html', all_active_status=all_active_status, all_todos=all_todos, companies=companies)
+        return render_template('jobs-active.html', all_active_status=all_active_status, all_todos=all_todos, companies=companies)
 
 
 @app.route('/dashboard/job-status', methods=['POST'])
@@ -400,7 +417,7 @@ def process_job_form():
         return redirect('/dashboard/jobs')
 
 
-# TO DO ITEMS
+# TO DO ITEMS & GOOGLE CALENDAR EVENTS
 #################################################################################
 @app.route('/dashboard/archive-task', methods=['POST'])
 def archive_task():
@@ -419,6 +436,84 @@ def archive_task():
         db.session.commit()
 
     return 'Task archived!'
+
+
+@app.route('/dashboard/calendar-event', methods=['POST'])
+def add_calendar_event():
+    """ Connect to users Google Calendar and add task event on due date. """
+
+    # redirect if user is not logged in
+    if not session:
+        return redirect('/')
+    elif 'credentials' not in session:
+        return redirect('/dashboard/authorize')
+    else:
+        # get todo_id from POST
+        todo_id = request.form['todo_id']
+        todo = ToDo.query.filter(ToDo.todo_id == todo_id).first()
+        todo_summary = todo.todo_codes.description
+        todo_start = todo.date_due.strftime('%Y-%m-%d')
+        todo_end = todo.date_due.strftime('%Y-%m-%d')
+
+        # Load credentials from the session.
+        credentials = google.oauth2.credentials.Credentials(**session['credentials'])
+
+        cal = build(API_SERVICE_NAME, API_VERSION, credentials=credentials)
+        event = {
+            'summary': todo_summary,
+            'start': {'date': todo_start},
+            'end': {'date': todo_end}
+        }
+
+        e = cal.events().insert(calendarId='primary', body=event).execute()
+        print('\n\n\n', e)
+
+        flash('Event added to calendar!', 'success')
+        return redirect('/dashboard/jobs')
+
+
+@app.route('/dashboard/authorize')
+def authorize():
+    # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
+    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(CLIENT_SECRETS_FILE,
+                                                                   scopes=SCOPES)
+
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
+
+    authorization_url, state = flow.authorization_url(
+        # Enable offline access so that you can refresh an access token without
+        # re-prompting the user for permission. Recommended for web server apps.
+        access_type='offline',
+        # Enable incremental authorization. Recommended as a best practice.
+        include_granted_scopes='true')
+
+    # Store the state so the callback can verify the auth server response.
+    session['state'] = state
+
+    return redirect(authorization_url)
+
+
+@app.route('/oauth2callback')
+def oauth2callback():
+    # Specify the state when creating the flow in the callback so that it can
+    # verified in the authorization server response.
+    state = session['state']
+
+    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
+        CLIENT_SECRETS_FILE, scopes=SCOPES, state=state)
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
+
+    # Use the authorization server's response to fetch the OAuth 2.0 tokens.
+    authorization_response = request.url
+    flow.fetch_token(authorization_response=authorization_response)
+
+    # Store credentials in the session.
+    # ACTION ITEM: In a production app, you likely want to save these
+    #              credentials in a persistent database instead.
+    credentials = flow.credentials
+    session['credentials'] = credentials_to_dict(credentials)
+
+    return redirect('/dashboard/jobs')
 
 
 # COMPANIES
@@ -507,7 +602,7 @@ def edit_a_company():
         company.website = website
 
         db.session.commit()
-        
+
         # send results back to webpage
         results = {
             'street': company.street,
@@ -702,7 +797,6 @@ def process_contact_form():
         db.session.add(new_todo)
         db.session.commit()
 
-
         flash('{} {} added to your contacts'.format(new_contact.fname, new_contact.lname), 'success')
         return redirect('/dashboard/contacts')
 
@@ -778,7 +872,8 @@ def show_user_profile():
             'offers': total_job_offer
         }
 
-        return render_template('profile-tasks.html', user=user, companies=companies, user_analytics=user_analytics)
+        return render_template('profile-tasks.html', companies=companies,
+                               user=user, user_analytics=user_analytics)
 
 
 @app.route('/dashboard/profile/edit', methods=['POST'])
@@ -809,8 +904,23 @@ def edit_user_profile():
 
     return jsonify(results)
 
+
 #################################################################################
+def credentials_to_dict(credentials):
+    return {'token': credentials.token,
+            'refresh_token': credentials.refresh_token,
+            'token_uri': credentials.token_uri,
+            'client_id': credentials.client_id,
+            'client_secret': credentials.client_secret,
+            'scopes': credentials.scopes}
+
+
 if __name__ == '__main__':
+    # When running locally, disable OAuthlib's HTTPs verification.
+    # ACTION ITEM for developers:
+    #     When running in production *do not* leave this option enabled.
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
     app.debug = True
@@ -825,33 +935,4 @@ if __name__ == '__main__':
 
     app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
-    app.run(port=5000, host='0.0.0.0')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    app.run(port=5000, host='0.0.0.0', threaded=False)
