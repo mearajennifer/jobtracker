@@ -134,7 +134,9 @@
 
       <div class="form-group">
         <label>Average salary: </label>
-        <input id="avg-salary-field" type="text" class="form-control" name="avg_salary" value="{{ job.avg_salary if job.avg_salary != None else "" }}" />
+        <span id="averageSalaryEditField">
+          <input id="avg-salary-field" type="text" class="form-control" name="avg_salary" value="{{ job.avg_salary if job.avg_salary != None else "" }}" />
+        </span>
       </div>
 
       <div class="form-group">

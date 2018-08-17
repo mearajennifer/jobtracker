@@ -111,7 +111,11 @@ def logout():
     """logs the current user out"""
 
     # remove session from browser to log out
-    del session['user_id']
+    try:
+        del session['user_id']
+        del session['credentials']
+    except KeyError:
+        pass
     flash('Logged out.', 'success')
     return redirect("/")
 

@@ -24,6 +24,7 @@ function sendArchiveTask(e) {
 // SALARY PICKER AJAX SCRIPT
 function showSalary(results) {
     $('#averageSalary').html(results);
+    $('#averageSalaryEditField').html(results);
     $('#metroDiv').hide();
     $('#jobTitleDiv').hide();
     $('#salaryButton').hide();

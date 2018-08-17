@@ -12,8 +12,13 @@
   <!-- ADDRESS -->
   <div id="address" class="row" style="display: block">
     Address:<br>
+
     <span id="companyStreetAddress">{{ company.street if company.street != None else "" }}</span><br>
-    <span id="companyCity">{{ company.city if company.city != None else "" }}</span>, <span id="companyState">{{ company.state if company.state != None else "" }}</span> <span id="companyZip">{{ company.zipcode if company.zipcode != None else "" }}</span><br>
+
+    <span id="companyCity">{{ company.city if company.city != None else "" }}</span>
+    {% if company.city %},{% endif %}
+    <span id="companyState">{{ company.state if company.state != None else "" }}</span>
+    <span id="companyZip">{{ company.zipcode if company.zipcode != None else "" }}</span><br>
   </div>
   
   <!-- WEBSITE -->

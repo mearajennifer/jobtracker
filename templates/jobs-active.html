@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<table id="active-jobs-table" class="table">
+<table id="active-jobs-table" class="table" style="empty-cells: show;">
   <!-- TABLE HEADERS -->
   <thead>
     <tr>
@@ -88,16 +88,20 @@
         <!-- TODO -->
         <td>
           {% for todo in all_todos %}
+          
             {% if todo.job_event_id == status.job_event_id %}
               <span id="archiveTask">{{ todo.todo_codes.description }}</span>
+              <div style="height: 100%; position: relative;"></div>
             {% else %}
-              {{ "" }}
+              <div style="height: 100%; position: relative;"></div>
             {% endif %}
+          
           {% endfor %}
         </td>
-
+      
         <td>
           {% for todo in all_todos %}
+
             {% if todo.job_event_id == status.job_event_id %}
               <span id="archiveDueDate">{{ todo.date_due.strftime('%-m/%-d/%y') }}</span>
               <form id="submitTaskArchive" action="/dashboard/archive-task" method="POST">
@@ -112,11 +116,14 @@
                   <i class="fas fa-calendar-plus"></i>
                 </button>
               </form>
+              <div style="height: 100%; position: relative;"></div>
             {% else %}
-              {{ "" }}
+              <div style="height: 100%; position: relative;"></div>
             {% endif %}
+          
           {% endfor %}
         </td>
+
       </tr>
     {% endfor %}
 
