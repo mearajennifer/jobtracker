@@ -58,25 +58,33 @@ class Login extends React.Component {
     }
 
     render() {
+        const marginStyle = {
+            marginTop: '20%'
+        };
+
         return (
-            <div id='login-form'>
-                <form action='/login' method='POST'>
-                    <div className='form-group'>
-                        <label>Email: </label>
-                        <input type='email' className='form-control' name='email' />
-                    </div>
-
-                    <div className='form-group'>
-                        <label>Password:</label>
-                        <input type='password' className='form-control' name='password' />
-                    </div>
-
-                    <div className='form-group'>
-                        <button type='button submit' className='btn btn-secondary btn-sm'>submit</button>
-                    </div>
-                </form>
+            <div className='jumbotron' style={marginStyle}>
+                <img src='/static/img/JobTracker-nobg.png' width='100%' className="text-center" />
                 <hr className='my-4' />
-                New to JobTracker? <a href='' onClick={this.props.handleClick}>Register</a>
+                <div id='login-form'>
+                    <form action='/login' method='POST'>
+                        <div className='form-group'>
+                            <label>Email: </label>
+                            <input type='email' className='form-control' name='email' />
+                        </div>
+
+                        <div className='form-group'>
+                            <label>Password:</label>
+                            <input type='password' className='form-control' name='password' />
+                        </div>
+
+                        <div className='form-group'>
+                            <button type='button submit' className='btn btn-secondary btn-sm'>Sign In</button>
+                        </div>
+                    </form>
+                    <hr className='my-4' />
+                    New to JobTracker? <a href='' onClick={this.props.handleClick}>Register</a>
+                </div>
             </div>
         );
     }
@@ -102,41 +110,49 @@ class Registration extends React.Component {
     }
 
     render() {
+        const marginStyle = {
+            marginTop: '5px'
+        };
+
         return (
-            <div id='registration-form'>
-              <form onSubmit={this.handleSubmit}>
+            <div className='jumbotron' style={marginStyle}>
+                <img src='/static/img/JobTracker-nobg.png' width='100%' className="text-center" />
+                <hr className='my-4' />
+                <div id='registration-form'>
+                    <form onSubmit={this.handleSubmit}>
 
-                <div className='form-group'>
-                  <label>First name:</label>
-                  <input type='text' id='fname-field' className='form-control' name='fname' placeholder='Jane' required />
-                </div>
+                        <div className='form-group'>
+                            <label>First name:</label>
+                            <input type='text' id='fname-field' className='form-control' name='fname' placeholder='Jane' required />
+                        </div>
 
-                <div className='form-group'>
-                  <label> Last name:</label>
-                  <input type='text' id='lname-field' className='form-control' name='lname' placeholder='Jobseeker' required />
-                </div>
+                        <div className='form-group'>
+                            <label> Last name:</label>
+                            <input type='text' id='lname-field' className='form-control' name='lname' placeholder='Jobseeker' required />
+                        </div>
 
-                <div className='form-group'>
-                  <label>Email:</label>
-                  <input type='email' id='email-field' className='form-control' name='email' placeholder='jane@jobseeker.com' required />
-                </div>
+                        <div className='form-group'>
+                            <label>Email:</label>
+                            <input type='email' id='email-field' className='form-control' name='email' placeholder='jane@jobseeker.com' required />
+                        </div>
 
-                <div className='form-group'>
-                  <label>Phone:</label>
-                  <input type='tel' id='tel-field' className='form-control' name='phone' placeholder='123-456-7890' pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}' />
-                </div>
+                        <div className='form-group'>
+                            <label>Phone:</label>
+                            <input type='tel' id='tel-field' className='form-control' name='phone' placeholder='123-456-7890' pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}' />
+                        </div>
 
-                <div className='form-group'>
-                  <label>password: </label>
-                    <input type='password' id='password-field' className='form-control' name='password' required />
-                </div>
+                        <div className='form-group'>
+                            <label>password: </label>
+                            <input type='password' id='password-field' className='form-control' name='password' required />
+                        </div>
 
-                <div className='form-group'>
-                  <button type='button submit' className='btn btn-secondary btn-sm'>submit</button>
+                        <div className='form-group'>
+                            <button type='button submit' className='btn btn-secondary btn-sm'>Register</button>
+                        </div>
+                    </form>
+                    <hr className='my-4' />
+                    Have an account? <a href='' onClick={this.props.handleClick}>Sign In</a>
                 </div>
-              </form>
-              <hr className='my-4' />
-              Have an account? <a href='' onClick={this.props.handleClick}>Login</a>
             </div>
         );
     }

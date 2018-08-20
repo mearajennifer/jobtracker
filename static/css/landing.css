@@ -7,8 +7,9 @@ body {
 }
 
 .jumbotron {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.95);
     font-family: 'Lato', sans-serif;
+    padding: 2rem 3rem;
 }
 
 .jumbotron img{
@@ -16,3 +17,34 @@ body {
     margin-left:auto;
     margin-right:auto;
 }
+
+a {
+    color: #4f63c2;
+}
+
+a:hover {
+    color: #232c55;
+}
+
+.btn-secondary {
+    background-color: #4f63c2;
+    border-color: #4f63c2;
+}
+
+.btn-secondary:hover {
+    background-color: #232c55;
+    border-color: #232c55;
+}
+
+.alert-success {
+    background-color: #c8ecee;
+    color: #12a2b3;
+    border-color: #6dc3ca;
+}
+
+.alert-danger {
+    background-color: #f7d3d2;
+    color: #fa5350;
+    border-color: #f8908d;
+}
+

@@ -11,20 +11,12 @@ body {
 
 .navbar {
     border-bottom: 2px solid #232c55;
-    /*max-height: 80%;*/
     padding-top: 0;
     padding-bottom: 0;
 }
 
-/*#navbar > img {
-    max-height: 70%;
-}*/
-
 .container-fluid {
     height: 100%;
-    /*position: fixed;*/
-    /*padding-right: 0px;*/
-    /*padding-left: 0px;*/
 }
 
 #dashboard {
@@ -88,7 +80,17 @@ body {
     display: none;
 }
 
+.alert-success {
+    background-color: #c8ecee;
+    color: #12a2b3;
+    border-color: #6dc3ca;
+}
 
+.alert-danger {
+    background-color: #f7d3d2;
+    color: #fa5350;
+    border-color: #f8908d;
+}
 
 
 
