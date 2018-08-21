@@ -88,15 +88,18 @@ class UserGreeting extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="row greeting-row">
-                    <div className="col-12">
+                <div className="row">
+                    <div className="col-2"></div>
+                    <div className="col-8 greeting-row">
                         <h3 className="greeting">{this.state.value}</h3>
                     </div>
-                </div>
-                <div className="row greeting-button-row">
-                    <div className="col">
-                        <button className="btn btn-secondary btn-sm" onClick={this.greet}>Inspire</button>
+                    <div className="col-2"></div>
+                    <br />
+                    <div className="col-2"></div>
+                    <div className="col-8 greeting-button-row">
+                        <button className="btn btn-outline-light btn-sm" onClick={this.greet}>Inspire</button>
                     </div>
+                    <div className="col-2"></div>
                 </div>
             </React.Fragment>
         );
@@ -241,54 +244,54 @@ class UserAnalytics extends React.Component {
 
         return (
             <React.Fragment>                
-                <div style={statsHeader} className="row justify-content-center">
+                <div style={statsHeader} className="row justify-content-center align-middle">
                     <div className="col-fixed ml-auto mr-auto">
                         <div className="card" id="interested">
                             <div className="card-header dark-bg">
-                                <h5 className="card-title">Interested</h5>
+                                <p className="card-title">Interested</p>
                             </div>
                             <div className="card-body justify-content-center">
-                                <h1>{data.interested}</h1>
+                                <h4>{data.interested}</h4>
                             </div>
                         </div>
                     </div>
                     <div className="col-fixed ml-auto mr-auto">
                         <div className="card" id="applied">
                             <div className="card-header">
-                                <h5 className="card-title">Applied</h5>
+                                <p className="card-title">Applied</p>
                             </div>
                             <div className="card-body">
-                                <h1>{data.applied}</h1>
+                                <h4>{data.applied}</h4>
                             </div>
                         </div>
                     </div>
                     <div className="col-fixed ml-auto mr-auto">
                         <div className="card" id="phone">
                             <div className="card-header">
-                                <h5 className="card-title">Phone<br/>Interview</h5>
+                                <p className="card-title">Phone<br/>Interview</p>
                             </div>
                             <div className="card-body">
-                                <h1>{data.phone}</h1>
+                                <h4>{data.phone}</h4>
                             </div>
                         </div>
                     </div>
                     <div className="col-fixed ml-auto mr-auto">
                         <div className="card" id="onsite">
                             <div className="card-header">
-                                <h5 className="card-title">On-site<br/>Interview</h5>
+                                <p className="card-title">On-site<br/>Interview</p>
                             </div>
                             <div className="card-body">
-                                <h1>{data.onsite}</h1>
+                                <h4>{data.onsite}</h4>
                             </div>
                         </div>
                     </div>
                     <div className="col-fixed ml-auto mr-auto">
                         <div className="card" id="offers">
                             <div className="card-header">
-                                <h5 className="card-title">Job Offers</h5>
+                                <p className="card-title">Job Offers</p>
                             </div>
                             <div className="card-body">
-                                <h1>{data.offers}</h1>
+                                <h4>{data.offers}</h4>
                             </div>
                         </div>
                     </div>                    
