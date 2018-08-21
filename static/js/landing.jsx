@@ -59,7 +59,7 @@ class Login extends React.Component {
 
     render() {
         const marginStyle = {
-            marginTop: '20%'
+            marginTop: '15%'
         };
 
         return (

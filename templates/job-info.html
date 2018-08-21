@@ -4,19 +4,19 @@
 
 <div class="container">
 
-  <div class="row">
+  <div class="row" class="job-title-status">
     <!-- JOB TITLE HEADER -->
-    <div class="col-8">
+    <div class="col-9">
       <h5>{{ job.title }}</h5>
     </div>
 
     <!-- ACTIVE STATUS MENU -->
-    <div class="col-2">
+    <div class="col-3">
       {% if job.active_status == True %}
-        <div class="dropdown">
+        <div class="dropdown" style="padding-top: 5px;" >
           <form action="/dashboard/job-status" method="POST">
 
-            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{{ job_status[0].job_codes.job_code }}">
               {{ job_status[0].job_codes.description }}
             </button>
 
@@ -120,7 +120,7 @@
   <!-- EDIT BUTTON -->
   <div class="row">
     <button id="toggleEditButton" type="button" class="btn btn-secondary btn-sm">
-      edit
+      Edit
     </button>
   </div>
 
@@ -154,17 +154,17 @@
 
   <!-- EVENTS -->
   <div id="jobEventsTasks" class="row">
-    <table>
+    <table class="table">
 
       <!-- HEADER -->
-      <th>
+      <thead>
         <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Status</th>
-          <th scope="col">Task</th>
-          <th scope="col">Due</th>
+          <th scope="col" style="width: 10%">Date</th>
+          <th scope="col" style="width: 20%">Status</th>
+          <th scope="col" style="width: 20%">Task</th>
+          <th scope="col" style="width: 10%">Due</th>
         </tr>
-      </th>
+      </thead>
 
       <tbody>
         <!-- LOOP THROUGH STATUS LIST -->
@@ -173,7 +173,7 @@
 
             <!-- DATE -->
             <td>
-              {{ status.date_created.strftime('%-m/%-d/%y') }}
+              {{ status.date_created.strftime('%b-%-d') }}
             </td>
 
             <!-- STATUS -->
@@ -201,8 +201,8 @@
                 {% if todo.job_event_id == status.job_event_id %}
                   {% if todo.active_status %}
                     <td class="active-task">
-                      <span id="archiveDueDate">{{ todo.date_due.strftime('%-m/%-d/%y') }}</span>
-                      <form id="submitTaskArchive" action="/dashboard/archive-task" method="POST">
+                      <span id="archiveDueDate">{{ todo.date_due.strftime('%b-%-d') }}</span>
+                      <form class="form-inline pull-left" id="submitTaskArchive" action="/dashboard/archive-task" method="POST">
                         <button id="archiveButton" class="btn" type="submit">
                           <input id="todo-id-field" type="hidden" name="todo_id" value="{{ todo.todo_id }}">
                           <i class="fas fa-archive"></i>
@@ -211,7 +211,7 @@
                     </td>
                   {% else %}
                     <td class="archived-task">
-                      <del>{{ todo.date_due.strftime('%-m/%-d/%y') }}</del>
+                      <del>{{ todo.date_due.strftime('%b-%-d') }}</del>
                     </td>
                   {% endif %}
                 {% endif %}

@@ -38,7 +38,7 @@
   <!-- EDIT BUTTON -->
   <div class="row">
     <button id="toggleEditButton" type="button" class="btn btn-secondary btn-sm">
-      edit
+      Edit
     </button>
   </div>
 
@@ -90,52 +90,53 @@
   </div>
   <br>
 
-  {% if active_jobs %}
-    <div id="activeJobs" class="row" style="display: block">
-      <h5>Active Jobs</h5>
-      <ul>
-        {% for job in active_jobs|sort(attribute = 'title') %}
+  <div class="row">
+    {% if active_jobs %}
+      <div id="activeJobs" class="col" style="display: block">
+        <h4><i class="fas fa-stream"></i> Active Jobs</h4>
+        <ul>
+          {% for job in active_jobs|sort(attribute = 'title') %}
+              <li>
+              <a href="/dashboard/jobs/{{ job.job_id }}">
+                {{ job.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+
+    {% if archived_jobs %}
+      <div id="archivedJobs" class="col" style="display: block">
+        <h4><i class="fas fa-archive"></i> Archived Jobs</h4>
+        <ul>
+          {% for job in archived_jobs|sort(attribute = 'title') %}
             <li>
-            <a href="/dashboard/jobs/{{ job.job_id }}">
-              {{ job.title }}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
+              <a href="/dashboard/jobs/{{ job.job_id }}">
+                {{ job.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
 
-
-  {% if archived_jobs %}
-    <div id="archivedJobs" class="row" style="display: block">
-      <h5>Archived Jobs</h5>
-      <ul>
-        {% for job in archived_jobs|sort(attribute = 'title') %}
-          <li>
-            <a href="/dashboard/jobs/{{ job.job_id }}">
-              {{ job.title }}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-
-  {% if company.contacts %}
-    <div id="companyContacts" class="row" style="display: block">
-      <h5>Contacts</h5>
-      <ul>
-        {% for contact in company.contacts|sort(attribute = 'lname') %}
-          <li>
-            <form action="/dashboard/contacts/{{ contact.contact_id }}" method="GET">
-              <input type="hidden" name="edit" value="edits-off">
-              <button type="button submit" class="btn btn-link">{{ contact.fname }} {{ contact.lname }}</button>
-            </form>
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
+    {% if company.contacts %}
+      <div id="companyContacts" class="col" style="display: block">
+        <h4><i class="fas fa-users" style="font-size: 1em"></i> Contacts</h4>
+        <ul>
+          {% for contact in company.contacts|sort(attribute = 'lname') %}
+            <li>
+              <a href="/dashboard/contacts/{{ contact.contact_id }}">
+                {{ contact.fname }} {{ contact.lname }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
 </div>
 
   <script src="/static/js/company-info.js" type="text/javascript"></script>

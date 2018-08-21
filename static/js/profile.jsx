@@ -88,11 +88,15 @@ class UserGreeting extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="row">
-                    <h3 className="greeting">{this.state.value}</h3>
+                <div className="row greeting-row">
+                    <div className="col-12">
+                        <h3 className="greeting">{this.state.value}</h3>
+                    </div>
                 </div>
-                <div className="row">
-                    <button onClick={this.greet}>Give me another!</button>
+                <div className="row greeting-button-row">
+                    <div className="col">
+                        <button className="btn btn-secondary btn-sm" onClick={this.greet}>Inspire</button>
+                    </div>
                 </div>
             </React.Fragment>
         );
@@ -106,20 +110,21 @@ class UserInformation extends React.Component {
     }
 
     render() {
+        const nameStyle = {
+            display: 'block',
+            padding: '0',
+            marginBottom: '2px',
+            textAlign: 'center',
+        };
+
         return (
             <React.Fragment>
-                <div className="row name">
-                    <h5>{this.props.fname} {this.props.lname}</h5>
-                </div>
-                <div className="row">
-                    <p>Email: {this.props.email}</p>
-                </div>
-                <div className="row ">
-                    <p>Phone number: {this.props.phone}</p>
-                </div>
-                <div className="row">
+                <div className="row name" style={nameStyle}>
+                    <h5 style={nameStyle}>{this.props.fname} {this.props.lname}</h5>
+                    <p style={nameStyle}>Email: {this.props.email}</p>                
+                    <p style={nameStyle}>Phone number: {this.props.phone}</p>
                     <button onClick={this.props.handleClick} type="button" className="btn btn-secondary btn-sm">
-                      edit
+                      Edit
                     </button>
                 </div>
             </React.Fragment>
@@ -210,7 +215,7 @@ class UserInformationForm extends React.Component {
 
                     <div className='form-group'>
                         <button type='button submit' className='btn btn-secondary btn-sm'>
-                          submit
+                          Submit
                         </button>
                         <a href="" onClick={this.props.handleClick}>cancel</a>
                     </div>
@@ -230,16 +235,17 @@ class UserAnalytics extends React.Component {
     // Need to pass JSON from db/server with stats back to this child element
 
     render() {
-        return (
-            <React.Fragment>
-                <h5>Your latest job tracking stats:</h5>
-                
-                <div className="row justify-content-center">
+        const statsHeader = {
+            marginTop: '50px',
+        };
 
+        return (
+            <React.Fragment>                
+                <div style={statsHeader} className="row justify-content-center">
                     <div className="col-fixed ml-auto mr-auto">
                         <div className="card" id="interested">
                             <div className="card-header dark-bg">
-                                <h5 className="card-title"><br/>Interested</h5>
+                                <h5 className="card-title">Interested</h5>
                             </div>
                             <div className="card-body justify-content-center">
                                 <h1>{data.interested}</h1>
@@ -249,7 +255,7 @@ class UserAnalytics extends React.Component {
                     <div className="col-fixed ml-auto mr-auto">
                         <div className="card" id="applied">
                             <div className="card-header">
-                                <h5 className="card-title"><br/>Applied</h5>
+                                <h5 className="card-title">Applied</h5>
                             </div>
                             <div className="card-body">
                                 <h1>{data.applied}</h1>
@@ -279,7 +285,7 @@ class UserAnalytics extends React.Component {
                     <div className="col-fixed ml-auto mr-auto">
                         <div className="card" id="offers">
                             <div className="card-header">
-                                <h5 className="card-title"><br/>Job Offers</h5>
+                                <h5 className="card-title">Job Offers</h5>
                             </div>
                             <div className="card-body">
                                 <h1>{data.offers}</h1>

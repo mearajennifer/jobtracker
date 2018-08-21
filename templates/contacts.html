@@ -6,11 +6,11 @@
   <!-- HEADERS -->
   <thead>
     <tr>
-      <th scope="col"><a href="javascript:SortTable(0, 'T');">First</a></th>
-      <th scope="col"><a href="javascript:SortTable(1, 'T');">Last</a></th>
-      <th scope="col"><a href="javascript:SortTable(2, 'T');">Company</a></th>
-      <th scope="col"><a href="javascript:SortTable(3, 'T');">Task</a></th>
-      <th scope="col"><a href="javascript:SortTable(4, 'D');">Due Date</a></th>
+      <th scope="col" style="width: 15%"><a href="javascript:SortTable(0, 'T');">First</a></th>
+      <th scope="col" style="width: 15%"><a href="javascript:SortTable(1, 'T');">Last</a></th>
+      <th scope="col" style="width: 20%"><a href="javascript:SortTable(2, 'T');">Company</a></th>
+      <th scope="col" style="width: 25%"><a href="javascript:SortTable(3, 'T');">Task</a></th>
+      <th scope="col" style="width: 15%"><a href="javascript:SortTable(4, 'D');">Due Date</a></th>
     </tr>
   </thead>
 
@@ -54,8 +54,8 @@
         <td class="task-due-date">
           {% for todo in all_todos %}
             {% if todo.contact_events.contact_id == contact.contact_id %}
-              <span id="archiveDueDate">{{ todo.date_due.strftime('%-m/%-d/%y') }}</span>
-              <form id="submitTaskArchive" action="/dashboard/archive-task" method="POST">
+              <span id="archiveDueDate">{{ todo.date_due.strftime('%b-%-d') }}</span>
+              <form class="form-inline pull-left" id="submitTaskArchive" action="/dashboard/archive-task" method="POST">
                 <button id="archiveButton" class="btn" type="submit">
                   <input id="todo-id-field" type="hidden" name="todo_id" value="{{ todo.todo_id }}">
                   <i class="fas fa-archive"></i>

@@ -7,11 +7,11 @@
   <!-- HEADERS -->
   <thead>
     <tr>
-      <th scope="col"><a href="javascript:SortTable(0, 'T');">Company</a></th>
-      <th scope="col"><a href="javascript:SortTable(1, 'T');">Job</a></th>
-      <th scope="col"><a href="javascript:SortTable(2, 'T');">Status</a></th>
-      <th scope="col"><a href="javascript:SortTable(3, 'D');">Date</a></th>
-      <th scope="col"><a href="javascript:SortTable(4, 'T');">Notes</a></th>
+      <th scope="col" style="width: 20%"><a href="javascript:SortTable(0, 'T');">Company</a></th>
+      <th scope="col" style="width: 20%"><a href="javascript:SortTable(1, 'T');">Job</a></th>
+      <th scope="col" style="width: 20%"><a href="javascript:SortTable(2, 'T');">Status</a></th>
+      <th scope="col" style="width: 10%"><a href="javascript:SortTable(3, 'D');">Date</a></th>
+      <th scope="col" style="width: 20%"><a href="javascript:SortTable(4, 'T');">Notes</a></th>
     </tr>
   </thead>
 
@@ -36,7 +36,7 @@
       <td>{{ job.job_codes.description }}</td>
       
       <!-- DATE -->
-      <td>{{ job.date_created.strftime('%-m/%-d/%y') }}</td>
+      <td>{{ job.date_created.strftime('%b-%-d') }}</td>
       
       <!-- NOTES -->
       <td>{{ job.jobs.notes if job.jobs.notes != None else "" }}</td>

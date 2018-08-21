@@ -6,12 +6,12 @@
 
   <div class="row">
     <!-- CONTACT NAME -->
-    <div class="col-8">
+    <div class="col-9">
       <h5>{{ contact.fname }} {{ contact.lname }}</h5>
     </div>
 
     <!-- CONTACT EVENTS -->
-    <div class="col-2">
+    <div class="col-3">
       <div class="dropdown">
         <form action="/dashboard/contact-status" method="POST">
 
@@ -82,7 +82,7 @@
   <!-- EDIT BUTTON -->
   <div class="row">
     <button id="toggleEditButton" type="button" class="btn btn-secondary btn-sm">
-      edit
+      Edit
     </button>
   </div>
 
@@ -130,15 +130,15 @@
 
   <!-- EVENTS -->
   <div id="contactEvents" class="row">
-    <table>
+    <table class="table">
 
       <!-- HEADER -->
       <thead>
         <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Action</th>
-          <th scope="col">Task</th>
-          <th scope="col">Due Date</th>
+          <th scope="col" style="width: 15%">Date</th>
+          <th scope="col" style="width: 25%">Action</th>
+          <th scope="col" style="width: 30%">Task</th>
+          <th scope="col" style="width: 15%">Due Date</th>
         </tr>
       </thead>
 
@@ -149,7 +149,7 @@
 
             <!-- DATE -->
             <td>
-              {{ event.date_created.strftime('%-m/%-d/%y') }}
+              {{ event.date_created.strftime('%b-%-d') }}
             </td>
 
             <!-- STATUS -->
@@ -177,8 +177,8 @@
               {% if todo.contact_event_id == event.contact_event_id %}
                 {% if todo.active_status %}
                   <td class="active-task">
-                    <span id="archiveDueDate">{{ todo.date_due.strftime('%-m/%-d/%y') }}</span>
-                    <form id="submitTaskArchive" action="/dashboard/archive-task" method="POST">
+                    <span id="archiveDueDate">{{ todo.date_due.strftime('%b-%-d') }}</span>
+                    <form class="form-inline pull-left" id="submitTaskArchive" action="/dashboard/archive-task" method="POST">
                       <button id="archiveButton" class="btn" type="submit">
                         <input id="todo-id-field" type="hidden" name="todo_id" value="{{ todo.todo_id }}">
                         <i class="fas fa-archive"></i>

@@ -16,13 +16,13 @@
         <a href="javascript:SortTable(2, 'T');">Status</a>
       </th>
       <th scope="col" style="width: 10%; text-align: center">
-        <a href="javascript:SortTable(3, 'D');">Date</a>
+        <a href="javascript:SortTable(3, 'mdy');">Date</a>
       </th>
       <th scope="col" style="width: 15%">
-        <a href="javascript:SortTable(4, 'T');">Tasks</a>
+        <a href="javascript:SortTable(4, 'T');">Task</a>
       </th>
       <th scope="col" style="width: 10%; text-align: center">
-        <a href="javascript:SortTable(5, 'D');">Due</a>
+        <a href="javascript:SortTable(5, 'mdy');">Due</a>
       </th>
     </tr>
   </thead>
@@ -52,7 +52,7 @@
                 {{ status.job_codes.description }}
               </button>
 
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <div id="dropdownMenuItems" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <input type="hidden" name="job_id" value="{{ status.job_id }}">
 
                 <button class="dropdown-item submit" type="submit" name="job_code" value="1">

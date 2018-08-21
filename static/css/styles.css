@@ -21,6 +21,14 @@ h1, h3 {
     padding-bottom: 0;
 }
 
+.navbar-light .navbar-nav .nav-link {
+    color: #4f63c2;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: #232c55;
+}
+
 .fixed-top {
     position: fixed;
 }
@@ -113,6 +121,10 @@ h1, h3 {
     text-align: center;
 }
 
+.card-title {
+    height: 67px;
+}
+
 .col-fixed {
     width: 150px;
 }
@@ -142,7 +154,7 @@ a:hover {
 }
 
 td {
-    font-size: .9em;
+    /*font-size: .9em;*/
 }
 
 main {
@@ -152,36 +164,95 @@ main {
 #dropdownMenuButton[value="1"] {
     background-color: #22a4b2;
     width: 100%;
-    font-size: 1em;
+    /*font-size: 1em;*/
 }
 
 #dropdownMenuButton[value="2"] {
     background-color: #c8ecee;
     width: 100%;
-    font-size: 1em;
+    /*font-size: 1em;*/
 }
 
 #dropdownMenuButton[value="3"] {
     background-color: #ffea7f;
     width: 100%;
-    font-size: 1em;
+    /*font-size: 1em;*/
 }
 
 #dropdownMenuButton[value="4"] {
     background-color: #ff9491;
     width: 100%;
-    font-size: 1em;
+    /*font-size: 1em;*/
 }
 
 #dropdownMenuButton[value="5"] {
     background-color: #f96b69;
     width: 100%;
-    font-size: 1em;
+    /*font-size: 1em;*/
+}
+
+#dropdownMenuItems {
+    /*font-size: 1em;*/
 }
 
 .form-inline {
     display: inline-block;
 }
+
+#archiveButton {
+    color: #232c55;
+    padding: .375rem .4rem;
+}
+
+#calendarEventButton {
+    color: #232c55;
+    padding: .375rem .4rem;
+}
+
+.btn-secondary {
+    background-color: #4f63c2;
+    border-color: #4f63c2;
+}
+
+.btn-secondary:hover {
+    background-color: #232c55;
+    border-color: #232c55;
+}
+
+#archivedJobs > h4, #activeJobs > h4, #companyContacts > h4 {
+    background-color: #4f63c2;
+    padding: 5px 0 5px 15px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.col, .col-9 {
+    padding-left: 0;
+}
+
+h5 {
+    font-weight: bolder;
+    padding-top: 15px;
+    font-size: 1.4rem;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+}
+
+.greeting-row {
+    text-align: center;
+    padding-top: 15px;
+}
+
+.greeting-button-row {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+
 
 
 
