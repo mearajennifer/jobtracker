@@ -6,12 +6,24 @@
   <!-- TABLE HEADERS -->
   <thead>
     <tr>
-      <th scope="col-2"><a href="javascript:SortTable(0, 'T');">Company</a></th>
-      <th scope="col-2"><a href="javascript:SortTable(1, 'T');">Job</a></th>
-      <th scope="col-2"><a href="javascript:SortTable(2, 'T');">Status</a></th>
-      <th scope="col-2"><a href="javascript:SortTable(3, 'D');">Date</a></th>
-      <th scope="col-2"><a href="javascript:SortTable(4, 'T');">Tasks</a></th>
-      <th scope="col-2"><a href="javascript:SortTable(5, 'D');">Due</a></th>
+      <th scope="col" style="width: 15%">
+        <a href="javascript:SortTable(0, 'T');">Company</a>
+      </th>
+      <th scope="col" style="width: 15%">
+        <a href="javascript:SortTable(1, 'T');">Job</a>
+      </th>
+      <th scope="col" style="width: 10%">
+        <a href="javascript:SortTable(2, 'T');">Status</a>
+      </th>
+      <th scope="col" style="width: 10%; text-align: center">
+        <a href="javascript:SortTable(3, 'D');">Date</a>
+      </th>
+      <th scope="col" style="width: 15%">
+        <a href="javascript:SortTable(4, 'T');">Tasks</a>
+      </th>
+      <th scope="col" style="width: 10%; text-align: center">
+        <a href="javascript:SortTable(5, 'D');">Due</a>
+      </th>
     </tr>
   </thead>
 
@@ -36,7 +48,7 @@
           <div class="dropdown">
             <form action="/dashboard/job-status" method="POST">
 
-              <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="{{  status.job_codes.job_code }}">
                 {{ status.job_codes.description }}
               </button>
 
@@ -81,8 +93,8 @@
         </td>
 
         <!-- DATE LAST MODIFIED -->
-        <td>
-          {{ status.date_created.strftime('%-m/%-d/%y') }}
+        <td style="text-align: center">
+          {{ status.date_created.strftime('%b-%-d') }}
         </td>
 
         <!-- TODO -->
@@ -99,18 +111,18 @@
           {% endfor %}
         </td>
       
-        <td>
+        <td style="text-align: center">
           {% for todo in all_todos %}
 
             {% if todo.job_event_id == status.job_event_id %}
-              <span id="archiveDueDate">{{ todo.date_due.strftime('%-m/%-d/%y') }}</span>
-              <form id="submitTaskArchive" action="/dashboard/archive-task" method="POST">
+              <span style="text-align: center" id="archiveDueDate">{{ todo.date_due.strftime('%b-%-d') }}</span><br>
+              <form style="text-align: center" class="form-inline pull-left" id="submitTaskArchive" action="/dashboard/archive-task" method="POST">
                 <button id="archiveButton" class="btn" type="submit">
                   <input id="todo-id-field" type="hidden" name="todo_id" value="{{ todo.todo_id }}">
                   <i class="fas fa-archive"></i>
                 </button>
               </form>
-              <form id="submitCalendarEvent" action="/dashboard/calendar-event" method="POST">
+              <form style="text-align: center" class="form-inline pull-left" id="submitCalendarEvent" action="/dashboard/calendar-event" method="POST">
                 <button id="calendarEventButton" class="btn" type="submit">
                   <input id="todo-field" type="hidden" name="todo_id" value="{{ todo.todo_id }}">
                   <i class="fas fa-calendar-plus"></i>

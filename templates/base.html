@@ -7,7 +7,7 @@
     <!-- FONTS -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One|Lato" rel="stylesheet">
 
     <!-- BOOTSTRAP CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -49,11 +49,11 @@
 
 
     <!-- TOP NAV -->
-    <nav class="navbar navbar-expand-md navbar-light bg-white" id="top">
+    <nav class="navbar navbar-expand-md fixed-top navbar-light bg-white" id="top">
     
       <!-- LOGO HOMEPAGE -->
       <a href="/dashboard/jobs" class="navbar-brand col-md-3 mr-auto">
-        <img src="/static/img/JobTracker.png" alt="JobTracker logo" width="180">
+        <img src="/static/img/JobTracker-nobg2.png" alt="JobTracker logo" width="180">
       </a>
 
       <!-- HAMBURGER ICON -->
@@ -96,23 +96,70 @@
       <div class="row">
 
         <!-- SIDE MENU -->
-        <nav class="col-md-2 d-none d-md-block sidebar">
+        <aside class="main_sidebar col-md-2">
+          <ul>
+            <li>
+              <a href="/dashboard/jobs">
+                <i class="fas fa-stream"></i>
+                Active Jobs
+              </a>
+            </li>
+            <li>
+              <i class="fas fa-archive"></i>
+              <a href="/dashboard/jobs/archived">Archived</a>
+            </li>
+            <li>
+              <i class="far fa-building"></i>
+              <a href="/dashboard/companies">Companies</a>
+            </li>
+            <li>
+              <i class="fas fa-users" style="font-size: 1.4em"></i>
+              <a href="/dashboard/contacts">Contacts</a>
+            </li>
+            <li>
+              <i class="far fa-compass"></i>
+              <a href="/dashboard/profile">Profile</a>
+            </li>
+          </ul>
+        </aside>
+
+
+        <!-- <nav class="col-md-2 d-none d-md-block sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
-
-              <li class="nav item">
-                <a href="/dashboard/jobs">Active Jobs</a>
+              <li id="active-jobs-menu" class="nav item">
+                <a href="/dashboard/jobs">
+                  <i class="fas fa-stream"></i>
+                  Active Jobs
+                </a>
               </li>
               <li class="nav item">
-                <a href="/dashboard/jobs/archived">Archived</a>
+                <a href="/dashboard/jobs/archived">
+                  <i class="fas fa-archive"></i>
+                  Archived
+                </a>
               </li>
-              <li class="nav item"><a href="/dashboard/companies">Companies</a></li>
-              <li class="nav item"><a href="/dashboard/contacts">Contacts</a></li>
-              <li class="nav item"><a href="/dashboard/profile">Profile</a></li>
-              
+              <li class="nav item">
+                <a href="/dashboard/companies">
+                  <i class="far fa-building"></i>
+                  Companies
+                </a>
+              </li>
+              <li class="nav item">
+                <a href="/dashboard/contacts">
+                  <i class="fas fa-users"></i>
+                  Contacts
+                </a>
+              </li>
+              <li class="nav item">
+                <a href="/dashboard/profile">
+                  <i class="far fa-compass"></i>
+                  Profile
+                </a>
+              </li>
             </ul>
           </div>
-        </nav>
+        </nav> -->
 
         <!-- MAIN CONTENT WINDOW -->
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">

@@ -4,6 +4,7 @@ body {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 900'%3E%3Cpath fill='%23ffea7f' d='M0 504 0 899 1600 899 1600 120z'/%3E%3Cpath fill='%23f96b69' d='M1600 567 1600 899 0 899 0 165z'/%3E%3Cpath fill='%234f63c2' d='M0 680 0 899 1600 899 1600 300z'/%3E%3Cpath fill='%236dc3ca' d='M1600 719 1600 899 0 899 0 353z'/%3E%3Cpath fill='%23232c55' d='M0 788 0 899 1600 899 1600 625z'/%3E%3C/svg%3E");
     background-attachment: fixed;
     background-size: cover;
+    color: #232c55;
 }
 
 .jumbotron {
@@ -38,7 +39,7 @@ a:hover {
 
 .alert-success {
     background-color: #c8ecee;
-    color: #12a2b3;
+    color: #0f8b99;
     border-color: #6dc3ca;
 }
 

@@ -64,7 +64,7 @@ class Login extends React.Component {
 
         return (
             <div className='jumbotron' style={marginStyle}>
-                <img src='/static/img/JobTracker-nobg.png' width='100%' className="text-center" />
+                <img src='/static/img/JobTracker-nobg2.png' width='100%' className="text-center" />
                 <hr className='my-4' />
                 <div id='login-form'>
                     <form action='/login' method='POST'>
@@ -116,7 +116,7 @@ class Registration extends React.Component {
 
         return (
             <div className='jumbotron' style={marginStyle}>
-                <img src='/static/img/JobTracker-nobg.png' width='100%' className="text-center" />
+                <img src='/static/img/JobTracker-nobg2.png' width='100%' className="text-center" />
                 <hr className='my-4' />
                 <div id='registration-form'>
                     <form onSubmit={this.handleSubmit}>
@@ -137,12 +137,12 @@ class Registration extends React.Component {
                         </div>
 
                         <div className='form-group'>
-                            <label>Phone:</label>
+                            <label>Phone number:</label>
                             <input type='tel' id='tel-field' className='form-control' name='phone' placeholder='123-456-7890' pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}' />
                         </div>
 
                         <div className='form-group'>
-                            <label>password: </label>
+                            <label>Password: </label>
                             <input type='password' id='password-field' className='form-control' name='password' required />
                         </div>
 
