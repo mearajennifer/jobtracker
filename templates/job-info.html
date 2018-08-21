@@ -75,7 +75,7 @@
 
   <!-- JOB POSTING LINK -->
   <div class="row" id="job-posting">
-    Job posting: <a href="{{ job.link if job.link != None else "" }}" target="_blank"><span id="jobPosting">{{ job.link if job.link != None else "" }}</span></a>
+    Job posting: <a id="jobPostingHref" href="{{ job.link if job.link != None else "" }}" target="_blank"><span id="jobPosting">{{ job.link if job.link != None else "" }}</span></a>
   </div>
 
   <!-- AVERAGE SALARY -->

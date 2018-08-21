@@ -54,6 +54,7 @@ function showJobInfo(results) {
     $('#jobEventsTasks').show();
     $('#toggleEditButton').show();
     $('#jobPosting').html(results['link']);
+    $('#jobPostingHref').attr("href", results['link']);
     $('#averageSalary').html(results.avg_salary);
     $('#jobNotes').html(results.notes);
 }
