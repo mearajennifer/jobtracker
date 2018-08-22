@@ -37,6 +37,11 @@ h3 {
     position: fixed;
 }
 
+.col-md-3 {
+    text-align: left;
+    padding-left: 5px;
+}
+
 #main-content-area {
     height: 100%;
     background-color: #fff;
@@ -178,11 +183,6 @@ a {
 
 a:hover {
     color: #4f63c2;
-}
-
-main {
-    /*margin-top: 4.5%;*/
-    /*padding-top: 70px;*/
 }
 
 #dropdownMenuButton[value="1"] {

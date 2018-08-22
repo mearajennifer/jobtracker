@@ -144,8 +144,8 @@
 
   <script src="/static/js/jobs-active.js" type="text/javascript"></script>
   <script type="text/javascript">
-    $('#submitTaskArchive').on('submit', sendArchiveTask);
-    $('#submitCalendarEvent').on('submit', sendCalendarEvent);
+    $(document).on('submit', '#submitTaskArchive', sendArchiveTask);
+    $(document).on('submit', '#submitCalendarEvent', sendCalendarEvent);
   </script>
 
 {% endblock %}

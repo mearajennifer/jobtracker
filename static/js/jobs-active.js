@@ -2,7 +2,7 @@
 
 // ADD TASK TO CALENDAR SCRIPT
 function confirmAddedEvent(results) {
-  $('#submitCalendarEvent').hide();
+  // $('#submitCalendarEvent').hide();
   alert(results);
 }
 
