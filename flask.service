@@ -1,0 +1,17 @@
+[Unit]
+Description=JobTracker: The app to track your app
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+Environment="LANG=en_US.UTF-8"
+Environment="LANGUAGE=en_US.UTF-8:"
+WorkingDirectory=/home/ubuntu/jobtracker/
+ExecStart=/bin/bash -c "source secrets.sh\
+&& source env/bin/activate\
+&& python3.6 server.py &>> flask.log"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
