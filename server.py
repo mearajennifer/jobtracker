@@ -933,6 +933,7 @@ if __name__ == '__main__':
 
     # make sure templates, etc. are not cached in debug mode
     app.jinja_env.auto_reload = app.debug
+    app.config['SERVER_NAME'] = 'http://yourjobtracker.com'
 
     connect_to_db(app)
 
