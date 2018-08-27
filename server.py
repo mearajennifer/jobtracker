@@ -514,6 +514,8 @@ def oauth2callback():
     flow.fetch_token(authorization_response=authorization_response)
 
     # Store credentials in the session.
+    # ACTION ITEM: In a production app, you likely want to save these
+    #              credentials in a persistent database instead.
     credentials = flow.credentials
     session['credentials'] = credentials_to_dict(credentials)
 
@@ -931,7 +933,6 @@ if __name__ == '__main__':
 
     # make sure templates, etc. are not cached in debug mode
     app.jinja_env.auto_reload = app.debug
-    app.config['SERVER_NAME'] = 'http://yourjobtracker.com:80'
 
     connect_to_db(app)
 
