@@ -926,6 +926,7 @@ if __name__ == '__main__':
     # ACTION ITEM for developers:
     #     When running in production *do not* leave this option enabled.
     os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+    app.config['SERVER_NAME'] = 'yourjobtracker.com'
 
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
