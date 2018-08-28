@@ -498,6 +498,10 @@ def authorize():
 
     return redirect(authorization_url)
 
+    # try return url
+    # in js if response is http, then go to that url (window.location.href...)
+    # else show response
+
 
 @app.route('/oauth2callback')
 def oauth2callback():

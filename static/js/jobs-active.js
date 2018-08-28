@@ -3,7 +3,11 @@
 // ADD TASK TO CALENDAR SCRIPT
 function confirmAddedEvent(results) {
   // $('#submitCalendarEvent').hide();
-  alert(results);
+  if (results.includes('http')) {
+    window.location.href = results;
+  } else {
+    alert(results);
+  }
 }
 
 function sendCalendarEvent(e) {
