@@ -4,7 +4,7 @@
 function confirmAddedEvent(results) {
   // $('#submitCalendarEvent').hide();
   if (results.includes('http')) {
-    window.location = results;
+    window.location.assign = results;
   } else {
     alert(results);
   }
