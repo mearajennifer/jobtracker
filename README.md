@@ -1,4 +1,4 @@
-# ![alt text](https://github.com/mearajennifer/jobtracker/blob/master/static/img/JobTracker-nobg2.png "JobTracker")
+# <img src="https://github.com/mearajennifer/jobtracker/blob/master/static/img/JobTracker-nobg2.png" width="40%" alt="JobTracker">
 The job search can be overwhelming. JobTracker helps the overwhelmed job seeker track jobs they’ve applied to, companies they are interested in, or networking contacts they have met. It uses a complex PostgresQL database to store user added data and is built with a Python/Flask backend.
 
 ## About Me
