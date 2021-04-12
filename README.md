@@ -4,8 +4,8 @@ The job search can be overwhelming. JobTracker helps the overwhelmed job seeker 
 ## About Me
 Before studying at Hackbright Academy, Jennifer worked for 10+ years in marketing and project management. She started as a studio coordinator directing creative teams and impacting operational efficiency. Next she managed multi-faceted marketing campaigns and social media channels for Kaiser Permanente. This work allowed her to engage in the technical details of building websites, deploying applications, and training users. She found a love for coding and decided to embark on a new path in software engineering. She enjoys programming because it allows her to solve complex problems, design and build solutions, and continue learning new technical concepts and languages.
 
-## Deployment
-http://yourjobtracker.com/
+## ~~Deployment
+http://yourjobtracker.com/~~
 
 ## Contents
 * [Tech Stack](#tech-stack)
